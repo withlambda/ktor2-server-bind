@@ -1,4 +1,3 @@
-import java.net.URL
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -142,30 +141,27 @@ tasks.named("check") {
     dependsOn(tasks.named("integrationTestAllVersions"))
 }
 
-tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
-    dokkaSourceSets {
-        named("commonMain") {
-            // used as the project name in the header
-            moduleName.set(project.name)
+dokka {
+    dokkaSourceSets.configureEach {
+        // used as the project name in the header
+        moduleName.set(project.name)
 
-            // contains descriptions for the module and the packages
-            includes.from("Module.md")
+        // contains descriptions for the module and the packages
+        includes.from("Module.md")
 
-            // adds source links that lead to this repository, allowing readers
-            // to easily find source code for inspected declarations
-            sourceLink {
-                localDirectory.set(file("src/commonMain/kotlin"))
-                remoteUrl.set(URL("$repoUrl/tree/$repoBranch/src/commonMain/kotlin"))
-                remoteLineSuffix.set("#L")
-            }
+        // adds source links that lead to this repository, allowing readers
+        // to easily find source code for inspected declarations
+        sourceLink {
+            localDirectory.set(file("src/commonMain/kotlin"))
+            remoteUrl.set(uri("$repoUrl/tree/$repoBranch/src/commonMain/kotlin"))
+            remoteLineSuffix.set("#L")
         }
     }
 }
 
 val dokkaJavadocJar = tasks.register<Jar>("dokkaJavadocJar") {
     archiveClassifier.set("javadoc")
-    from(tasks.dokkaJavadoc.flatMap { it.outputDirectory })
-    dependsOn(tasks.dokkaJavadoc)
+    from(tasks.named("dokkaGeneratePublicationHtml"))
 }
 
 tasks.withType<Jar>().configureEach {
