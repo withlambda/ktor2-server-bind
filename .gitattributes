@@ -1,0 +1,10 @@
+* eol=lf
+* text=auto
+*.kt.txt linguist-language=Kotlin
+*.klib_abi.txt linguist-language=Kotlin
+*.png binary
+*.jar binary
+*.sh eol=lf
+gradlew eol=lf
+*.bat eol=crlf
+*.jpg filter=lfs diff=lfs merge=lfs -text
