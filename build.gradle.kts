@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
 
     `maven-publish`
     signing
@@ -300,4 +302,18 @@ kover {
             }
         }
     }
+}
+
+ktlint {
+    filter {
+        exclude("**/generated/**")
+    }
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    allRules = false
+    config.setFrom(files("$projectDir/config/detekt/detekt.yml"))
+    baseline = file("$projectDir/config/detekt/baseline.xml")
+    source.setFrom("src/commonMain/kotlin", "src/commonTest/kotlin")
 }
