@@ -453,6 +453,12 @@ A **GitHub Actions workflow** is also provided at [`.github/workflows/publish.ym
 
 ---
 
+## Contributing
+
+For instructions on how to contribute to the project, including environment setup, code style (ktlint/detekt), and running tests, please see **[CONTRIBUTE.md](CONTRIBUTE.md)**.
+
+---
+
 ## License
 
 ```
