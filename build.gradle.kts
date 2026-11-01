@@ -315,3 +315,13 @@ detekt {
     config.setFrom(files("$projectDir/config/detekt/detekt.yml"))
     source.setFrom("src/commonMain/kotlin", "src/commonTest/kotlin")
 }
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        txt.required.set(false)
+        sarif.required.set(true)
+        md.required.set(false)
+    }
+}
