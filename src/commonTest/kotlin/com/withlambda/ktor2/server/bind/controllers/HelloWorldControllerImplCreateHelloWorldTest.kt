@@ -90,7 +90,7 @@ class HelloWorldControllerImplCreateHelloWorldTest {
     }
 
     @Test
-    fun `test post endpoint 'createHelloWorld' which response with status 401 when no Authorization header is provided`() {
+    fun `createHelloWorld returns 401 when Authorization header is missing`() {
         createHelloWorldRequest(
             authorizationRoles = emptySet(),
             parseResponseBody = false,
@@ -101,7 +101,7 @@ class HelloWorldControllerImplCreateHelloWorldTest {
     }
 
     @Test
-    fun `test post endpoint 'createHelloWorld' which response with status 403 when no Authorization role is wrong`() {
+    fun `createHelloWorld returns 403 when Authorization role is wrong`() {
         createHelloWorldRequest(
             authorizationRoles = setOf("wrongRole"),
             parseResponseBody = false,
@@ -112,7 +112,7 @@ class HelloWorldControllerImplCreateHelloWorldTest {
     }
 
     @Test
-    fun `test post endpoint 'createHelloWorld' which response with status 400 when required query parameter is missing`() {
+    fun `createHelloWorld returns 400 when required query parameter is missing`() {
         createHelloWorldRequest(
             parseResponseBody = false,
             accept = null,
@@ -124,7 +124,7 @@ class HelloWorldControllerImplCreateHelloWorldTest {
     }
 
     @Test
-    fun `test post endpoint 'createHelloWorld' which response with status 400 when required request header is missing`() {
+    fun `createHelloWorld returns 400 when required request header is missing`() {
         createHelloWorldRequest(
             queryParameters = listOf(
                 "requiredQueryParam1" to "3",
@@ -140,7 +140,7 @@ class HelloWorldControllerImplCreateHelloWorldTest {
     }
 
     @Test
-    fun `test post endpoint 'createHelloWorld' which response with status 415 when content type header is not set for json input`() {
+    fun `createHelloWorld returns 415 when Content-Type header is missing for JSON input`() {
         createHelloWorldRequest(
             queryParameters = listOf(
                 "requiredQueryParam1" to "3",
@@ -158,7 +158,7 @@ class HelloWorldControllerImplCreateHelloWorldTest {
     }
 
     @Test
-    fun `test post endpoint 'createHelloWorld' which response with 200 when all is missing except accept header`() {
+    fun `createHelloWorld returns 200 when all is missing except accept header`() {
         createHelloWorldRequest(
             queryParameters = listOf(
                 "optionalQueryParam1" to "1",

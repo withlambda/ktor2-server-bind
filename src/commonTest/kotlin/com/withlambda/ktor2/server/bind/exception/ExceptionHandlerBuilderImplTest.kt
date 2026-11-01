@@ -53,7 +53,7 @@ class ExceptionHandlerBuilderImplTest {
         val original = baseBuilder()
         val customGetLogMessage: (Throwable) -> String = { "custom: ${it.message}" }
         val updated = original.withGetLogMessage(customGetLogMessage)
-        val exception = RuntimeException("test")
+        val exception = IllegalStateException("test")
         assertEquals("custom: test", updated.getLogMessage(exception))
     }
 
@@ -62,19 +62,19 @@ class ExceptionHandlerBuilderImplTest {
         val original = baseBuilder()
         val customContent: (Throwable, String) -> String = { _, _ -> "custom response" }
         val updated = original.withGetCallResponseContent(customContent)
-        assertEquals("custom response", updated.getCallResponseContent(RuntimeException("x"), "log"))
+        assertEquals("custom response", updated.getCallResponseContent(IllegalStateException("x"), "log"))
     }
 
     @Test
     fun `defaultGetResponseMessage returns exception message when present`() {
-        val exception = RuntimeException("something went wrong")
+        val exception = IllegalStateException("something went wrong")
         val result = ExceptionHandlerBuilder.defaultGetResponseMessage(exception)
         assertEquals("something went wrong", result)
     }
 
     @Test
     fun `defaultGetResponseMessage returns class name occurred when message is null`() {
-        val exception = object : RuntimeException() {}
+        val exception = object : IllegalStateException() {}
         val result = ExceptionHandlerBuilder.defaultGetResponseMessage(exception)
         assertEquals("occurred", result.substringAfterLast(" "))
     }
@@ -85,7 +85,7 @@ class ExceptionHandlerBuilderImplTest {
             application {
                 installTestStatusPages(withLog = false)
                 routing {
-                    get("/test") { throw RuntimeException("handler error") }
+                    get("/test") { throw IllegalStateException("handler error") }
                 }
             }
             val response = client.get("/test")
@@ -101,7 +101,7 @@ class ExceptionHandlerBuilderImplTest {
             application {
                 installTestStatusPages(withLog = true, logSink = loggedMessages)
                 routing {
-                    get("/test") { throw RuntimeException("logged error") }
+                    get("/test") { throw IllegalStateException("logged error") }
                 }
             }
             client.get("/test")
@@ -120,7 +120,7 @@ class ExceptionHandlerBuilderImplTest {
             getCallResponseContent = { _, logMessage -> logMessage }
         )
         install(StatusPages) {
-            exception<RuntimeException>(builder.build())
+            exception<IllegalStateException>(builder.build())
         }
     }
 }

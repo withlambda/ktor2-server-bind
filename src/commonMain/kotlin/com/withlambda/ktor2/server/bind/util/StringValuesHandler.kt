@@ -58,7 +58,7 @@ abstract class AbstractStringValuesHandler : StringValuesHandler {
         try {
             @Suppress("UNCHECKED_CAST")
             conversionService.fromValues(values, typeInfo) as R
-        } catch (cause: Exception) {
+        } catch (@Suppress("TooGenericExceptionCaught") cause: Exception) {
             throwConversionException(name, typeInfo.type.simpleName ?: typeInfo.type.toString(), cause)
         }
     }

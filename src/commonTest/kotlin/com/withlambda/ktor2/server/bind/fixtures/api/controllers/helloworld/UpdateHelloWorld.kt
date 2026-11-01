@@ -210,7 +210,8 @@ object UpdateHelloWorld : PutRouteConfig {
 
     /**
      * Enables role-based authorization requiring **both** `updateHelloWorld1` and
-     * `updateHelloWorld2` roles to be present in the caller's [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
+     * `updateHelloWorld2` roles to be present in the caller's
+     * [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
      */
     override val roleBasedAuthorizationConfiguration = RoleBasedAuthorizationConfigurationImpl(
         enabled = true,

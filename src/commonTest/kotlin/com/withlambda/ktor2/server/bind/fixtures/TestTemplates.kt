@@ -155,7 +155,10 @@ object TestTemplates {
         )
     }
 
-    /** Asserts that the response status is 207 Multi-Status and the content type is `application/json; charset=UTF-8`. */
+    /**
+     * Asserts that the response status is 207 Multi-Status and the content type is
+     * `application/json; charset=UTF-8`.
+     */
     fun HttpResponse.is207WithApplicationJsonContent() {
         httpStatusIsMultiStatus()
         assertEquals(
@@ -165,7 +168,10 @@ object TestTemplates {
         )
     }
 
-    /** Asserts that the response status is 400 Bad Request and the content type is `application/json; charset=UTF-8`. */
+    /**
+     * Asserts that the response status is 400 Bad Request and the content type is
+     * `application/json; charset=UTF-8`.
+     */
     fun HttpResponse.is400WithApplicationJsonContent() {
         httpStatusIsBadRequest()
         assertEquals(
@@ -185,7 +191,10 @@ object TestTemplates {
         )
     }
 
-    /** Asserts that the response status is 500 Internal Server Error and the content type is `text/plain; charset=UTF-8`. */
+    /**
+     * Asserts that the response status is 500 Internal Server Error and the content type is
+     * `text/plain; charset=UTF-8`.
+     */
     fun HttpResponse.is500WithTextPlainContent() {
         httpStatusIsInternalServerError()
         assertEquals(
@@ -217,7 +226,9 @@ object TestTemplates {
         val content = this.body<String>()
         return runCatching { json.decodeFromString<T>(content) }.getOrElse {
             fail(
-                "Received response content could not be parsed as the desired target type ${T::class.simpleName}. Received response content data: $content. Error: $it"
+                "Received response content could not be parsed as the desired target type ${T::class.simpleName}. " +
+                    "Received response content data: $content. " +
+                    "Error: $it"
             )
         }
     }

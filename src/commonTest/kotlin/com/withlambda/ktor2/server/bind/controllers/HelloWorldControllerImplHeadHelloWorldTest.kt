@@ -57,7 +57,7 @@ class HelloWorldControllerImplHeadHelloWorldTest {
     }
 
     @Test
-    fun `test head endpoint 'headHelloWorld' which response with status 401 when no Authorization header is provided`() {
+    fun `headHelloWorld returns 401 when Authorization header is missing`() {
         headHelloWorldRequest(
             authorizationRoles = emptySet(),
             responseAssertions = {
@@ -77,7 +77,7 @@ class HelloWorldControllerImplHeadHelloWorldTest {
     }
 
     @Test
-    fun `test head endpoint 'headHelloWorld' which response with status 400 when required query parameter is missing`() {
+    fun `headHelloWorld returns 400 when required query parameter is missing`() {
         headHelloWorldRequest(
             responseAssertions = {
                 assertEquals("Request parameter requiredQueryParam1 is missing", this.body<String>())

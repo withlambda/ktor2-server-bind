@@ -60,7 +60,7 @@ class HelloWorldControllerImplOptionsHelloWorldTest {
     }
 
     @Test
-    fun `test options endpoint 'optionsHelloWorld' which response with status 401 when no Authorization header is provided`() {
+    fun `optionsHelloWorld returns 401 when Authorization header is missing`() {
         optionsHelloWorldRequest(
             authorizationRoles = emptySet(),
             responseAssertions = {
@@ -70,7 +70,7 @@ class HelloWorldControllerImplOptionsHelloWorldTest {
     }
 
     @Test
-    fun `test options endpoint 'optionsHelloWorld' which response with status 403 when no Authorization role is wrong`() {
+    fun `optionsHelloWorld returns 403 when Authorization role is wrong`() {
         optionsHelloWorldRequest(
             authorizationRoles = setOf("wrongRole"),
             responseAssertions = {
@@ -80,7 +80,7 @@ class HelloWorldControllerImplOptionsHelloWorldTest {
     }
 
     @Test
-    fun `test options endpoint 'optionsHelloWorld' which response with status 400 when required query parameter is missing`() {
+    fun `optionsHelloWorld returns 400 when required query parameter is missing`() {
         optionsHelloWorldRequest(
             responseAssertions = {
                 assertEquals("Request parameter requiredQueryParam1 is missing", this.body<String>())
@@ -90,7 +90,7 @@ class HelloWorldControllerImplOptionsHelloWorldTest {
     }
 
     @Test
-    fun `test options endpoint 'optionsHelloWorld' which response with status 400 when required request header is missing`() {
+    fun `optionsHelloWorld returns 400 when required request header is missing`() {
         optionsHelloWorldRequest(
             queryParameters = listOf(
                 "requiredQueryParam1" to "3",

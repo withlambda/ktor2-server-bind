@@ -49,7 +49,7 @@ class RouteProcessorResponseBranchTest {
     }
 
     @Test
-    fun `RouteProcessor customizedResponse takes responseMessage branch when responseBody is null and responseMessage is not null`() {
+    fun `RouteProcessor customizedResponse takes responseMessage branch when body is null and message is not null`() {
         testApplication {
             application {
                 routing {

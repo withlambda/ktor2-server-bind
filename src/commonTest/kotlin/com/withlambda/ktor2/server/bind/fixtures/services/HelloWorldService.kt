@@ -31,7 +31,8 @@ object HelloWorldService {
      *
      * Reads all path parameters, query parameters, and headers from [request], then returns a
      * [CreateHelloWorld.ResponseDataImpl] with HTTP 200 and a [HelloWorldResponseDTO] that echoes
-     * all received values together with the request body's [name][com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
+     * all received values together with the request body's
+     * [name][com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
      *
      * @param context The Ktor pipeline context (unused by this stub).
      * @param request The fully bound request data for the create operation.
@@ -79,7 +80,8 @@ object HelloWorldService {
      *
      * Reads all path parameters, query parameters, and headers from [request], then returns a
      * [UpdateHelloWorld.ResponseDataImpl] with HTTP 200 and a [HelloWorldResponseDTO] that echoes
-     * all received values together with the request body's [name][com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
+     * all received values together with the request body's
+     * [name][com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
      *
      * @param context The Ktor pipeline context (unused by this stub).
      * @param request The fully bound request data for the update operation.
@@ -127,7 +129,8 @@ object HelloWorldService {
      *
      * Reads all path parameters, query parameters, and headers from [request], then returns a
      * [PatchHelloWorld.ResponseDataImpl] with HTTP 200 and a [HelloWorldResponseDTO] that echoes
-     * all received values together with the request body's [name][com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
+     * all received values together with the request body's
+     * [name][com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
      *
      * @param context The Ktor pipeline context (unused by this stub).
      * @param request The fully bound request data for the patch operation.

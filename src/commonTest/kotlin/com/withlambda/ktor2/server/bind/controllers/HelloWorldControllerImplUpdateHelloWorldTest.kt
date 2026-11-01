@@ -90,7 +90,7 @@ class HelloWorldControllerImplUpdateHelloWorldTest {
     }
 
     @Test
-    fun `test put endpoint 'updateHelloWorld' which response with status 401 when no Authorization header is provided`() {
+    fun `updateHelloWorld returns 401 when Authorization header is missing`() {
         updateHelloWorldRequest(
             authorizationRoles = emptySet(),
             parseResponseBody = false,
@@ -101,7 +101,7 @@ class HelloWorldControllerImplUpdateHelloWorldTest {
     }
 
     @Test
-    fun `test put endpoint 'updateHelloWorld' which response with status 403 when no Authorization role is wrong`() {
+    fun `updateHelloWorld returns 403 when Authorization role is wrong`() {
         updateHelloWorldRequest(
             authorizationRoles = setOf("wrongRole"),
             parseResponseBody = false,
@@ -112,7 +112,7 @@ class HelloWorldControllerImplUpdateHelloWorldTest {
     }
 
     @Test
-    fun `test put endpoint 'updateHelloWorld' which response with status 400 when required query parameter is missing`() {
+    fun `updateHelloWorld returns 400 when required query parameter is missing`() {
         updateHelloWorldRequest(
             parseResponseBody = false,
             accept = null,
@@ -124,7 +124,7 @@ class HelloWorldControllerImplUpdateHelloWorldTest {
     }
 
     @Test
-    fun `test put endpoint 'updateHelloWorld' which response with status 400 when required request header is missing`() {
+    fun `updateHelloWorld returns 400 when required request header is missing`() {
         updateHelloWorldRequest(
             queryParameters = listOf(
                 "requiredQueryParam1" to "3",
@@ -140,7 +140,7 @@ class HelloWorldControllerImplUpdateHelloWorldTest {
     }
 
     @Test
-    fun `test put endpoint 'updateHelloWorld' which response with status 415 when content type header is not set for json input`() {
+    fun `updateHelloWorld returns 415 when Content-Type header is missing for JSON input`() {
         updateHelloWorldRequest(
             queryParameters = listOf(
                 "requiredQueryParam1" to "3",
@@ -158,7 +158,7 @@ class HelloWorldControllerImplUpdateHelloWorldTest {
     }
 
     @Test
-    fun `test put endpoint 'updateHelloWorld' which response with 200 when all is missing except accept header`() {
+    fun `updateHelloWorld returns 200 when all is missing except accept header`() {
         updateHelloWorldRequest(
             queryParameters = listOf(
                 "optionalQueryParam1" to "1",

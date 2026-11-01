@@ -202,7 +202,8 @@ object HeadHelloWorld : HeadRouteConfig {
 
     /**
      * Enables role-based authorization requiring **both** `headHelloWorld1` and
-     * `headHelloWorld2` roles to be present in the caller's [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
+     * `headHelloWorld2` roles to be present in the caller's
+     * [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
      */
     override val roleBasedAuthorizationConfiguration = RoleBasedAuthorizationConfigurationImpl(
         enabled = true,

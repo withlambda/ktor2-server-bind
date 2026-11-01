@@ -36,6 +36,7 @@ interface Controller {
     ) {
         with(authenticationConfiguration) {
             if (enable) {
+                @Suppress("SpreadOperator")
                 authenticate(*providers, optional = optional, build = build)
             } else {
                 build()

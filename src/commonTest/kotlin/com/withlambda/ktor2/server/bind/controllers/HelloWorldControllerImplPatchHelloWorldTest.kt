@@ -90,7 +90,7 @@ class HelloWorldControllerImplPatchHelloWorldTest {
     }
 
     @Test
-    fun `test patch endpoint 'patchHelloWorld' which response with status 401 when no Authorization header is provided`() {
+    fun `patchHelloWorld returns 401 when Authorization header is missing`() {
         patchHelloWorldRequest(
             authorizationRoles = emptySet(),
             parseResponseBody = false,
@@ -101,7 +101,7 @@ class HelloWorldControllerImplPatchHelloWorldTest {
     }
 
     @Test
-    fun `test patch endpoint 'patchHelloWorld' which response with status 403 when no Authorization role is wrong`() {
+    fun `patchHelloWorld returns 403 when Authorization role is wrong`() {
         patchHelloWorldRequest(
             authorizationRoles = setOf("wrongRole"),
             parseResponseBody = false,
@@ -112,7 +112,7 @@ class HelloWorldControllerImplPatchHelloWorldTest {
     }
 
     @Test
-    fun `test patch endpoint 'patchHelloWorld' which response with status 400 when required query parameter is missing`() {
+    fun `patchHelloWorld returns 400 when required query parameter is missing`() {
         patchHelloWorldRequest(
             parseResponseBody = false,
             accept = null,
@@ -124,7 +124,7 @@ class HelloWorldControllerImplPatchHelloWorldTest {
     }
 
     @Test
-    fun `test patch endpoint 'patchHelloWorld' which response with status 400 when required request header is missing`() {
+    fun `patchHelloWorld returns 400 when required request header is missing`() {
         patchHelloWorldRequest(
             queryParameters = listOf(
                 "requiredQueryParam1" to "3",
@@ -140,7 +140,7 @@ class HelloWorldControllerImplPatchHelloWorldTest {
     }
 
     @Test
-    fun `test patch endpoint 'patchHelloWorld' which response with status 415 when content type header is not set for json input`() {
+    fun `patchHelloWorld returns 415 when Content-Type header is missing for JSON input`() {
         patchHelloWorldRequest(
             queryParameters = listOf(
                 "requiredQueryParam1" to "3",
@@ -158,7 +158,7 @@ class HelloWorldControllerImplPatchHelloWorldTest {
     }
 
     @Test
-    fun `test patch endpoint 'patchHelloWorld' which response with 200 when all is missing except accept header`() {
+    fun `patchHelloWorld returns 200 when all is missing except accept header`() {
         patchHelloWorldRequest(
             queryParameters = listOf(
                 "optionalQueryParam1" to "1",

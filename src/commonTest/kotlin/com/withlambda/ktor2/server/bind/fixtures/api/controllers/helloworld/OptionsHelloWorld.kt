@@ -207,7 +207,8 @@ object OptionsHelloWorld : OptionsRouteConfig {
 
     /**
      * Enables role-based authorization requiring **both** `optionsHelloWorld1` and
-     * `optionsHelloWorld2` roles to be present in the caller's [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
+     * `optionsHelloWorld2` roles to be present in the caller's
+     * [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
      */
     override val roleBasedAuthorizationConfiguration = RoleBasedAuthorizationConfigurationImpl(
         enabled = true,

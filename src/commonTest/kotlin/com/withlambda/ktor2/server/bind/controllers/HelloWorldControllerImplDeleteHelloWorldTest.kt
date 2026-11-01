@@ -84,7 +84,7 @@ class HelloWorldControllerImplDeleteHelloWorldTest {
     }
 
     @Test
-    fun `test delete endpoint 'deleteHelloWorld' which response with status 401 when no Authorization header is provided`() {
+    fun `deleteHelloWorld returns 401 when Authorization header is missing`() {
         deleteHelloWorldRequest(
             authorizationRoles = emptySet(),
             parseResponseBody = false,
@@ -106,7 +106,7 @@ class HelloWorldControllerImplDeleteHelloWorldTest {
     }
 
     @Test
-    fun `test delete endpoint 'deleteHelloWorld' which response with status 400 when required query parameter is missing`() {
+    fun `deleteHelloWorld returns 400 when required query parameter is missing`() {
         deleteHelloWorldRequest(
             parseResponseBody = false,
             accept = null,
@@ -118,7 +118,7 @@ class HelloWorldControllerImplDeleteHelloWorldTest {
     }
 
     @Test
-    fun `test delete endpoint 'deleteHelloWorld' which response with status 400 when required request header is missing`() {
+    fun `deleteHelloWorld returns 400 when required request header is missing`() {
         deleteHelloWorldRequest(
             queryParameters = listOf(
                 "requiredQueryParam1" to "3",
