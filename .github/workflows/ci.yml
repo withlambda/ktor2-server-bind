@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - $default-branch
+      - develop
   pull_request:
     branches:
-      - $default-branch
+      - develop
       - 'releases/v**'
 
 jobs:
