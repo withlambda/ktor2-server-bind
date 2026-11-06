@@ -65,6 +65,10 @@ kotlin {
 
                 dependsOn(tasks.named("publishToMavenLocal"))
             }
+
+            tasks.named("compileIntegrationTestKotlinJvm") {
+                dependsOn("jvmJar")
+            }
         }
     }
     // Apply a specific Java toolchain to ease working on different environments.
