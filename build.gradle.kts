@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
@@ -37,6 +38,10 @@ val ktorIntegrationTestVersion: String = findProperty("ktorIntegrationTestVersio
 
 kotlin {
     jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+            freeCompilerArgs.add("-Xjdk-release=1.8")
+        }
         compilations {
             val integrationTest = compilations.create("integrationTest") {
                 defaultSourceSet {
@@ -72,7 +77,7 @@ kotlin {
         }
     }
     // Apply a specific Java toolchain to ease working on different environments.
-    jvmToolchain(8)
+    jvmToolchain(25)
     sourceSets {
         named("commonMain") {
             dependencies {
@@ -130,8 +135,10 @@ val perVersionTasks = ktorIntegrationTestVersions.map { version ->
             "$rootDir/gradlew",
             "integrationTest",
             "-PktorIntegrationTestVersion=$version",
+            "-PskipDokka=true",
             "--project-dir",
             "$rootDir",
+            "--no-daemon",
         )
     }
 }
@@ -182,7 +189,9 @@ tasks.withType<Jar>().configureEach {
 
 publishing {
     publications.withType<MavenPublication>().configureEach {
-        artifact(dokkaJavadocJar)
+        if (project.findProperty("skipDokka") != "true") {
+            artifact(dokkaJavadocJar)
+        }
 
         pom {
             name.set(project.name)
@@ -321,11 +330,18 @@ detekt {
 }
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    jvmTarget = "1.8"
     reports {
         html.required.set(true)
         xml.required.set(true)
         txt.required.set(false)
         sarif.required.set(true)
         md.required.set(false)
+    }
+}
+
+if (project.findProperty("skipDokka") == "true") {
+    tasks.matching { it.name.contains("dokka", ignoreCase = true) }.configureEach {
+        enabled = false
     }
 }
