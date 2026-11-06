@@ -1,0 +1,86 @@
+name: Publish to Maven Central
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_type:
+        description: "Publish type"
+        required: true
+        default: snapshot
+        type: choice
+        options:
+          - snapshot
+          - release
+
+jobs:
+  publish:
+    name: Publish (${{ github.event.inputs.publish_type }})
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Validate publish type matches build.gradle.kts
+        # Fail fast if the isSnapshot flag in the build file does not match
+        # the publishing type selected in the workflow dispatch input.
+        run: |
+          IS_SNAPSHOT=$(grep -E '^\s*val isSnapshot\s*=' build.gradle.kts | grep -o 'true\|false')
+          echo "isSnapshot in build file: $IS_SNAPSHOT"
+          if [ "${{ github.event.inputs.publish_type }}" = "release" ] && [ "$IS_SNAPSHOT" = "true" ]; then
+            echo "ERROR: publish_type is 'release' but isSnapshot=true in build.gradle.kts. Set isSnapshot=false before triggering a release."
+            exit 1
+          fi
+          if [ "${{ github.event.inputs.publish_type }}" = "snapshot" ] && [ "$IS_SNAPSHOT" = "false" ]; then
+            echo "ERROR: publish_type is 'snapshot' but isSnapshot=false in build.gradle.kts. Set isSnapshot=true or use the 'release' publish type."
+            exit 1
+          fi
+
+      - name: Publish snapshot
+        if: github.event.inputs.publish_type == 'snapshot'
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: ./gradlew publish --no-daemon
+
+      - name: Publish release (signed)
+        if: github.event.inputs.publish_type == 'release'
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          ./gradlew publish --no-daemon \
+            -PSIGNING_KEY_ID="${{ secrets.SIGNING_KEY_ID }}" \
+            -PSIGNING_KEY="${{ secrets.SIGNING_KEY }}" \
+            -PSIGNING_PASSWORD="${{ secrets.SIGNING_PASSWORD }}" \
+            -PenableGradleSigningPlugin=true
+
+      - name: Release summary
+        if: github.event.inputs.publish_type == 'release'
+        run: |
+          echo "### Release staged on OSSRH :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Artifacts have been signed and uploaded to the OSSRH staging repository." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Next steps:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. Open https://s01.oss.sonatype.org and log in." >> $GITHUB_STEP_SUMMARY
+          echo "2. Go to **Staging Repositories** and find the new repository." >> $GITHUB_STEP_SUMMARY
+          echo "3. Click **Close**, wait for checks to pass, then click **Release**." >> $GITHUB_STEP_SUMMARY
+          echo "4. The artifact will appear on Maven Central within ~10–30 minutes." >> $GITHUB_STEP_SUMMARY
+
+      - name: Snapshot summary
+        if: github.event.inputs.publish_type == 'snapshot'
+        run: |
+          echo "### Snapshot published :package:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Snapshot artifacts are available at:" >> $GITHUB_STEP_SUMMARY
+          echo "\`https://s01.oss.sonatype.org/content/repositories/snapshots/com/withlambda/\`" >> $GITHUB_STEP_SUMMARY
