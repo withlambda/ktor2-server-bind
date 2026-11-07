@@ -77,7 +77,7 @@ kotlin {
         }
     }
     // Apply a specific Java toolchain to ease working on different environments.
-    jvmToolchain(25)
+    jvmToolchain(21)
     sourceSets {
         named("commonMain") {
             dependencies {
@@ -342,6 +342,12 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 
 if (project.findProperty("skipDokka") == "true") {
     tasks.matching { it.name.contains("dokka", ignoreCase = true) }.configureEach {
+        enabled = false
+    }
+}
+
+if (project.findProperty("skipDetekt") == "true") {
+    tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
         enabled = false
     }
 }
