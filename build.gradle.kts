@@ -45,7 +45,11 @@ kotlin {
         compilations {
             val integrationTest = compilations.create("integrationTest") {
                 defaultSourceSet {
-                    kotlin.srcDir("src/commonTest/kotlin")
+                    // By default, IntelliJ shows [jvmIntegrationTest] in brackets for src/commonTest/kotlin.
+                    // We only add this srcDir when not running in the IDE to avoid this.
+                    if (System.getProperty("idea.active") == null && System.getProperty("idea.sync.active") == null) {
+                        kotlin.srcDir("src/commonTest/kotlin")
+                    }
                     dependencies {
                         implementation("com.withlambda:ktor2-server-bind:$version")
                         implementation(kotlin("test-junit"))
