@@ -128,18 +128,26 @@ val ktorIntegrationTestVersions = listOf(
 
 val perVersionTasks = ktorIntegrationTestVersions.map { version ->
     val taskName = "integrationTest_${version.replace('.', '_')}"
-    tasks.register<Exec>(taskName) {
-        description = "Runs integration tests against Ktor $version."
-        group = "verification"
-        commandLine(
-            "$rootDir/gradlew",
-            "integrationTest",
-            "-PktorIntegrationTestVersion=$version",
-            "-PskipDokka=true",
-            "--project-dir",
-            "$rootDir",
-            "--no-daemon",
-        )
+    if (project.hasProperty("ktorIntegrationTestVersion")) {
+        tasks.register(taskName) {
+            description = "Worker task for Ktor $version integration tests."
+            group = "verification"
+            dependsOn("integrationTest")
+        }
+    } else {
+        tasks.register<Exec>(taskName) {
+            description = "Runs integration tests against Ktor $version."
+            group = "verification"
+            commandLine(
+                "$rootDir/gradlew",
+                taskName,
+                "-PktorIntegrationTestVersion=$version",
+                "-PskipDokka=true",
+                "--project-dir",
+                "$rootDir",
+                "--no-daemon",
+            )
+        }
     }
 }
 
