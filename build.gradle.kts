@@ -89,6 +89,7 @@ kotlin {
                 api(libs.ktor.server.core)
                 implementation(libs.ktor.server.auth)
                 implementation(libs.ktor.server.status.pages)
+                implementation(libs.konform)
             }
         }
 
@@ -98,12 +99,14 @@ kotlin {
                 implementation(libs.kotlinx.serialization)
                 implementation(libs.ktor.server.test.host)
                 implementation(libs.ktor.server.content.negotiation)
+                implementation(libs.ktor.client.content.negotiation)
             }
         }
 
         named("jvmTest") {
             dependencies {
                 runtimeOnly(libs.slf4j.nop)
+                implementation(libs.ktor.client.content.negotiation)
             }
         }
     }

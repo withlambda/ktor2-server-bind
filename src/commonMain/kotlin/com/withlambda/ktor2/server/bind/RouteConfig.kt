@@ -15,6 +15,7 @@ import com.withlambda.ktor2.server.bind.request.mapping.PatchRequestMapping
 import com.withlambda.ktor2.server.bind.request.mapping.PostRequestMapping
 import com.withlambda.ktor2.server.bind.request.mapping.PutRequestMapping
 import com.withlambda.ktor2.server.bind.request.mapping.RequestMapping
+import io.konform.validation.Validation
 import io.ktor.server.application.ApplicationCall
 import io.ktor.util.converters.ConversionService
 
@@ -33,7 +34,11 @@ import io.ktor.util.converters.ConversionService
  * the [ApplicationCall]
  */
 @Suppress("EmptyMethod", "EmptyMethod")
-sealed interface RouteConfig {
+sealed interface RouteConfig<T> {
+    /**
+     * The validation rules for this route
+     */
+    val validation: Validation<T>?
 
     /**
      * Base request information for this route
@@ -79,48 +84,56 @@ sealed interface RouteConfig {
 /**
  * Interface for the storage of the route configuration for a GET route
  */
-interface GetRouteConfig : RouteConfig {
+interface GetRouteConfig : RouteConfig<Unit> {
     override val requestMapping: GetRequestMapping
+    override val validation: Validation<Unit>?
+        get() = null
 }
 
 /**
  * Interface for the storage of the route configuration for a POST route
  */
-interface PostRouteConfig : RouteConfig {
+interface PostRouteConfig<T> : RouteConfig<T> {
     override val requestMapping: PostRequestMapping
 }
 
 /**
  * Interface for the storage of the route configuration for a PUT route
  */
-interface PutRouteConfig : RouteConfig {
+interface PutRouteConfig<T> : RouteConfig<T> {
     override val requestMapping: PutRequestMapping
 }
 
 /**
  * Interface for the storage of the route configuration for a DELETE route
  */
-interface DeleteRouteConfig : RouteConfig {
+interface DeleteRouteConfig : RouteConfig<Unit> {
     override val requestMapping: DeleteRequestMapping
+    override val validation: Validation<Unit>?
+        get() = null
 }
 
 /**
  * Interface for the storage of the route configuration for a PATCH route
  */
-interface PatchRouteConfig : RouteConfig {
+interface PatchRouteConfig<T> : RouteConfig<T> {
     override val requestMapping: PatchRequestMapping
 }
 
 /**
  * Interface for the storage of the route configuration for a HEAD route
  */
-interface HeadRouteConfig : RouteConfig {
+interface HeadRouteConfig : RouteConfig<Unit> {
     override val requestMapping: HeadRequestMapping
+    override val validation: Validation<Unit>?
+        get() = null
 }
 
 /**
  * Interface for the storage of the route configuration for an OPTIONS route
  */
-interface OptionsRouteConfig : RouteConfig {
+interface OptionsRouteConfig : RouteConfig<Unit> {
     override val requestMapping: OptionsRequestMapping
+    override val validation: Validation<Unit>?
+        get() = null
 }

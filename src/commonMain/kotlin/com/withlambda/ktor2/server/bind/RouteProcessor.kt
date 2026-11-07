@@ -2,6 +2,7 @@
 package com.withlambda.ktor2.server.bind
 
 import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfiguration
+import com.withlambda.ktor2.server.bind.exception.BindValidationException
 import com.withlambda.ktor2.server.bind.plugins.roleBasedAuthorization
 import com.withlambda.ktor2.server.bind.request.RequestData
 import com.withlambda.ktor2.server.bind.request.RequestWithBodyData
@@ -18,6 +19,8 @@ import com.withlambda.ktor2.server.bind.request.mapping.RequestMappingWithRespon
 import com.withlambda.ktor2.server.bind.response.ResponseData
 import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
 import com.withlambda.ktor2.server.bind.util.MultipartHandler
+import io.konform.validation.Invalid
+import io.konform.validation.Validation
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
@@ -79,6 +82,12 @@ sealed interface RouteProcessorBase<
     suspend fun ApplicationCall.prepareRequestData(): SpecifiedRequestData
 
     /**
+     * Method to validate the request data
+     * @param requestData The request data to validate
+     */
+    suspend fun validate(requestData: SpecifiedRequestData) {}
+
+    /**
      * Lambda method, stored in a constant, that process the request and produces the response data which is marked
      * by [SpecifiedResponseData]
      */
@@ -135,13 +144,19 @@ sealed interface RouteProcessorBase<
     fun Route.install() {
         with(requestMapping) {
             route(path = path, method = method) {
-                roleBasedAuthorization(roleBasedAuthorizationConfiguration)
+                if (roleBasedAuthorizationConfiguration.enabled) {
+                    roleBasedAuthorization(roleBasedAuthorizationConfiguration)
+                }
+
                 handle {
                     listOf(
                         isAcceptHeaderOfRequestValid(),
                         isContentTypeHeaderOfRequestValid()
                     ).takeIf { isValidResults -> isValidResults.all { it } } ?: return@handle
                     val request = call.prepareRequestData()
+
+                    validate(request)
+
                     call.customizedResponse(processRequest(request))
                 }
             }
@@ -257,6 +272,21 @@ sealed interface RouteWithRequestBodyProcessor<
     ResponseBodyType,
     SpecifiedResponseData : ResponseDataWithBody<ResponseBodyType>
     > : RouteProcessor<SpecifiedRequestMapping, SpecifiedRequestData, ResponseBodyType, SpecifiedResponseData> {
+
+    /**
+     * The validation rules for the request body of this route
+     */
+    val validation: Validation<RequestBodyType>? get() = null
+
+    override suspend fun validate(requestData: SpecifiedRequestData) {
+        val body = requestData.requestBody
+        validation?.let {
+            val result = it.validate(body)
+            if (result is Invalid) {
+                throw BindValidationException(result.errors)
+            }
+        }
+    }
 
     override suspend fun PipelineContext<Unit, ApplicationCall>.isContentTypeHeaderOfRequestValid(): Boolean =
         requestMapping.consumes?.let { consumes ->

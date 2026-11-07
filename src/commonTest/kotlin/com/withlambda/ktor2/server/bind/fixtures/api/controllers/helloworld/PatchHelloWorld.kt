@@ -20,6 +20,7 @@ import com.withlambda.ktor2.server.bind.util.OptionalHeadersHandler
 import com.withlambda.ktor2.server.bind.util.OptionalParametersHandler
 import com.withlambda.ktor2.server.bind.util.RequiredHeadersHandler
 import com.withlambda.ktor2.server.bind.util.RequiredParametersHandler
+import io.konform.validation.Validation
 import io.ktor.http.ContentType.Application
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
@@ -38,7 +39,9 @@ import io.ktor.util.pipeline.PipelineContext
  * Role-based authorization is enabled and requires **both** `patchHelloWorld1` and
  * `patchHelloWorld2` roles to be present.
  */
-object PatchHelloWorld : PatchRouteConfig {
+object PatchHelloWorld : PatchRouteConfig<HelloWorldDTO> {
+    override val validation: Validation<HelloWorldDTO>? = null
+
     /**
      * Path parameters extracted from the route `/helloworld/{pathParam1}/{pathParam2}`.
      *
@@ -246,6 +249,7 @@ object PatchHelloWorld : PatchRouteConfig {
         override val requestMapping: PatchRequestMapping = PatchHelloWorld.requestMapping,
         override val roleBasedAuthorizationConfiguration: RoleBasedAuthorizationConfigurationImpl =
             PatchHelloWorld.roleBasedAuthorizationConfiguration,
+        override val validation: Validation<HelloWorldDTO>? = PatchHelloWorld.validation,
         override val processRequest: suspend PipelineContext<Unit, ApplicationCall>.(
             RequestDataImpl
         ) -> ResponseDataImpl

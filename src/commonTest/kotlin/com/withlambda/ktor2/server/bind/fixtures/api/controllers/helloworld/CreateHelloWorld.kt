@@ -20,6 +20,7 @@ import com.withlambda.ktor2.server.bind.util.OptionalHeadersHandler
 import com.withlambda.ktor2.server.bind.util.OptionalParametersHandler
 import com.withlambda.ktor2.server.bind.util.RequiredHeadersHandler
 import com.withlambda.ktor2.server.bind.util.RequiredParametersHandler
+import io.konform.validation.Validation
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
@@ -38,7 +39,9 @@ import io.ktor.util.pipeline.PipelineContext
  * Role-based authorization is enabled and requires **both** `createHelloWorld1` and
  * `createHelloWorld2` roles to be present.
  */
-object CreateHelloWorld : PostRouteConfig {
+object CreateHelloWorld : PostRouteConfig<HelloWorldDTO> {
+    override val validation: Validation<HelloWorldDTO>? = null
+
     /**
      * Path parameters extracted from the route `/helloworld/{pathParam1}/{pathParam2}`.
      *
@@ -246,6 +249,7 @@ object CreateHelloWorld : PostRouteConfig {
         override val requestMapping: PostRequestMapping = CreateHelloWorld.requestMapping,
         override val roleBasedAuthorizationConfiguration: RoleBasedAuthorizationConfigurationImpl =
             CreateHelloWorld.roleBasedAuthorizationConfiguration,
+        override val validation: Validation<HelloWorldDTO>? = CreateHelloWorld.validation,
         override val processRequest: suspend PipelineContext<Unit, ApplicationCall>.(
             RequestDataImpl
         ) -> ResponseDataImpl

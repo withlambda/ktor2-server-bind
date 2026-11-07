@@ -5,11 +5,15 @@ import com.withlambda.ktor2.server.bind.config.Logging
 import com.withlambda.ktor2.server.bind.exception.ExceptionHandling.defaultPredefinedBadExceptionsHandlerBuilder
 import com.withlambda.ktor2.server.bind.exception.ExceptionHandling.logger
 import com.withlambda.ktor2.server.bind.exception.ExceptionHandling.predefinedBadRequestExceptionsHandler
+import io.konform.validation.ValidationError
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.plugins.MissingRequestParameterException
 import io.ktor.server.plugins.ParameterConversionException
 import io.ktor.server.plugins.statuspages.StatusPagesConfig
+import io.ktor.server.response.respond
 import io.ktor.util.logging.KtorSimpleLogger
+
+class BindValidationException(val errors: List<ValidationError>) : Exception("Validation failed")
 
 /**
  * Set up exception handling
@@ -63,6 +67,13 @@ object ExceptionHandling {
             MissingHeaderException::class
         ).forEach { exceptionClass ->
             exception(exceptionClass, predefinedBadExceptionsHandlerBuilder.build())
+        }
+
+        exception<BindValidationException> { call, cause ->
+            val reasons = cause.errors.map { "${it.dataPath}: ${it.message}" }
+            val logMessage = "Request validation failed: $reasons"
+            logger.error(logMessage)
+            call.respond(HttpStatusCode.BadRequest, mapOf("errors" to reasons))
         }
     }
 }

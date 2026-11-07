@@ -19,7 +19,8 @@ Ktor's routing DSL is flexible but low-level: request parsing, type conversion, 
 - **Interface-based API specification** — define what each endpoint looks like as a Kotlin interface; implement the business logic separately.
 - **Automatic content-type negotiation** — `Accept` and `Content-Type` headers are validated automatically against the endpoint's `produces`/`consumes` declarations.
 - **Role-based authorization** — per-endpoint role enforcement built in via a pluggable authorization configuration.
-- **Exception handling helpers** — predefined handlers for missing/invalid parameters and headers that respond with `400 Bad Request`.
+- **Declarative validation** — define validation rules for request bodies in your `RouteConfig` using libraries like Konform; integrated with Ktor's `RequestValidation` plugin.
+- **Exception handling helpers** — predefined handlers for missing/invalid parameters, headers, and validation failures that respond with `400 Bad Request`.
 - **Zero reflection** — everything is resolved at compile time.
 
 ---
@@ -311,6 +312,39 @@ data class UserPrincipal(
 
 ---
 
+## Declarative validation
+
+`ktor2-server-bind` supports declarative validation of request bodies. You can define validation rules in your `RouteConfig` using a Multiplatform-friendly validation library (e.g., [Konform](https://github.com/konform-kt/konform)).
+
+### 1. Define validation in RouteConfig
+
+```kotlin
+object CreateGreeting : PostRouteConfig<GreetingRequest> {
+    // ...
+    override val validation = Validation {
+        GreetingRequest::message {
+            minLength(5)
+        }
+    }
+}
+```
+
+### 2. Bridge to Ktor RequestValidation
+
+The library automatically bridges your `RouteConfig.validation` to Ktor's `RequestValidation` plugin when you call `install()` on your controller or route processor.
+
+### 3. Handle validation exceptions
+
+Register the predefined exception handler in Ktor's `StatusPages` plugin to automatically map validation failures to `400 Bad Request` responses with structured error messages:
+
+```kotlin
+install(StatusPages) {
+    predefinedBadRequestExceptionsHandler()
+}
+```
+
+---
+
 ## Exception handling
 
 Install the predefined bad-request exception handler inside Ktor's `StatusPages` plugin to automatically respond `400 Bad Request` when required parameters or headers are missing or cannot be converted:
@@ -325,6 +359,7 @@ This handles:
 - `MissingRequestParameterException` — a required query or path parameter is absent
 - `ParameterConversionException` — a parameter value cannot be converted to the target type
 - `MissingHeaderException` — a required header is absent
+- `BindValidationException` — a request body fails validation (returns structured errors)
 
 You can supply a custom handler builder to override the default behavior:
 
