@@ -17,12 +17,14 @@ import com.withlambda.ktor2.server.bind.request.mapping.RequestMappingWithReques
 import com.withlambda.ktor2.server.bind.request.mapping.RequestMappingWithResponseBody
 import com.withlambda.ktor2.server.bind.response.ResponseData
 import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
+import com.withlambda.ktor2.server.bind.util.MultipartHandler
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.server.request.acceptItems
 import io.ktor.server.request.contentType
+import io.ktor.server.request.receiveMultipart
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
@@ -259,7 +261,7 @@ sealed interface RouteWithRequestBodyProcessor<
     override suspend fun PipelineContext<Unit, ApplicationCall>.isContentTypeHeaderOfRequestValid(): Boolean =
         requestMapping.consumes?.let { consumes ->
             val requestContentType = call.request.contentType()
-            val isValid = setOf(ContentType.Any, consumes).contains(requestContentType)
+            val isValid = setOf(ContentType.Any, consumes).any { requestContentType.match(it) }
             if (isValid.not()) call.respond(HttpStatusCode.UnsupportedMediaType)
             isValid
         } ?: true
@@ -353,3 +355,11 @@ interface OptionsRouteProcessor<
     SpecifiedRequestData : RequestData,
     SpecifiedResponseData : ResponseData
     > : RouteProcessorBase<OptionsRequestMapping, SpecifiedRequestData, SpecifiedResponseData>
+
+/**
+ * Extension to receive multipart data and return a map of parts.
+ */
+suspend fun ApplicationCall.receiveMultipartData(): Map<String, Any> {
+    val multipart = receiveMultipart()
+    return MultipartHandler(multipart).parseAllParts()
+}
