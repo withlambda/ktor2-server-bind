@@ -71,7 +71,8 @@ object HelloWorldService {
                 requestHeader2 = request.headers.header2
             ),
             null,
-            responseHeaders
+            responseHeaders,
+            null
         )
     }
 
@@ -120,7 +121,8 @@ object HelloWorldService {
                 requestHeader2 = request.headers.header2
             ),
             null,
-            responseHeaders
+            responseHeaders,
+            null
         )
     }
 
@@ -169,7 +171,8 @@ object HelloWorldService {
                 requestHeader2 = request.headers.header2
             ),
             null,
-            responseHeaders
+            responseHeaders,
+            null
         )
     }
 
@@ -215,7 +218,8 @@ object HelloWorldService {
                 requestHeader2 = request.headers.header2
             ),
             null,
-            responseHeaders
+            responseHeaders,
+            null
         )
     }
 
@@ -261,7 +265,8 @@ object HelloWorldService {
                 requestHeader2 = request.headers.header2
             ),
             null,
-            responseHeaders
+            responseHeaders,
+            null
         )
     }
 
@@ -296,7 +301,8 @@ object HelloWorldService {
             HttpStatusCode.OK,
             null,
             null,
-            responseHeaders
+            responseHeaders,
+            null
         )
     }
 
@@ -333,7 +339,8 @@ object HelloWorldService {
             HttpStatusCode.NoContent,
             null,
             null,
-            responseHeaders
+            responseHeaders,
+            null
         )
     }
 }

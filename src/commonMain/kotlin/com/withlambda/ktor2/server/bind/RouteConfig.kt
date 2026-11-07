@@ -4,6 +4,7 @@ package com.withlambda.ktor2.server.bind
 import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfiguration
 import com.withlambda.ktor2.server.bind.request.OptionalQueryParameters
 import com.withlambda.ktor2.server.bind.request.PathParameters
+import com.withlambda.ktor2.server.bind.request.RequestCookies
 import com.withlambda.ktor2.server.bind.request.RequestHeaders
 import com.withlambda.ktor2.server.bind.request.RequiredQueryParameters
 import com.withlambda.ktor2.server.bind.request.mapping.DeleteRequestMapping
@@ -68,6 +69,11 @@ sealed interface RouteConfig {
      * Method to retrieve the request headers marked by [RequestHeaders] from the [ApplicationCall]
      */
     suspend fun ApplicationCall.getRequestHeaders(): RequestHeaders
+
+    /**
+     * Method to retrieve the request cookies marked by [RequestCookies] from the [ApplicationCall]
+     */
+    suspend fun ApplicationCall.getRequestCookies(): RequestCookies
 }
 
 /**

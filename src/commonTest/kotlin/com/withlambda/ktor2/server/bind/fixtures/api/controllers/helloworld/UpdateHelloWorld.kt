@@ -3,14 +3,17 @@ package com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld
 import com.withlambda.ktor2.server.bind.PutRouteConfig
 import com.withlambda.ktor2.server.bind.PutRouteProcessor
 import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
+import com.withlambda.ktor2.server.bind.fixtures.EmptyRequestCookies
 import com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO
 import com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldResponseDTO
 import com.withlambda.ktor2.server.bind.request.OptionalQueryParameters
 import com.withlambda.ktor2.server.bind.request.PathParameters
+import com.withlambda.ktor2.server.bind.request.RequestCookies
 import com.withlambda.ktor2.server.bind.request.RequestHeaders
 import com.withlambda.ktor2.server.bind.request.RequestWithBodyData
 import com.withlambda.ktor2.server.bind.request.RequiredQueryParameters
 import com.withlambda.ktor2.server.bind.request.mapping.PutRequestMapping
+import com.withlambda.ktor2.server.bind.response.ResponseCookies
 import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
 import com.withlambda.ktor2.server.bind.response.ResponseHeaders
 import com.withlambda.ktor2.server.bind.util.OptionalHeadersHandler
@@ -88,6 +91,7 @@ object UpdateHelloWorld : PutRouteConfig {
      * @property optionalQueryParameter Extracted optional query parameters.
      * @property requiredQueryParameter Extracted required query parameters.
      * @property headers Extracted request headers.
+     * @property cookies Extracted request cookies.
      * @property requestBody Deserialized JSON request body.
      */
     class RequestDataImpl(
@@ -95,6 +99,7 @@ object UpdateHelloWorld : PutRouteConfig {
         override val optionalQueryParameter: OptionalQueryParametersImpl,
         override val requiredQueryParameter: RequiredQueryParametersImpl,
         override val headers: RequestHeadersImpl,
+        override val cookies: RequestCookies,
         override val requestBody: HelloWorldDTO
     ) : RequestWithBodyData<HelloWorldDTO>
 
@@ -122,12 +127,14 @@ object UpdateHelloWorld : PutRouteConfig {
      * @property responseBody Optional JSON response body.
      * @property responseMessage Optional plain-text response message.
      * @property responseHeaders Optional response headers to append.
+     * @property responseCookies Optional response cookies to append.
      */
     class ResponseDataImpl(
         override val httpStatusCode: HttpStatusCode,
         override val responseBody: HelloWorldResponseDTO?,
         override val responseMessage: String?,
-        override val responseHeaders: ResponseHeadersImpl?
+        override val responseHeaders: ResponseHeadersImpl?,
+        override val responseCookies: ResponseCookies?
     ) : ResponseDataWithBody<HelloWorldResponseDTO>
 
     /** Defines the PUT method, route path, and accepted/produced content types for this endpoint. */
@@ -209,6 +216,11 @@ object UpdateHelloWorld : PutRouteConfig {
     }
 
     /**
+     * Extracts and returns [EmptyRequestCookies] from the current call's request cookies.
+     */
+    override suspend fun ApplicationCall.getRequestCookies(): RequestCookies = EmptyRequestCookies
+
+    /**
      * Enables role-based authorization requiring **both** `updateHelloWorld1` and
      * `updateHelloWorld2` roles to be present in the caller's
      * [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
@@ -249,6 +261,7 @@ object UpdateHelloWorld : PutRouteConfig {
                 getOptionalQueryParameters(),
                 getRequiredQueryParameters(),
                 getRequestHeaders(),
+                getRequestCookies(),
                 receive()
             )
         }

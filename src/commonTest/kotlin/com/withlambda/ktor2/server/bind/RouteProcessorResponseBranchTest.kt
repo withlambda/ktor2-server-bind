@@ -7,7 +7,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.head
 import io.ktor.client.request.header
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.install
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
 import kotlin.test.Test
@@ -32,7 +31,8 @@ class RouteProcessorResponseBranchTest {
                                 httpStatusCode = HttpStatusCode.OK,
                                 responseBody = null,
                                 responseMessage = "head message",
-                                responseHeaders = null
+                                responseHeaders = null,
+                                responseCookies = null
                             )
                         }
                     )
@@ -60,7 +60,8 @@ class RouteProcessorResponseBranchTest {
                                 httpStatusCode = HttpStatusCode.OK,
                                 responseBody = null,
                                 responseMessage = "message only",
-                                responseHeaders = null
+                                responseHeaders = null,
+                                responseCookies = null
                             )
                         }
                     )
@@ -88,7 +89,8 @@ class RouteProcessorResponseBranchTest {
                                 httpStatusCode = HttpStatusCode.NoContent,
                                 responseBody = null,
                                 responseMessage = null,
-                                responseHeaders = null
+                                responseHeaders = null,
+                                responseCookies = null
                             )
                         }
                     )

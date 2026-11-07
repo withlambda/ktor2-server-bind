@@ -94,6 +94,10 @@ sealed interface RouteProcessorBase<
                 response.headers.append(name, value.toString())
             }
 
+            responseCookies?.mapOfCookies?.values?.forEach {
+                response.cookies.append(it)
+            }
+
             when {
                 responseMessage != null -> respondText(
                     status = httpStatusCode,
@@ -195,6 +199,10 @@ sealed interface RouteProcessor<
         with(responseData) {
             responseHeaders?.mapOfHeaders?.forEach { (name, value) ->
                 response.headers.append(name, value.toString())
+            }
+
+            responseCookies?.mapOfCookies?.values?.forEach {
+                response.cookies.append(it)
             }
 
             when {

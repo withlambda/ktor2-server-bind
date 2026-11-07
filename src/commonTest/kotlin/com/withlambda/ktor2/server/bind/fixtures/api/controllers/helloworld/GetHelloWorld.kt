@@ -3,13 +3,16 @@ package com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld
 import com.withlambda.ktor2.server.bind.GetRouteConfig
 import com.withlambda.ktor2.server.bind.GetRouteProcessor
 import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
+import com.withlambda.ktor2.server.bind.fixtures.EmptyRequestCookies
 import com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldResponseDTO
 import com.withlambda.ktor2.server.bind.request.OptionalQueryParameters
 import com.withlambda.ktor2.server.bind.request.PathParameters
+import com.withlambda.ktor2.server.bind.request.RequestCookies
 import com.withlambda.ktor2.server.bind.request.RequestData
 import com.withlambda.ktor2.server.bind.request.RequestHeaders
 import com.withlambda.ktor2.server.bind.request.RequiredQueryParameters
 import com.withlambda.ktor2.server.bind.request.mapping.GetRequestMapping
+import com.withlambda.ktor2.server.bind.response.ResponseCookies
 import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
 import com.withlambda.ktor2.server.bind.response.ResponseHeaders
 import com.withlambda.ktor2.server.bind.util.OptionalHeadersHandler
@@ -85,12 +88,14 @@ object GetHelloWorld : GetRouteConfig {
      * @property optionalQueryParameter Extracted optional query parameters.
      * @property requiredQueryParameter Extracted required query parameters.
      * @property headers Extracted request headers.
+     * @property cookies Extracted request cookies.
      */
     class RequestDataImpl(
         override val pathParameter: PathParametersImpl,
         override val optionalQueryParameter: OptionalQueryParametersImpl,
         override val requiredQueryParameter: RequiredQueryParametersImpl,
         override val headers: RequestHeadersImpl,
+        override val cookies: RequestCookies
     ) : RequestData
 
     /**
@@ -117,12 +122,14 @@ object GetHelloWorld : GetRouteConfig {
      * @property responseBody Optional JSON response body.
      * @property responseMessage Optional plain-text response message.
      * @property responseHeaders Optional response headers to append.
+     * @property responseCookies Optional response cookies to append.
      */
     class ResponseDataImpl(
         override val httpStatusCode: HttpStatusCode,
         override val responseBody: HelloWorldResponseDTO?,
         override val responseMessage: String?,
-        override val responseHeaders: ResponseHeadersImpl?
+        override val responseHeaders: ResponseHeadersImpl?,
+        override val responseCookies: ResponseCookies?
     ) : ResponseDataWithBody<HelloWorldResponseDTO>
 
     /** Defines the GET method, route path, and produced content type for this endpoint. */
@@ -203,6 +210,11 @@ object GetHelloWorld : GetRouteConfig {
     }
 
     /**
+     * Extracts and returns [EmptyRequestCookies] from the current call's request cookies.
+     */
+    override suspend fun ApplicationCall.getRequestCookies(): RequestCookies = EmptyRequestCookies
+
+    /**
      * Enables role-based authorization requiring **both** `getHelloWorld1` and
      * `getHelloWorld2` roles to be present in the caller's
      * [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
@@ -242,7 +254,8 @@ object GetHelloWorld : GetRouteConfig {
                 getPathParameters(),
                 getOptionalQueryParameters(),
                 getRequiredQueryParameters(),
-                getRequestHeaders()
+                getRequestHeaders(),
+                getRequestCookies()
             )
         }
 

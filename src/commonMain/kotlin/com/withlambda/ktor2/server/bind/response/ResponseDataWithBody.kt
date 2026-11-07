@@ -7,6 +7,7 @@ import io.ktor.http.HttpStatusCode
  * @property httpStatusCode The response http status code
  * @property responseMessage The response message
  * @property responseHeaders The response headers
+ * @property responseCookies The response cookies
  */
 interface ResponseData {
     /**
@@ -23,6 +24,11 @@ interface ResponseData {
      * The response headers
      */
     val responseHeaders: ResponseHeaders?
+
+    /**
+     * The response cookies
+     */
+    val responseCookies: ResponseCookies?
 }
 
 /**

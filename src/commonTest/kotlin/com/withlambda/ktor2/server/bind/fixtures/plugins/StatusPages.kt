@@ -1,6 +1,7 @@
 package com.withlambda.ktor2.server.bind.fixtures.plugins
 
 import com.withlambda.ktor2.server.bind.exception.ExceptionHandling
+import com.withlambda.ktor2.server.bind.exception.ExceptionHandling.predefinedBadRequestExceptionsHandler
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.plugins.statuspages.StatusPages
