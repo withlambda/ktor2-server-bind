@@ -18,10 +18,16 @@ import com.withlambda.ktor2.server.bind.request.mapping.RequestMappingWithReques
 import com.withlambda.ktor2.server.bind.request.mapping.RequestMappingWithResponseBody
 import com.withlambda.ktor2.server.bind.response.ResponseData
 import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
+import com.withlambda.ktor2.server.bind.response.ResponseDataWithBytes
+import com.withlambda.ktor2.server.bind.response.ResponseDataWithFile
+import com.withlambda.ktor2.server.bind.response.ResponseDataWithOutputStream
+import com.withlambda.ktor2.server.bind.response.ResponseDataWithSSE
 import com.withlambda.ktor2.server.bind.util.MultipartHandler
 import io.konform.validation.Invalid
 import io.konform.validation.Validation
+import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
@@ -29,10 +35,16 @@ import io.ktor.server.request.acceptItems
 import io.ktor.server.request.contentType
 import io.ktor.server.request.receiveMultipart
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondBytes
+import io.ktor.server.response.respondFile
+import io.ktor.server.response.respondOutputStream
 import io.ktor.server.response.respondText
+import io.ktor.server.response.respondTextWriter
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.route
 import io.ktor.util.pipeline.PipelineContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Base interface of a route processor that stores
@@ -110,6 +122,32 @@ sealed interface RouteProcessorBase<
             }
 
             when {
+                responseData is ResponseDataWithFile -> respondFile(responseData.file)
+
+                responseData is ResponseDataWithBytes -> respondBytes(
+                    responseData.bytes,
+                    status = responseData.httpStatusCode
+                )
+
+                responseData is ResponseDataWithOutputStream -> respondOutputStream(
+                    status = responseData.httpStatusCode
+                ) { responseData.producer(this) }
+
+                responseData is ResponseDataWithSSE -> {
+                    response.headers.append(HttpHeaders.CacheControl, CacheControl.NoCache(null).toString())
+                    respondTextWriter(
+                        contentType = ContentType.Text.EventStream,
+                        status = responseData.httpStatusCode
+                    ) {
+                        responseData.events.collect { event ->
+                            withContext(Dispatchers.IO) {
+                                write("data: ${event.data}\n\n")
+                                flush()
+                            }
+                        }
+                    }
+                }
+
                 responseMessage != null -> respondText(
                     status = httpStatusCode,
                     text = responseMessage!!
@@ -223,6 +261,32 @@ sealed interface RouteProcessor<
             }
 
             when {
+                responseData is ResponseDataWithFile -> respondFile(responseData.file)
+
+                responseData is ResponseDataWithBytes -> respondBytes(
+                    responseData.bytes,
+                    status = responseData.httpStatusCode
+                )
+
+                responseData is ResponseDataWithOutputStream -> respondOutputStream(
+                    status = responseData.httpStatusCode
+                ) { responseData.producer(this) }
+
+                responseData is ResponseDataWithSSE -> {
+                    response.headers.append(HttpHeaders.CacheControl, CacheControl.NoCache(null).toString())
+                    respondTextWriter(
+                        contentType = ContentType.Text.EventStream,
+                        status = responseData.httpStatusCode
+                    ) {
+                        responseData.events.collect { event ->
+                            withContext(Dispatchers.IO) {
+                                write("data: ${event.data}\n\n")
+                                flush()
+                            }
+                        }
+                    }
+                }
+
                 responseBody != null -> respondWithBody(httpStatusCode, responseBody!!)
 
                 responseMessage != null -> respondText(
