@@ -1,6 +1,7 @@
 [versions]
 
 ktor="2.0.0"
+ksp = "2.1.21-2.0.2"
 kotlin = "2.1.21"
 dokka = "2.0.0"
 kover = "0.9.1"
@@ -27,9 +28,13 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 # Jvm Test specific libraries
 slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j-nop" }
 
+# KSP processor
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }

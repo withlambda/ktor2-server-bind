@@ -1,12 +1,35 @@
 # Publishing to Maven Central
 
-This document explains how to publish `ktor2-server-bind` to Maven Central, covering what OSSRH is, how to obtain credentials, how to set up GPG signing, and how to trigger a release — both locally and via the provided GitHub Actions workflow.
+This document explains how to publish the two `ktor2-server-bind` artifacts to Maven Central,
+covering what OSSRH is, how to obtain credentials, how to set up GPG signing, and how to
+trigger a release — both locally and via the provided GitHub Actions workflow.
+
+## Published artifacts
+
+Both modules must always be published together and share the same version:
+
+| Artifact                                     | Gradle configuration in consumer project |
+|----------------------------------------------|------------------------------------------|
+| `com.withlambda:ktor2-server-bind`           | `implementation(...)`                    |
+| `com.withlambda:ktor2-server-bind-processor` | `ksp(...)`                               |
+
+A consuming project's `build.gradle.kts` declares both like this:
+
+```kotlin
+dependencies {
+    implementation("com.withlambda:ktor2-server-bind:<version>")
+    ksp("com.withlambda:ktor2-server-bind-processor:<version>")
+}
+```
+
+The processor artifact is a pure compile-time KSP tool and must never appear on the
+runtime classpath; using `ksp(...)` guarantees this.
 
 ---
 
 ## What is OSSRH?
 
-**OSSRH** stands for **OSS Repository Hosting**. It is a free service provided by [Sonatype](https://www.sonatype.com/) that acts as the gateway to Maven Central. You cannot push artifacts directly to Maven Central; instead you publish to OSSRH and Sonatype promotes them.
+**OSSRH** stands for **OSS Repository Hosting**. It is a free service provided by [Sonatype](https://www.sonatype.com/) that acts as the gateway to Maven Central. You cannot push artifacts directly to Maven Central; instead, you publish to OSSRH and Sonatype promotes them.
 
 OSSRH exposes two endpoints:
 
@@ -126,22 +149,28 @@ export SIGNING_PASSWORD="<gpg-passphrase>"
 
 ### Publishing steps
 
+> **Both modules share the same `isRelease` flag and version.**
+> Before publishing, set `isRelease = true` (or leave `false` for a snapshot) in **both**
+> `build.gradle.kts` (root) and `ktor2-server-bind-processor/build.gradle.kts`.
+
 **Snapshot** (no signing needed):
 
 ```bash
-# Ensure isSnapshot = true in build.gradle.kts
+# Ensure isRelease = false in both build.gradle.kts files
 ./gradlew publish
 ```
 
 **Release**:
 
 ```bash
-# 1. Set isSnapshot = false and bump libraryRelease in build.gradle.kts
+# 1. Set isRelease = true and bump the version in both build.gradle.kts files
 # 2. Enable signing
 ./gradlew publish -PenableGradleSigningPlugin=true
 ```
 
-After the release task completes, log in to <https://s01.oss.sonatype.org>, find the staging repository under **Staging Repositories**, click **Close** and then **Release** to promote it to Maven Central (propagation takes ~10–30 minutes).
+After the release task completes, log in to <https://s01.oss.sonatype.org>, find the staging
+repository under **Staging Repositories**, click **Close** and then **Release** to promote
+both artifacts to Maven Central (propagation takes ~10–30 minutes).
 
 ---
 
@@ -175,13 +204,14 @@ For a **release** publish the workflow will sign and stage the artifacts on OSSR
 
 ## Pre-release checklist
 
-| Step                                                                                                                         |   |
-|------------------------------------------------------------------------------------------------------------------------------|---|
-| Sonatype account created and `com.withlambda` namespace approved                                                             | ☐ |
-| GPG key generated and uploaded to a keyserver                                                                                | ☐ |
-| GitHub Secrets (`OSSRH_*`, `SIGNING_*`) configured                                                                           | ☐ |
-| `isSnapshot = false` and version set to `X.Y.Z-N` in `build.gradle.kts`                                                      | ☐ |
-| Changes committed and pushed to `main`                                                                                       | ☐ |
-| Workflow triggered and completed successfully                                                                                | ☐ |
-| Staging repository closed and released in OSSRH UI                                                                           | ☐ |
-| Artifact visible on [Maven Central](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind) (~10–30 min) | ☐ |
+| Step                                                                                                                                       |   |
+|--------------------------------------------------------------------------------------------------------------------------------------------|---|
+| Sonatype account created and `com.withlambda` namespace approved                                                                           | ☐ |
+| GPG key generated and uploaded to a keyserver                                                                                              | ☐ |
+| GitHub Secrets (`OSSRH_*`, `SIGNING_*`) configured                                                                                         | ☐ |
+| `isRelease = true` and version set to `X.Y.Z` in **both** `build.gradle.kts` and `ktor2-server-bind-processor/build.gradle.kts`            | ☐ |
+| Changes committed and pushed to `main`                                                                                                     | ☐ |
+| Workflow triggered and completed successfully                                                                                              | ☐ |
+| Staging repository closed and released in OSSRH UI                                                                                         | ☐ |
+| `ktor2-server-bind` visible on [Maven Central](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind) (~10–30 min)        | ☐ |
+| `ktor2-server-bind-processor` visible on [Maven Central](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind-processor) | ☐ |
