@@ -1,117 +1,87 @@
 # AGENTS.md — Agentic Coding Guidelines
 
-Instructions for every AI agent working in this repository. All rules apply unconditionally unless a task explicitly overrides one.
+All rules apply unconditionally unless a task explicitly overrides one.
 
 ---
 
-## 1. Immutability by Default (IDD)
+## 0. Concise Output
 
-- Use `val` over `var` everywhere (locals, properties, parameters).
-- Use immutable collections (`listOf`, `mapOf`, `setOf`); reach for `mutableListOf` / `MutableList` only when mutation is algorithmic.
-- Model data as `data class` with `val` fields; use `copy(…)` instead of mutating fields.
-- Return new values instead of producing side effects.
+Keep all agent outputs (answers, plans, instructions, comments) as short as possible without losing information needed for further work. Be precise; omit filler.
 
-## 2. Test-Driven Development (TDD)
+## 1. Immutability by Default
 
-- Write a failing test **before** any implementation — Red → Green → Refactor, strictly.
-- Every public function, class, and code path needs at least one test.
-- Place tests under `src/commonTest/` mirroring `src/commonMain/`. Use fixtures in `src/commonTest/…/fixtures/` for Ktor test-application setup.
+- `val` over `var`; immutable collections (`listOf`, `mapOf`, `setOf`) unless mutation is algorithmic.
+- `data class` with `val` fields; use `copy(…)` over mutation; return new values over side effects.
+
+## 2. TDD
+
+Red → Green → Refactor, strictly. Every public function/class/code path needs ≥1 test.
+Tests under `src/commonTest/` mirroring `src/commonMain/`; fixtures in `src/commonTest/…/fixtures/`.
 
 ```bash
-./gradlew test                      # unit tests
-./gradlew integrationTest           # integration tests (default Ktor version)
-./gradlew integrationTestAllVersions # integration tests (all supported Ktor versions)
-./gradlew check                     # full quality gate: ktlintCheck + detekt + all tests
+./gradlew test                       # unit tests
+./gradlew integrationTest            # integration tests (default Ktor)
+./gradlew integrationTestAllVersions # integration tests (all Ktor versions)
+./gradlew check                      # ktlintCheck + detekt + all tests
 ```
 
 ## 3. Security
 
-- Never log or expose sensitive values (tokens, passwords, secrets, PII) — including in test output.
-- Validate and sanitise all external input (path/query params, headers, cookies, bodies); prefer handler utilities in `src/commonMain/…/util/`.
-- Fail fast with an explicit, typed exception; never swallow errors or return `null` when absence is unexpected.
-- Avoid reflection and dynamic class loading; use compile-time-safe constructs.
+- Never log/expose tokens, passwords, secrets, PII — including in test output.
+- Validate/sanitise all external input; prefer utilities in `src/commonMain/…/util/`.
+- Fail fast with a typed exception; never swallow errors or return unexpected `null`.
+- No reflection or dynamic class loading; use compile-time-safe constructs.
 
-## 4. Maintainability & Low Cognitive Load
+## 4. Maintainability
 
-- One function, one responsibility (SRP). Keep functions small.
-- More than two parameters → use a data-class parameter.
-- Eliminate deep nesting with early-return guards and extracted functions.
-- Use expression bodies (`= …`) for single-expression functions.
-- Add interfaces only when multiple implementations exist or testability requires one.
-- Delete dead code; never leave commented-out code.
+- SRP: one function, one responsibility; keep functions small.
+- >2 parameters → data-class parameter; expression bodies for single-expression functions.
+- Early-return guards over deep nesting; interfaces only when multiple impls or testability requires.
+- Delete dead code; no commented-out code.
 
 ## 5. Self-Documenting Code
 
-- Names must reveal intent: `extractBearerToken` not `parse`, `isUserAuthorized` not `check`.
-- Encode domain constraints in types (`data class`, `@JvmInline value class`) instead of raw `String` / `Int`.
-- Follow existing casing: `PascalCase` for types, `camelCase` for functions/properties, `SCREAMING_SNAKE_CASE` for top-level constants.
+- Names reveal intent: `extractBearerToken` not `parse`.
+- Encode constraints in types (`data class`, `@JvmInline value class`) over raw `String`/`Int`.
+- Casing: `PascalCase` types · `camelCase` functions/properties · `SCREAMING_SNAKE_CASE` constants.
 
-## 6. Code Formatting — `.editorconfig` Compliance
+## 6. Formatting & Imports
 
-| Setting             | Value                                                             |
-|---------------------|-------------------------------------------------------------------|
-| Indent style        | spaces (4)                                                        |
-| Max line length     | 120 characters                                                    |
-| End of line         | LF                                                                |
-| Final newline       | required                                                          |
-| Trailing whitespace | trimmed                                                           |
-| Wildcard imports    | **not allowed** (`ktlint_standard_no-wildcard-imports = enabled`) |
-| Trailing commas     | **not allowed** (call site and declaration site)                  |
+`.editorconfig` rules: 4-space indent · 120-char lines · LF · final newline · no trailing whitespace · no wildcard imports · no trailing commas.
+Import order: `*`, `java.**`, `javax.**`, `kotlin.**`, `^` (aliases). Remove unused imports.
 
 ```bash
-./gradlew ktlintFormat  # auto-fix formatting
-./gradlew ktlintCheck   # verify — must report zero violations
+./gradlew ktlintFormat  # auto-fix
+./gradlew ktlintCheck   # must report zero violations
 ```
 
-## 7. Import Hygiene
+## 7. Documentation & Comments
 
-- Remove all unused imports before committing.
-- No wildcard imports (`import foo.bar.*`).
-- Import order per `.editorconfig`: `*`, `java.**`, `javax.**`, `kotlin.**`, `^` (aliases).
-- Run `./gradlew ktlintFormat` after any refactor to auto-sort and clean imports.
+- Every `public`/`internal` declaration needs KDoc: purpose, `@param`, `@return`, `@throws`.
+- KDoc directly above declaration; describe *why*/*what*, not *how*; don't restate the signature.
+- Module-level docs in `Module.md`.
+- Comment non-obvious intent (*why*, not *what*); skip self-explanatory code.
 
-## 8. Documentation
-
-- Every `public` or `internal` declaration **must** have a KDoc comment covering purpose, `@param`, `@return`, and `@throws` where applicable.
-- Place KDoc directly above the declaration — no blank line between.
-- Describe *why* and *what*, not *how*; don't restate the type signature.
-- Module-level docs belong in `Module.md`.
-
-## 9. Clarifying Comments
-
-- Comment any line or block whose intent isn't immediately obvious.
-- Explain *why*, not *what*: `// Ktor finalises the response on the first write, so headers must be set first` ✓; `// set header` ✗.
-- Skip comments on self-explanatory code.
-
-## 10. Static Analysis — detekt
-
-- All code must pass `./gradlew detekt` with zero violations.
-- Use `@Suppress("RuleName")` with a brief inline explanation only for confirmed false positives; fix real issues instead.
-
-## 11. Test Coverage — kover
-
-- Coverage must meet or exceed the project's configured thresholds.
+## 8. Static Analysis & Coverage
 
 ```bash
-./gradlew koverVerify       # enforce thresholds
-./gradlew koverHtmlReport   # human-readable report
+./gradlew detekt        # zero violations; @Suppress only for confirmed false positives
+./gradlew koverVerify   # coverage must meet configured thresholds
 ```
 
-## 12. Error Handling
+## 9. Error Handling
 
-- Use typed, domain-specific exceptions from `src/commonMain/…/exception/`; not `RuntimeException`.
-- Never catch `Exception` or `Throwable` broadly unless every case is explicitly handled or re-thrown.
-- Propagate errors to the caller; never swallow them silently.
+- Typed exceptions from `src/commonMain/…/exception/`; never `RuntimeException`.
+- Never catch `Exception`/`Throwable` broadly unless all cases are handled or re-thrown.
+- Propagate; never swallow silently.
 
-## 13. Completion Checklist
+## 10. Completion Checklist
 
-Before marking a task done:
-
-- [ ] Failing test written first (Red), implementation passes it (Green), code cleaned up (Refactor).
-- [ ] All `val` / immutable-collection opportunities taken.
-- [ ] All public/internal declarations have KDoc; non-obvious lines have clarifying comments.
-- [ ] No unused imports remain.
-- [ ] `./gradlew ktlintFormat` run; `./gradlew ktlintCheck` reports zero violations.
-- [ ] `./gradlew detekt` reports zero violations.
+- [ ] Red→Green→Refactor done.
+- [ ] `val`/immutable collections used everywhere possible.
+- [ ] KDoc on all public/internal declarations; non-obvious lines commented.
+- [ ] No unused imports.
+- [ ] `./gradlew ktlintFormat` run; `ktlintCheck` zero violations.
+- [ ] `./gradlew detekt` zero violations.
 - [ ] `./gradlew koverVerify` passes.
-- [ ] `./gradlew check` passes in its entirety.
+- [ ] `./gradlew check` passes.
