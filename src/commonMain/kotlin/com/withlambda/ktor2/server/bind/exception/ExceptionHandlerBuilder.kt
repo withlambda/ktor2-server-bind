@@ -2,6 +2,7 @@ package com.withlambda.ktor2.server.bind.exception
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
+import kotlin.reflect.KClass
 
 /**
  * Function signature type of exception handlers
@@ -77,6 +78,31 @@ interface ExceptionHandlerBuilder {
     ): ExceptionHandlerBuilder
 
     /**
+     * Registers a handler for the given exception class within this builder's DSL scope.
+     * When [tryHandle] is subsequently called, the registered handler is invoked if the
+     * thrown exception is an instance of [exceptionClass].
+     *
+     * Prefer the inline reified [exception] extension function over calling this directly.
+     * @param ExceptionType The exception type to register a handler for
+     * @param exceptionClass The [KClass] of the exception to handle
+     * @param handler The suspending handler invoked with the [ApplicationCall] and the exception
+     */
+    fun <ExceptionType : Throwable> registerExceptionHandler(
+        exceptionClass: KClass<ExceptionType>,
+        handler: ExceptionHandler<ExceptionType>
+    )
+
+    /**
+     * Attempts to handle [cause] using a previously registered typed handler.
+     * Returns `true` if a matching handler was found and invoked, `false` otherwise,
+     * allowing the caller to re-throw and let global [io.ktor.server.plugins.statuspages.StatusPages] handle it.
+     * @param call The current [ApplicationCall]
+     * @param cause The exception to attempt to handle
+     * @return `true` if handled, `false` if no registered handler matched
+     */
+    suspend fun tryHandle(call: ApplicationCall, cause: Throwable): Boolean
+
+    /**
      * The function that returns the exception handler of type [ExceptionHandler]
      * @param ExceptionType Specified type of the exception to be handled
      * @return The exception handler specified by this builder
@@ -98,3 +124,20 @@ interface ExceptionHandlerBuilder {
         }
     }
 }
+
+/**
+ * Convenience inline reified overload that registers a typed exception handler on this
+ * [ExceptionHandlerBuilder] without requiring an explicit [KClass] argument.
+ *
+ * Use this inside the [com.withlambda.ktor2.server.bind.Controller.exceptionHandler] DSL block:
+ * ```
+ * override val exceptionHandler: (ExceptionHandlerBuilder.() -> Unit) = {
+ *     exception<MyException> { call, e -> call.respond(HttpStatusCode.NotFound, e.message) }
+ * }
+ * ```
+ * @param ExceptionType The exception type to register a handler for
+ * @param handler The suspending handler invoked with the [ApplicationCall] and the exception
+ */
+inline fun <reified ExceptionType : Throwable> ExceptionHandlerBuilder.exception(
+    noinline handler: ExceptionHandler<ExceptionType>
+) = registerExceptionHandler(ExceptionType::class, handler)

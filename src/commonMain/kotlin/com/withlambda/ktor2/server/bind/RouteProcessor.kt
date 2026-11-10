@@ -3,6 +3,8 @@ package com.withlambda.ktor2.server.bind
 
 import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfiguration
 import com.withlambda.ktor2.server.bind.exception.BindValidationException
+import com.withlambda.ktor2.server.bind.exception.ExceptionHandlerBuilder
+import com.withlambda.ktor2.server.bind.exception.ExceptionHandlerBuilderImpl
 import com.withlambda.ktor2.server.bind.plugins.roleBasedAuthorization
 import com.withlambda.ktor2.server.bind.request.RequestData
 import com.withlambda.ktor2.server.bind.request.RequestWithBodyData
@@ -177,9 +179,14 @@ sealed interface RouteProcessorBase<
     suspend fun PipelineContext<Unit, ApplicationCall>.isContentTypeHeaderOfRequestValid() = true
 
     /**
-     * Method to install this route
+     * Method to install this route, optionally wrapping request processing in a controller-scoped
+     * exception handler before falling back to global StatusPages.
+     * @param controllerExceptionHandler Optional DSL block from the owning [Controller]; when
+     * non-null, exceptions thrown by [processRequest] are checked against its registered handlers
+     * first. Unmatched exceptions are re-thrown so global StatusPages can handle them.
      */
-    fun Route.install() {
+    @Suppress("TooGenericExceptionCaught") // Intentionally broad: unmatched exceptions are re-thrown to StatusPages
+    fun Route.install(controllerExceptionHandler: (ExceptionHandlerBuilder.() -> Unit)? = null) {
         with(requestMapping) {
             route(path = path, method = method) {
                 if (roleBasedAuthorizationConfiguration.enabled) {
@@ -195,7 +202,21 @@ sealed interface RouteProcessorBase<
 
                     validate(request)
 
-                    call.customizedResponse(processRequest(request))
+                    if (controllerExceptionHandler != null) {
+                        try {
+                            call.customizedResponse(processRequest(request))
+                        } catch (e: Throwable) {
+                            val builder = ExceptionHandlerBuilderImpl(
+                                httpStatusCode = HttpStatusCode.InternalServerError,
+                                getCallResponseContent = { _, logMessage -> logMessage }
+                            )
+                            builder.controllerExceptionHandler()
+                            // Re-throw if no registered handler matched, so StatusPages can handle it
+                            if (!builder.tryHandle(call, e)) throw e
+                        }
+                    } else {
+                        call.customizedResponse(processRequest(request))
+                    }
                 }
             }
         }
