@@ -13,6 +13,11 @@ import io.ktor.server.plugins.statuspages.StatusPagesConfig
 import io.ktor.server.response.respond
 import io.ktor.util.logging.KtorSimpleLogger
 
+/**
+ * Thrown when request body validation via [io.konform.validation.Validation] fails.
+ *
+ * @property errors The list of individual validation errors describing which fields failed and why.
+ */
 class BindValidationException(val errors: List<ValidationError>) : Exception("Validation failed")
 
 /**

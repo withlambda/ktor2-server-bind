@@ -49,6 +49,7 @@ kotlin {
                     // We only add this srcDir when not running in the IDE to avoid this.
                     if (System.getProperty("idea.active") == null && System.getProperty("idea.sync.active") == null) {
                         kotlin.srcDir("src/commonTest/kotlin")
+                        resources.srcDir("src/jvmTest/resources")
                     }
                     dependencies {
                         implementation("com.withlambda:ktor2-server-bind:$version")
@@ -59,6 +60,8 @@ kotlin {
                         implementation(libs.ktor.server.content.negotiation)
                         implementation(libs.ktor.server.status.pages)
                         implementation(libs.ktor.callid)
+                        implementation(libs.konform)
+                        implementation(libs.ktor.client.content.negotiation)
                         runtimeOnly(libs.slf4j.nop)
                     }
                 }
@@ -103,6 +106,7 @@ kotlin {
                 implementation(libs.ktor.server.content.negotiation)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.callid)
+                implementation(libs.konform)
             }
         }
 

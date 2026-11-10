@@ -373,6 +373,51 @@ install(StatusPages) {
 
 ---
 
+## KSP OpenAPI processor
+
+`ktor2-server-bind` ships a companion KSP annotation processor, `ktor2-server-bind-processor`, that inspects your controllers at **compile time** and writes an `openapi.json` resource file to the build output — no reflection, no runtime overhead.
+
+### Setup
+
+Apply the KSP plugin and add the processor as a `ksp` dependency alongside the main library:
+
+```kotlin
+// build.gradle.kts
+plugins {
+    id("com.google.devtools.ksp") version "<ksp-version>"
+}
+
+dependencies {
+    implementation("com.withlambda:ktor2-server-bind:<version>")
+    ksp("com.withlambda:ktor2-server-bind-processor:<version>")
+}
+```
+
+### Annotate your controllers
+
+Mark each controller class with `@ApiController` (use `tag` to group endpoints in the spec) and each `RouteProcessor` property with `@ApiEndpoint`:
+
+```kotlin
+@ApiController(tag = "Greetings")
+interface GreetingController : Controller {
+
+    @ApiEndpoint(path = "/greetings/{name}", summary = "Create a greeting")
+    val createGreeting: CreateGreeting.RouteProcessorImpl
+}
+```
+
+### Generated output
+
+After the next build, `openapi.json` is written to the `resources` output directory and is available on the classpath. Serve it with the built-in `OpenApiRoute`:
+
+```kotlin
+routing {
+    openApiRoute()          // GET /openapi.json
+}
+```
+
+---
+
 ## OpenAPI-first development with openapi-generator
 
 `ktor2-server-bind` is an ideal foundation for building a **Ktor server generator** for the [OpenAPI Generator](https://openapi-generator.tech) project, enabling a fully **spec-first** (design-first) workflow for Ktor APIs.
