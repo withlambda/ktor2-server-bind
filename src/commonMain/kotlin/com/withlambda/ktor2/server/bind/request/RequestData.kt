@@ -7,6 +7,7 @@ package com.withlambda.ktor2.server.bind.request
  * @property requiredQueryParameter Request required query parameters of the route
  * @property headers Request headers of the route
  * @property cookies Request cookies of the route
+ * @property attributes Request attributes of the route
  */
 interface RequestData {
     /**
@@ -33,6 +34,13 @@ interface RequestData {
      * Request cookies of the route
      */
     val cookies: RequestCookies
+
+    /**
+     * Request attributes of the route.
+     * Defaults to an empty [RequestAttributes] when not overridden.
+     */
+    val attributes: RequestAttributes
+        get() = object : RequestAttributes {}
 }
 
 /**
