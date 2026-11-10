@@ -1,0 +1,6 @@
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
+}
+rootProject.name = "ktor2-server-bind"
+
+include("ktor2-server-bind-processor")
