@@ -1,1 +1,1 @@
-com.withlambda.ktor2.server.bind.processor.ApiBindProcessorProvider
+io.withlambda.ktor2.server.bind.processor.ApiBindProcessorProvider

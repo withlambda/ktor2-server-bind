@@ -9,7 +9,7 @@ hand-written boilerplate required from the consumer.
 
 ## Packages
 
-### com.withlambda.ktor2.server.bind.processor
+### io.withlambda.ktor2.server.bind.processor
 
 Entry point and core processing logic.
 
@@ -24,7 +24,7 @@ Entry point and core processing logic.
 - `OpenApiSerializer` — converts the collected `ApiMetadata` into an OpenAPI 3.0.3 JSON
   string without any external JSON library dependency.
 
-### com.withlambda.ktor2.server.bind.processor.model
+### io.withlambda.ktor2.server.bind.processor.model
 
 Data classes representing the intermediate metadata model produced by `ApiBindProcessor`
 and consumed by `OpenApiSerializer`.

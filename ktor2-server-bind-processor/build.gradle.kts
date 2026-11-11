@@ -8,8 +8,8 @@ plugins {
 }
 
 group = rootProject.group
-val isRelease = false // must be kept in sync with the root project's isRelease flag
 version = rootProject.version
+val isRelease = rootProject.extra["isReleaseVersion"] as Boolean
 description = "KSP symbol processor for ktor2-server-bind — generates OpenAPI specs at compile time."
 
 val repoUrl = "https://github.com/withlambda/${rootProject.name}"
