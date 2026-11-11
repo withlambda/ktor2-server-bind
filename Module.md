@@ -21,14 +21,14 @@ Key capabilities:
 
 | Package                                       | Description                                                                                 |
 |-----------------------------------------------|---------------------------------------------------------------------------------------------|
-| `com.withlambda.ktor2.server.bind`            | Core interfaces: `Controller`, `RouteConfig`, `RouteProcessor` and all HTTP-method variants |
-| `com.withlambda.ktor2.server.bind.config`     | `AuthenticationConfiguration`, `RoleBasedAuthorizationConfiguration`, `LogLevel`, `Logging` |
-| `com.withlambda.ktor2.server.bind.exception`  | `BindValidationException`, `ExceptionHandlerBuilder`, `ExceptionHandling` helpers           |
-| `com.withlambda.ktor2.server.bind.plugins`    | `RoleBasedAuthorization` Ktor plugin                                                        |
-| `com.withlambda.ktor2.server.bind.request`    | Parameter/header delegate handlers, `FileItemDTO`, request-mapping types                    |
-| `com.withlambda.ktor2.server.bind.response`   | `ResponseData`, `ResponseDataWithBody`, `ResponseHeaders`                                   |
-| `com.withlambda.ktor2.server.bind.util`       | `MultipartHandler` and other internal utilities                                             |
-| `com.withlambda.ktor2.server.bind.validation` | Bridges `RouteConfig.validation` to Ktor's `RequestValidation` plugin                       |
+| `io.withlambda.ktor2.server.bind`            | Core interfaces: `Controller`, `RouteConfig`, `RouteProcessor` and all HTTP-method variants |
+| `io.withlambda.ktor2.server.bind.config`     | `AuthenticationConfiguration`, `RoleBasedAuthorizationConfiguration`, `LogLevel`, `Logging` |
+| `io.withlambda.ktor2.server.bind.exception`  | `BindValidationException`, `ExceptionHandlerBuilder`, `ExceptionHandling` helpers           |
+| `io.withlambda.ktor2.server.bind.plugins`    | `RoleBasedAuthorization` Ktor plugin                                                        |
+| `io.withlambda.ktor2.server.bind.request`    | Parameter/header delegate handlers, `FileItemDTO`, request-mapping types                    |
+| `io.withlambda.ktor2.server.bind.response`   | `ResponseData`, `ResponseDataWithBody`, `ResponseHeaders`                                   |
+| `io.withlambda.ktor2.server.bind.util`       | `MultipartHandler` and other internal utilities                                             |
+| `io.withlambda.ktor2.server.bind.validation` | Bridges `RouteConfig.validation` to Ktor's `RequestValidation` plugin                       |
 
 ## See also
 

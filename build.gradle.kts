@@ -11,14 +11,17 @@ plugins {
     signing
 }
 
-group = "com.withlambda"
-val isRelease = false // set to true for a release build
+group = "io.withlambda"
+val isRelease = (findProperty("isRelease") as String?)?.toBoolean() ?: false
 version = buildString {
-    append("1.0.0")
-    if (isRelease.not()) append("-SNAPSHOT")
+    append(
+        findProperty("projectVersion") as String?
+            ?: error("projectVersion must be set in gradle.properties or via -PprojectVersion")
+    )
+    if (!isRelease) append("-SNAPSHOT")
 }
-// Release → "1.0.0"
-// Snapshot → "1.0.0-SNAPSHOT"
+// Release → "X.Y.Z"
+// Snapshot → "X.Y.Z-SNAPSHOT"
 description =
     """
     Ktor server extension library providing web bind templates
@@ -52,7 +55,7 @@ kotlin {
                         resources.srcDir("src/jvmTest/resources")
                     }
                     dependencies {
-                        implementation("com.withlambda:ktor2-server-bind:$version")
+                        implementation("io.withlambda:ktor2-server-bind:$version")
                         implementation(kotlin("test-junit"))
                         implementation(libs.kotlinx.serialization)
                         implementation(libs.ktor.server.test.host)
@@ -263,13 +266,13 @@ publishing {
     repositories {
         mavenLocal()
         maven {
-            name = "OSSRH"
-            val releasesUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotsUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            name = "MavenCentral"
+            val releasesUrl = uri("https://central.sonatype.com/api/v1/publisher/upload")
+            val snapshotsUrl = uri("https://central.sonatype.com/repository/maven-snapshots/")
             url = if (project.extra["isReleaseVersion"] as Boolean) releasesUrl else snapshotsUrl
             credentials {
-                username = findProperty("OSSRH_USERNAME") as String? ?: System.getenv("OSSRH_USERNAME")
-                password = findProperty("OSSRH_PASSWORD") as String? ?: System.getenv("OSSRH_PASSWORD")
+                username = findProperty("SONATYPE_USERNAME") as String? ?: System.getenv("SONATYPE_USERNAME")
+                password = findProperty("SONATYPE_PASSWORD") as String? ?: System.getenv("SONATYPE_PASSWORD")
             }
         }
     }
@@ -332,7 +335,7 @@ kover {
         filters {
             excludes {
                 // Exclude test fixtures and generated sources from coverage reporting
-                packages("com.withlambda.ktor2.server.bind.fixtures")
+                packages("io.withlambda.ktor2.server.bind.fixtures")
             }
         }
     }
