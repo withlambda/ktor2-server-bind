@@ -12,13 +12,16 @@ plugins {
 }
 
 group = "com.withlambda"
-val isRelease = false // set to true for a release build
+val isRelease = (findProperty("isRelease") as String?)?.toBoolean() ?: false
 version = buildString {
-    append("1.0.0")
-    if (isRelease.not()) append("-SNAPSHOT")
+    append(
+        findProperty("projectVersion") as String?
+            ?: error("projectVersion must be set in gradle.properties or via -PprojectVersion")
+    )
+    if (!isRelease) append("-SNAPSHOT")
 }
-// Release → "1.0.0"
-// Snapshot → "1.0.0-SNAPSHOT"
+// Release → "X.Y.Z"
+// Snapshot → "X.Y.Z-SNAPSHOT"
 description =
     """
     Ktor server extension library providing web bind templates

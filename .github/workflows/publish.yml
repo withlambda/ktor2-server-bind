@@ -3,6 +3,9 @@ name: Publish to Maven Central
 on:
   workflow_dispatch:
     inputs:
+      version:
+        description: "Version to publish (e.g. 1.0.0 for a release, 1.0.1 for the next snapshot base)"
+        required: true
       publish_type:
         description: "Publish type"
         required: true
@@ -17,7 +20,7 @@ permissions:
 
 jobs:
   publish:
-    name: Publish (${{ github.event.inputs.publish_type }})
+    name: Publish (${{ github.event.inputs.publish_type }} ${{ github.event.inputs.version }})
     runs-on: ubuntu-latest
 
     steps:
@@ -33,42 +36,15 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
-      - name: Validate publish type matches build.gradle.kts (root)
-        # Fail fast if the isRelease flag in the root build file does not match
-        # the publishing type selected in the workflow dispatch input.
-        run: |
-          IS_RELEASE=$(grep -E '^\s*val isRelease\s*=' build.gradle.kts | grep -o 'true\|false')
-          echo "isRelease in root build.gradle.kts: $IS_RELEASE"
-          if [ "${{ github.event.inputs.publish_type }}" = "release" ] && [ "$IS_RELEASE" = "false" ]; then
-            echo "ERROR: publish_type is 'release' but isRelease=false in build.gradle.kts. Set isRelease=true before triggering a release."
-            exit 1
-          fi
-          if [ "${{ github.event.inputs.publish_type }}" = "snapshot" ] && [ "$IS_RELEASE" = "true" ]; then
-            echo "ERROR: publish_type is 'snapshot' but isRelease=true in build.gradle.kts. Set isRelease=false or use the 'release' publish type."
-            exit 1
-          fi
-
-      - name: Validate publish type matches build.gradle.kts (processor)
-        # Both modules must always be released together and share the same isRelease flag.
-        # Fail fast if the processor's flag does not match the root's flag.
-        run: |
-          IS_RELEASE_PROCESSOR=$(grep -E '^\s*val isRelease\s*=' ktor2-server-bind-processor/build.gradle.kts | grep -o 'true\|false')
-          echo "isRelease in ktor2-server-bind-processor/build.gradle.kts: $IS_RELEASE_PROCESSOR"
-          if [ "${{ github.event.inputs.publish_type }}" = "release" ] && [ "$IS_RELEASE_PROCESSOR" = "false" ]; then
-            echo "ERROR: publish_type is 'release' but isRelease=false in ktor2-server-bind-processor/build.gradle.kts. Set isRelease=true in both build files before triggering a release."
-            exit 1
-          fi
-          if [ "${{ github.event.inputs.publish_type }}" = "snapshot" ] && [ "$IS_RELEASE_PROCESSOR" = "true" ]; then
-            echo "ERROR: publish_type is 'snapshot' but isRelease=true in ktor2-server-bind-processor/build.gradle.kts. Set isRelease=false in both build files or use the 'release' publish type."
-            exit 1
-          fi
-
       - name: Publish snapshot
         if: github.event.inputs.publish_type == 'snapshot'
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        run: ./gradlew publish --no-daemon
+        run: |
+          ./gradlew publish --no-daemon \
+            -PprojectVersion="${{ github.event.inputs.version }}" \
+            -PisRelease=false
 
       - name: Publish release (signed)
         if: github.event.inputs.publish_type == 'release'
@@ -77,6 +53,8 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
           ./gradlew publish --no-daemon \
+            -PprojectVersion="${{ github.event.inputs.version }}" \
+            -PisRelease=true \
             -PSIGNING_KEY_ID="${{ secrets.SIGNING_KEY_ID }}" \
             -PSIGNING_KEY="${{ secrets.SIGNING_KEY }}" \
             -PSIGNING_PASSWORD="${{ secrets.SIGNING_PASSWORD }}" \
@@ -87,10 +65,10 @@ jobs:
         run: |
           echo "### Release staged on OSSRH :rocket:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Both artifacts have been signed and uploaded to the OSSRH staging repository:" >> $GITHUB_STEP_SUMMARY
+          echo "Both artifacts (\`${{ github.event.inputs.version }}\`) have been signed and uploaded to the OSSRH staging repository:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- \`com.withlambda:ktor2-server-bind\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`com.withlambda:ktor2-server-bind-processor\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`com.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`com.withlambda:ktor2-server-bind-processor:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Next steps:**" >> $GITHUB_STEP_SUMMARY
           echo "1. Open https://s01.oss.sonatype.org and log in." >> $GITHUB_STEP_SUMMARY
@@ -103,9 +81,9 @@ jobs:
         run: |
           echo "### Snapshot published :package:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Snapshot artifacts are available at:" >> $GITHUB_STEP_SUMMARY
+          echo "Snapshot artifacts (\`${{ github.event.inputs.version }}-SNAPSHOT\`) are available at:" >> $GITHUB_STEP_SUMMARY
           echo "\`https://s01.oss.sonatype.org/content/repositories/snapshots/com/withlambda/\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Published snapshots:" >> $GITHUB_STEP_SUMMARY
-          echo "- \`com.withlambda:ktor2-server-bind\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`com.withlambda:ktor2-server-bind-processor\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`com.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`com.withlambda:ktor2-server-bind-processor:${{ github.event.inputs.version }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY

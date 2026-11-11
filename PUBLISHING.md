@@ -149,23 +149,23 @@ export SIGNING_PASSWORD="<gpg-passphrase>"
 
 ### Publishing steps
 
-> **Both modules share the same `isRelease` flag and version.**
-> Before publishing, set `isRelease = true` (or leave `false` for a snapshot) in **both**
-> `build.gradle.kts` (root) and `ktor2-server-bind-processor/build.gradle.kts`.
+> **The version and release flag are set via Gradle properties — no file edits required.**
+> `gradle.properties` holds the defaults (`projectVersion`, `isRelease`). Override them with
+> `-P` flags when running Gradle locally or let the GitHub Actions workflow supply them.
 
 **Snapshot** (no signing needed):
 
 ```bash
-# Ensure isRelease = false in both build.gradle.kts files
-./gradlew publish
+./gradlew publish -PprojectVersion=1.0.0 -PisRelease=false
 ```
 
 **Release**:
 
 ```bash
-# 1. Set isRelease = true and bump the version in both build.gradle.kts files
-# 2. Enable signing
-./gradlew publish -PenableGradleSigningPlugin=true
+./gradlew publish \
+  -PprojectVersion=1.0.0 \
+  -PisRelease=true \
+  -PenableGradleSigningPlugin=true
 ```
 
 After the release task completes, log in to <https://s01.oss.sonatype.org>, find the staging
@@ -195,8 +195,10 @@ Go to your repository → **Settings → Secrets and variables → Actions** and
 1. Open the **Actions** tab in GitHub.
 2. Select **Publish to Maven Central**.
 3. Click **Run workflow**.
-4. Choose the branch and select `release` or `snapshot` from the **Publish type** dropdown.
+4. Choose the branch, enter the **Version** (e.g. `1.0.0`), and select `release` or `snapshot` from the **Publish type** dropdown.
 5. Click **Run workflow**.
+
+The workflow passes `-PprojectVersion` and `-PisRelease` directly to Gradle — no changes to source files are needed before triggering.
 
 For a **release** publish the workflow will sign and stage the artifacts on OSSRH. You still need to manually **Close** and **Release** the staging repository in the Sonatype OSSRH UI to promote it to Maven Central.
 
@@ -204,14 +206,14 @@ For a **release** publish the workflow will sign and stage the artifacts on OSSR
 
 ## Pre-release checklist
 
-| Step                                                                                                                                       |   |
-|--------------------------------------------------------------------------------------------------------------------------------------------|---|
-| Sonatype account created and `com.withlambda` namespace approved                                                                           | ☐ |
-| GPG key generated and uploaded to a keyserver                                                                                              | ☐ |
-| GitHub Secrets (`OSSRH_*`, `SIGNING_*`) configured                                                                                         | ☐ |
-| `isRelease = true` and version set to `X.Y.Z` in **both** `build.gradle.kts` and `ktor2-server-bind-processor/build.gradle.kts`            | ☐ |
-| Changes committed and pushed to `main`                                                                                                     | ☐ |
-| Workflow triggered and completed successfully                                                                                              | ☐ |
-| Staging repository closed and released in OSSRH UI                                                                                         | ☐ |
-| `ktor2-server-bind` visible on [Maven Central](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind) (~10–30 min)        | ☐ |
-| `ktor2-server-bind-processor` visible on [Maven Central](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind-processor) | ☐ |
+| Step                                                                                                                                                |   |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------|---|
+| Sonatype account created and `com.withlambda` namespace approved                                                                                    | ☐ |
+| GPG key generated and uploaded to a keyserver                                                                                                       | ☐ |
+| GitHub Secrets (`OSSRH_*`, `SIGNING_*`) configured                                                                                                  | ☐ |
+| Version bumped in `gradle.properties` (`projectVersion=X.Y.Z`) and `isRelease=false` left as-is (overridden at publish time via `-PisRelease=true`) | ☐ |
+| Changes committed and pushed to `main`                                                                                                              | ☐ |
+| Workflow triggered and completed successfully                                                                                                       | ☐ |
+| Staging repository closed and released in OSSRH UI                                                                                                  | ☐ |
+| `ktor2-server-bind` visible on [Maven Central](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind) (~10–30 min)                 | ☐ |
+| `ktor2-server-bind-processor` visible on [Maven Central](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind-processor)          | ☐ |
