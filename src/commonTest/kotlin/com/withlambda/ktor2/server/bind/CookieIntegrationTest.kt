@@ -1,11 +1,5 @@
-package com.withlambda.ktor2.server.bind
+package io.withlambda.ktor2.server.bind
 
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
-import com.withlambda.ktor2.server.bind.request.RequestCookies
-import com.withlambda.ktor2.server.bind.request.RequestData
-import com.withlambda.ktor2.server.bind.response.ResponseCookies
-import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
-import com.withlambda.ktor2.server.bind.util.RequiredCookiesHandler
 import io.ktor.client.request.cookie
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
@@ -18,6 +12,12 @@ import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
 import io.ktor.util.StringValues
 import io.ktor.util.pipeline.PipelineContext
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
+import io.withlambda.ktor2.server.bind.request.RequestCookies
+import io.withlambda.ktor2.server.bind.request.RequestData
+import io.withlambda.ktor2.server.bind.response.ResponseCookies
+import io.withlambda.ktor2.server.bind.response.ResponseDataWithBody
+import io.withlambda.ktor2.server.bind.util.RequiredCookiesHandler
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -35,10 +35,10 @@ class CookieIntegrationTest {
     }
 
     class MyRequestData(
-        override val pathParameter: com.withlambda.ktor2.server.bind.request.PathParameters,
-        override val optionalQueryParameter: com.withlambda.ktor2.server.bind.request.OptionalQueryParameters,
-        override val requiredQueryParameter: com.withlambda.ktor2.server.bind.request.RequiredQueryParameters,
-        override val headers: com.withlambda.ktor2.server.bind.request.RequestHeaders,
+        override val pathParameter: io.withlambda.ktor2.server.bind.request.PathParameters,
+        override val optionalQueryParameter: io.withlambda.ktor2.server.bind.request.OptionalQueryParameters,
+        override val requiredQueryParameter: io.withlambda.ktor2.server.bind.request.RequiredQueryParameters,
+        override val headers: io.withlambda.ktor2.server.bind.request.RequestHeaders,
         override val cookies: MyRequestCookies
     ) : RequestData
 
@@ -46,14 +46,14 @@ class CookieIntegrationTest {
         override val httpStatusCode: HttpStatusCode,
         override val responseBody: String?,
         override val responseMessage: String?,
-        override val responseHeaders: com.withlambda.ktor2.server.bind.response.ResponseHeaders?,
+        override val responseHeaders: io.withlambda.ktor2.server.bind.response.ResponseHeaders?,
         override val responseCookies: ResponseCookies?
     ) : ResponseDataWithBody<String>
 
     class MyRouteProcessor(
         override val processRequest: suspend PipelineContext<Unit, ApplicationCall>.(MyRequestData) -> MyResponseData
     ) : GetRouteProcessor<MyRequestData, String, MyResponseData> {
-        override val requestMapping = com.withlambda.ktor2.server.bind.request.mapping.GetRequestMapping(
+        override val requestMapping = io.withlambda.ktor2.server.bind.request.mapping.GetRequestMapping(
             name = "testCookie",
             path = "/test-cookie",
             produces = ContentType.Text.Plain
@@ -70,10 +70,10 @@ class CookieIntegrationTest {
                 }
             }
             return MyRequestData(
-                pathParameter = object : com.withlambda.ktor2.server.bind.request.PathParameters {},
-                optionalQueryParameter = object : com.withlambda.ktor2.server.bind.request.OptionalQueryParameters {},
-                requiredQueryParameter = object : com.withlambda.ktor2.server.bind.request.RequiredQueryParameters {},
-                headers = object : com.withlambda.ktor2.server.bind.request.RequestHeaders {},
+                pathParameter = object : io.withlambda.ktor2.server.bind.request.PathParameters {},
+                optionalQueryParameter = object : io.withlambda.ktor2.server.bind.request.OptionalQueryParameters {},
+                requiredQueryParameter = object : io.withlambda.ktor2.server.bind.request.RequiredQueryParameters {},
+                headers = object : io.withlambda.ktor2.server.bind.request.RequestHeaders {},
                 cookies = MyRequestCookies(cookieValues)
             )
         }

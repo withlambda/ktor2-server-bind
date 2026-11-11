@@ -1,6 +1,6 @@
-package com.withlambda.ktor2.server.bind.request
+package io.withlambda.ktor2.server.bind.request
 
-import com.withlambda.ktor2.server.bind.Parameters
+import io.withlambda.ktor2.server.bind.Parameters
 
 /**
  * Marker interface for request parameters

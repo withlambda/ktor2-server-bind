@@ -1,7 +1,7 @@
-package com.withlambda.ktor2.server.bind.response
+package io.withlambda.ktor2.server.bind.response
 
-import com.withlambda.ktor2.server.bind.Cookies
 import io.ktor.http.Cookie
+import io.withlambda.ktor2.server.bind.Cookies
 
 /**
  * Interface for Response cookies of a route

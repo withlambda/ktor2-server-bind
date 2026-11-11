@@ -1,7 +1,7 @@
-package com.withlambda.ktor2.server.bind.config
+package io.withlambda.ktor2.server.bind.config
 
-import com.withlambda.ktor2.server.bind.config.Logging.LogLevel.ExceptionHandling.handlingClientExceptions
-import com.withlambda.ktor2.server.bind.config.Logging.LogLevel.Plugin.roleBasedAuthorization
+import io.withlambda.ktor2.server.bind.config.Logging.LogLevel.ExceptionHandling.handlingClientExceptions
+import io.withlambda.ktor2.server.bind.config.Logging.LogLevel.Plugin.roleBasedAuthorization
 
 /**
  * Logging configuration object
@@ -17,8 +17,8 @@ object Logging {
          * @property roleBasedAuthorization [LogLevel] parameter for the RoleBaseAuthorization plugin
          */
         object Plugin {
-            var roleBasedAuthorization: com.withlambda.ktor2.server.bind.config.LogLevel =
-                com.withlambda.ktor2.server.bind.config.LogLevel.INFO
+            var roleBasedAuthorization: io.withlambda.ktor2.server.bind.config.LogLevel =
+                io.withlambda.ktor2.server.bind.config.LogLevel.INFO
         }
 
         /**
@@ -26,8 +26,8 @@ object Logging {
          * @property handlingClientExceptions [LogLevel] parameter for exceptions caused by the client
          */
         object ExceptionHandling {
-            val handlingClientExceptions: com.withlambda.ktor2.server.bind.config.LogLevel =
-                com.withlambda.ktor2.server.bind.config.LogLevel.INFO
+            val handlingClientExceptions: io.withlambda.ktor2.server.bind.config.LogLevel =
+                io.withlambda.ktor2.server.bind.config.LogLevel.INFO
         }
     }
 }

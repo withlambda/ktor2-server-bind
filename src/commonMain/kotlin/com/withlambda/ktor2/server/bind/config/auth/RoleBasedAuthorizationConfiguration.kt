@@ -1,7 +1,7 @@
-package com.withlambda.ktor2.server.bind.config.auth
+package io.withlambda.ktor2.server.bind.config.auth
 
-import com.withlambda.ktor2.server.bind.config.LogLevel
 import io.ktor.server.application.ApplicationCall
+import io.withlambda.ktor2.server.bind.config.LogLevel
 
 /**
  * Type alias for a custom authorization predicate that is evaluated during request processing.

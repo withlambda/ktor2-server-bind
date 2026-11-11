@@ -1,17 +1,5 @@
-package com.withlambda.ktor2.server.bind
+package io.withlambda.ktor2.server.bind
 
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
-import com.withlambda.ktor2.server.bind.request.FileItemDTO
-import com.withlambda.ktor2.server.bind.request.OptionalQueryParameters
-import com.withlambda.ktor2.server.bind.request.PathParameters
-import com.withlambda.ktor2.server.bind.request.RequestFormData
-import com.withlambda.ktor2.server.bind.request.RequestHeaders
-import com.withlambda.ktor2.server.bind.request.RequestWithBodyData
-import com.withlambda.ktor2.server.bind.request.RequiredQueryParameters
-import com.withlambda.ktor2.server.bind.request.mapping.PostRequestMapping
-import com.withlambda.ktor2.server.bind.response.ResponseCookies
-import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
-import com.withlambda.ktor2.server.bind.response.ResponseHeaders
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.post
@@ -26,6 +14,18 @@ import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
 import io.ktor.util.pipeline.PipelineContext
 import io.ktor.utils.io.core.readBytes
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
+import io.withlambda.ktor2.server.bind.request.FileItemDTO
+import io.withlambda.ktor2.server.bind.request.OptionalQueryParameters
+import io.withlambda.ktor2.server.bind.request.PathParameters
+import io.withlambda.ktor2.server.bind.request.RequestFormData
+import io.withlambda.ktor2.server.bind.request.RequestHeaders
+import io.withlambda.ktor2.server.bind.request.RequestWithBodyData
+import io.withlambda.ktor2.server.bind.request.RequiredQueryParameters
+import io.withlambda.ktor2.server.bind.request.mapping.PostRequestMapping
+import io.withlambda.ktor2.server.bind.response.ResponseCookies
+import io.withlambda.ktor2.server.bind.response.ResponseDataWithBody
+import io.withlambda.ktor2.server.bind.response.ResponseHeaders
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -36,7 +36,7 @@ class MultipartIntegrationTest {
         override val optionalQueryParameter: OptionalQueryParameters,
         override val requiredQueryParameter: RequiredQueryParameters,
         override val headers: RequestHeaders,
-        override val cookies: com.withlambda.ktor2.server.bind.request.RequestCookies,
+        override val cookies: io.withlambda.ktor2.server.bind.request.RequestCookies,
         val description: String,
         val file: FileItemDTO,
         override val requestBody: Unit = Unit
@@ -72,7 +72,7 @@ class MultipartIntegrationTest {
                 optionalQueryParameter = object : OptionalQueryParameters {},
                 requiredQueryParameter = object : RequiredQueryParameters {},
                 headers = object : RequestHeaders {},
-                cookies = object : com.withlambda.ktor2.server.bind.request.RequestCookies {},
+                cookies = object : io.withlambda.ktor2.server.bind.request.RequestCookies {},
                 description = parts["description"] as String,
                 file = parts["file"] as FileItemDTO
             )

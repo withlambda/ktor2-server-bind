@@ -1,8 +1,8 @@
-package com.withlambda.ktor2.server.bind.fixtures
+package io.withlambda.ktor2.server.bind.fixtures
 
-import com.withlambda.ktor2.server.bind.request.RequestCookies
-import com.withlambda.ktor2.server.bind.response.ResponseCookies
 import io.ktor.http.Cookie
+import io.withlambda.ktor2.server.bind.request.RequestCookies
+import io.withlambda.ktor2.server.bind.response.ResponseCookies
 
 object EmptyRequestCookies : RequestCookies
 object EmptyResponseCookies : ResponseCookies {

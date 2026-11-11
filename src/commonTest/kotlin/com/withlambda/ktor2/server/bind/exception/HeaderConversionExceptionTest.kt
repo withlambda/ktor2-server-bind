@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.exception
+package io.withlambda.ktor2.server.bind.exception
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

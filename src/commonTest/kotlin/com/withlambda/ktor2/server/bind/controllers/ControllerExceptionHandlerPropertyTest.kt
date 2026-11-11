@@ -1,10 +1,10 @@
-package com.withlambda.ktor2.server.bind.controllers
+package io.withlambda.ktor2.server.bind.controllers
 
-import com.withlambda.ktor2.server.bind.Controller
-import com.withlambda.ktor2.server.bind.RouteProcessorBase
-import com.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
-import com.withlambda.ktor2.server.bind.exception.ExceptionHandlerBuilder
-import com.withlambda.ktor2.server.bind.exception.exception
+import io.withlambda.ktor2.server.bind.Controller
+import io.withlambda.ktor2.server.bind.RouteProcessorBase
+import io.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
+import io.withlambda.ktor2.server.bind.exception.ExceptionHandlerBuilder
+import io.withlambda.ktor2.server.bind.exception.exception
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull

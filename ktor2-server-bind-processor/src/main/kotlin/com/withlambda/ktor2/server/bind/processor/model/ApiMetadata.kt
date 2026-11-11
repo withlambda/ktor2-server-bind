@@ -1,9 +1,9 @@
-package com.withlambda.ktor2.server.bind.processor.model
+package io.withlambda.ktor2.server.bind.processor.model
 
 /**
  * Root metadata model collected by the KSP processor for a single compilation run.
  *
- * @param endpoints All API endpoints discovered across all [@ApiController][com.withlambda.ktor2.server.bind.ApiController]
+ * @param endpoints All API endpoints discovered across all [@ApiController][io.withlambda.ktor2.server.bind.ApiController]
  *   annotated classes.
  * @param schemas Component schemas keyed by their simple type name, used to populate the
  *   `components/schemas` section of the generated OpenAPI spec.
@@ -14,8 +14,8 @@ data class ApiMetadata(
 )
 
 /**
- * Metadata for a single API endpoint extracted from an [@ApiEndpoint][com.withlambda.ktor2.server.bind.ApiEndpoint]
- * annotated property inside an [@ApiController][com.withlambda.ktor2.server.bind.ApiController] class.
+ * Metadata for a single API endpoint extracted from an [@ApiEndpoint][io.withlambda.ktor2.server.bind.ApiEndpoint]
+ * annotated property inside an [@ApiController][io.withlambda.ktor2.server.bind.ApiController] class.
  *
  * @param path The URL path (e.g. `"/users/{id}"`).
  * @param method The HTTP method in lower-case (e.g. `"get"`, `"post"`).

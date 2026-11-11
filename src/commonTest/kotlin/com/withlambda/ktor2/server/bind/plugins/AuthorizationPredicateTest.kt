@@ -1,11 +1,5 @@
-package com.withlambda.ktor2.server.bind.plugins
+package io.withlambda.ktor2.server.bind.plugins
 
-import com.withlambda.ktor2.server.bind.config.auth.AuthorizationPredicate
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
-import com.withlambda.ktor2.server.bind.config.auth.and
-import com.withlambda.ktor2.server.bind.config.auth.not
-import com.withlambda.ktor2.server.bind.config.auth.or
-import com.withlambda.ktor2.server.bind.fixtures.plugins.configureAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.http.HttpStatusCode
@@ -17,6 +11,12 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
+import io.withlambda.ktor2.server.bind.config.auth.AuthorizationPredicate
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
+import io.withlambda.ktor2.server.bind.config.auth.and
+import io.withlambda.ktor2.server.bind.config.auth.not
+import io.withlambda.ktor2.server.bind.config.auth.or
+import io.withlambda.ktor2.server.bind.fixtures.plugins.configureAuth
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

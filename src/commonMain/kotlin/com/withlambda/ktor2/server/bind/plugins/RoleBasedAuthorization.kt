@@ -1,10 +1,6 @@
 @file:Suppress("UNUSED")
-package com.withlambda.ktor2.server.bind.plugins
+package io.withlambda.ktor2.server.bind.plugins
 
-import com.withlambda.ktor2.server.bind.config.LogLevel
-import com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfiguration
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.createRouteScopedPlugin
 import io.ktor.server.application.install
@@ -13,8 +9,12 @@ import io.ktor.server.auth.principal
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.util.logging.KtorSimpleLogger
+import io.withlambda.ktor2.server.bind.config.LogLevel
+import io.withlambda.ktor2.server.bind.config.auth.PrincipalRoles
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfiguration
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
 
-private val logger = KtorSimpleLogger("com.withlambda.ktor2.server.bind.plugins.RoleBasedAuthorizationPluginKt")
+private val logger = KtorSimpleLogger("io.withlambda.ktor2.server.bind.plugins.RoleBasedAuthorizationPluginKt")
 
 /**
  * The plugin that specifies role-based authorization per route.

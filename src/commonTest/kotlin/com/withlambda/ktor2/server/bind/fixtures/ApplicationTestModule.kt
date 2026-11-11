@@ -1,12 +1,12 @@
 @file:Suppress("UNUSED")
-package com.withlambda.ktor2.server.bind.fixtures
-import com.withlambda.ktor2.server.bind.fixtures.plugins.configureAuth
-import com.withlambda.ktor2.server.bind.fixtures.plugins.configureContentNegotiation
-import com.withlambda.ktor2.server.bind.fixtures.plugins.configureRouting
-import com.withlambda.ktor2.server.bind.fixtures.plugins.configureStatusPages
+package io.withlambda.ktor2.server.bind.fixtures
 import io.ktor.server.application.Application
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
+import io.withlambda.ktor2.server.bind.fixtures.plugins.configureAuth
+import io.withlambda.ktor2.server.bind.fixtures.plugins.configureContentNegotiation
+import io.withlambda.ktor2.server.bind.fixtures.plugins.configureRouting
+import io.withlambda.ktor2.server.bind.fixtures.plugins.configureStatusPages
 
 /**
  * Launches a [testApplication] configured with the full Hello World fixture stack and executes

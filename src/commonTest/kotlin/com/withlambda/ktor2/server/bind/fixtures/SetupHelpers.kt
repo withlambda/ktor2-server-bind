@@ -1,8 +1,8 @@
-package com.withlambda.ktor2.server.bind.fixtures
+package io.withlambda.ktor2.server.bind.fixtures
 
-import com.withlambda.ktor2.server.bind.fixtures.auth.TokenTestConfig
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.header
+import io.withlambda.ktor2.server.bind.fixtures.auth.TokenTestConfig
 
 /**
  * Adds an `Authorization: Bearer <token>` header to this request, where the token encodes [roles]

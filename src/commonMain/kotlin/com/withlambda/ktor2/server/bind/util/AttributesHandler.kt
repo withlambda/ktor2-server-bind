@@ -1,9 +1,9 @@
-package com.withlambda.ktor2.server.bind.util
+package io.withlambda.ktor2.server.bind.util
 
-import com.withlambda.ktor2.server.bind.exception.MissingAttributeException
-import com.withlambda.ktor2.server.bind.request.RequestAttributes
 import io.ktor.util.AttributeKey
 import io.ktor.util.Attributes
+import io.withlambda.ktor2.server.bind.exception.MissingAttributeException
+import io.withlambda.ktor2.server.bind.request.RequestAttributes
 import kotlin.reflect.KProperty
 
 /**

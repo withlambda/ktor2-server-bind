@@ -1,7 +1,7 @@
-package com.withlambda.ktor2.server.bind.config.auth
+package io.withlambda.ktor2.server.bind.config.auth
 
-import com.withlambda.ktor2.server.bind.config.LogLevel
-import com.withlambda.ktor2.server.bind.config.Logging
+import io.withlambda.ktor2.server.bind.config.LogLevel
+import io.withlambda.ktor2.server.bind.config.Logging
 
 /**
  * Implementation of [RoleBasedAuthorizationConfiguration] to store role based authorization configuration.

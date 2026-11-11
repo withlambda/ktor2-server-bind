@@ -1,10 +1,10 @@
-package com.withlambda.ktor2.server.bind.fixtures.plugins
+package io.withlambda.ktor2.server.bind.fixtures.plugins
 
-import com.withlambda.ktor2.server.bind.exception.ExceptionHandling
-import com.withlambda.ktor2.server.bind.exception.ExceptionHandling.predefinedBadRequestExceptionsHandler
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.plugins.statuspages.StatusPages
+import io.withlambda.ktor2.server.bind.exception.ExceptionHandling
+import io.withlambda.ktor2.server.bind.exception.ExceptionHandling.predefinedBadRequestExceptionsHandler
 
 /**
  * Installs the Ktor [StatusPages] plugin on the test application with predefined bad-request

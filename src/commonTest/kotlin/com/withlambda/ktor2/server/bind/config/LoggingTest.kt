@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.config
+package io.withlambda.ktor2.server.bind.config
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

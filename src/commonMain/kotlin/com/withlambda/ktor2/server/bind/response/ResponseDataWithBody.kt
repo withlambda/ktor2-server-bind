@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.response
+package io.withlambda.ktor2.server.bind.response
 
 import io.ktor.http.HttpStatusCode
 

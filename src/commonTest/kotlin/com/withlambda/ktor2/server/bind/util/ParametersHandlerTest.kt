@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.util
+package io.withlambda.ktor2.server.bind.util
 
 import io.ktor.http.parametersOf
 import io.ktor.server.plugins.MissingRequestParameterException

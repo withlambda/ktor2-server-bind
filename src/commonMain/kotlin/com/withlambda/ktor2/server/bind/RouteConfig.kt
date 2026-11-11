@@ -1,23 +1,23 @@
 @file:Suppress("UNUSED")
-package com.withlambda.ktor2.server.bind
+package io.withlambda.ktor2.server.bind
 
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfiguration
-import com.withlambda.ktor2.server.bind.request.OptionalQueryParameters
-import com.withlambda.ktor2.server.bind.request.PathParameters
-import com.withlambda.ktor2.server.bind.request.RequestCookies
-import com.withlambda.ktor2.server.bind.request.RequestHeaders
-import com.withlambda.ktor2.server.bind.request.RequiredQueryParameters
-import com.withlambda.ktor2.server.bind.request.mapping.DeleteRequestMapping
-import com.withlambda.ktor2.server.bind.request.mapping.GetRequestMapping
-import com.withlambda.ktor2.server.bind.request.mapping.HeadRequestMapping
-import com.withlambda.ktor2.server.bind.request.mapping.OptionsRequestMapping
-import com.withlambda.ktor2.server.bind.request.mapping.PatchRequestMapping
-import com.withlambda.ktor2.server.bind.request.mapping.PostRequestMapping
-import com.withlambda.ktor2.server.bind.request.mapping.PutRequestMapping
-import com.withlambda.ktor2.server.bind.request.mapping.RequestMapping
 import io.konform.validation.Validation
 import io.ktor.server.application.ApplicationCall
 import io.ktor.util.converters.ConversionService
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfiguration
+import io.withlambda.ktor2.server.bind.request.OptionalQueryParameters
+import io.withlambda.ktor2.server.bind.request.PathParameters
+import io.withlambda.ktor2.server.bind.request.RequestCookies
+import io.withlambda.ktor2.server.bind.request.RequestHeaders
+import io.withlambda.ktor2.server.bind.request.RequiredQueryParameters
+import io.withlambda.ktor2.server.bind.request.mapping.DeleteRequestMapping
+import io.withlambda.ktor2.server.bind.request.mapping.GetRequestMapping
+import io.withlambda.ktor2.server.bind.request.mapping.HeadRequestMapping
+import io.withlambda.ktor2.server.bind.request.mapping.OptionsRequestMapping
+import io.withlambda.ktor2.server.bind.request.mapping.PatchRequestMapping
+import io.withlambda.ktor2.server.bind.request.mapping.PostRequestMapping
+import io.withlambda.ktor2.server.bind.request.mapping.PutRequestMapping
+import io.withlambda.ktor2.server.bind.request.mapping.RequestMapping
 
 /**
  * Interface for the storage of the route configuration

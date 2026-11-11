@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.processor
+package io.withlambda.ktor2.server.bind.processor
 
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment

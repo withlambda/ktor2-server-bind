@@ -11,7 +11,7 @@ plugins {
     signing
 }
 
-group = "com.withlambda"
+group = "io.withlambda"
 val isRelease = (findProperty("isRelease") as String?)?.toBoolean() ?: false
 version = buildString {
     append(
@@ -55,7 +55,7 @@ kotlin {
                         resources.srcDir("src/jvmTest/resources")
                     }
                     dependencies {
-                        implementation("com.withlambda:ktor2-server-bind:$version")
+                        implementation("io.withlambda:ktor2-server-bind:$version")
                         implementation(kotlin("test-junit"))
                         implementation(libs.kotlinx.serialization)
                         implementation(libs.ktor.server.test.host)
@@ -335,7 +335,7 @@ kover {
         filters {
             excludes {
                 // Exclude test fixtures and generated sources from coverage reporting
-                packages("com.withlambda.ktor2.server.bind.fixtures")
+                packages("io.withlambda.ktor2.server.bind.fixtures")
             }
         }
     }

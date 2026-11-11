@@ -1,11 +1,11 @@
-package com.withlambda.ktor2.server.bind.fixtures.auth
+package io.withlambda.ktor2.server.bind.fixtures.auth
 
 /**
  * Utility for creating test authentication tokens.
  *
- * Tokens produced here are consumed by [com.withlambda.ktor2.server.bind.fixtures.plugins.TokenAuthProvider],
+ * Tokens produced here are consumed by [io.withlambda.ktor2.server.bind.fixtures.plugins.TokenAuthProvider],
  * which decodes the comma-separated role list back into a
- * [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles] instance.
+ * [io.withlambda.ktor2.server.bind.config.auth.PrincipalRoles] instance.
  */
 object TokenTestConfig {
     /**

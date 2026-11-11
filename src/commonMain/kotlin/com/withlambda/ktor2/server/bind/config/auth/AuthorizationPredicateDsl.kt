@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.config.auth
+package io.withlambda.ktor2.server.bind.config.auth
 
 /**
  * Returns an [AuthorizationPredicate] that evaluates to `true` only when both this predicate

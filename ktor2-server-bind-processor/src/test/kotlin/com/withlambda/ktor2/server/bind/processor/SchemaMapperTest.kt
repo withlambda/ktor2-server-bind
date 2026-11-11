@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.processor
+package io.withlambda.ktor2.server.bind.processor
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

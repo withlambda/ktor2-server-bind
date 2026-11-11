@@ -67,8 +67,8 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Both artifacts (\`${{ github.event.inputs.version }}\`) have been signed and uploaded to the OSSRH staging repository:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- \`com.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`com.withlambda:ktor2-server-bind-processor:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`io.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`io.withlambda:ktor2-server-bind-processor:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Next steps:**" >> $GITHUB_STEP_SUMMARY
           echo "1. Open https://s01.oss.sonatype.org and log in." >> $GITHUB_STEP_SUMMARY
@@ -85,5 +85,5 @@ jobs:
           echo "\`https://s01.oss.sonatype.org/content/repositories/snapshots/com/withlambda/\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Published snapshots:" >> $GITHUB_STEP_SUMMARY
-          echo "- \`com.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`com.withlambda:ktor2-server-bind-processor:${{ github.event.inputs.version }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`io.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`io.withlambda:ktor2-server-bind-processor:${{ github.event.inputs.version }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY

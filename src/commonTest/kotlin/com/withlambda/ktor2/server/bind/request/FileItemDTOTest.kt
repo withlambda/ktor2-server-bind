@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.request
+package io.withlambda.ktor2.server.bind.request
 
 import io.ktor.http.ContentType
 import io.ktor.utils.io.core.ByteReadPacket

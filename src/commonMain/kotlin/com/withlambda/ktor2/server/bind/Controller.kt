@@ -1,9 +1,9 @@
-package com.withlambda.ktor2.server.bind
+package io.withlambda.ktor2.server.bind
 
-import com.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
-import com.withlambda.ktor2.server.bind.exception.ExceptionHandlerBuilder
 import io.ktor.server.auth.authenticate
 import io.ktor.server.routing.Route
+import io.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
+import io.withlambda.ktor2.server.bind.exception.ExceptionHandlerBuilder
 
 /**
  * Controller interface
@@ -13,7 +13,7 @@ import io.ktor.server.routing.Route
  * @property endpoints List of all endpoints of the controller [Controller]
  * @property authenticationConfiguration Configuration of authentication for the controller
  * @property exceptionHandler Optional DSL block applied before global StatusPages handling; register
- * typed exception handlers with [com.withlambda.ktor2.server.bind.exception.exception]. When `null` all exceptions
+ * typed exception handlers with [io.withlambda.ktor2.server.bind.exception.exception]. When `null` all exceptions
  * propagate to the global StatusPages plugin.
  * @property Route.auth Function to process authentication if enabled
  * @property Route.install Function to install all endpoints of the controller
@@ -31,7 +31,7 @@ interface Controller {
 
     /**
      * Optional DSL block for controller-scoped exception handling. Register typed handlers using
-     * [com.withlambda.ktor2.server.bind.exception.exception]. When non-null, exceptions thrown during request
+     * [io.withlambda.ktor2.server.bind.exception.exception]. When non-null, exceptions thrown during request
      * processing are checked against registered handlers before falling back to the global
      * [io.ktor.server.plugins.statuspages.StatusPages] plugin. Defaults to `null`.
      */

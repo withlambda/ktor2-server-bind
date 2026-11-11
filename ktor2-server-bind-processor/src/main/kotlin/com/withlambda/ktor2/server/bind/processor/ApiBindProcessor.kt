@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.processor
+package io.withlambda.ktor2.server.bind.processor
 
 import com.google.devtools.ksp.getAllSuperTypes
 import com.google.devtools.ksp.processing.Dependencies
@@ -9,13 +9,13 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSType
-import com.withlambda.ktor2.server.bind.processor.model.ApiMetadata
-import com.withlambda.ktor2.server.bind.processor.model.EndpointMetadata
+import io.withlambda.ktor2.server.bind.processor.model.ApiMetadata
+import io.withlambda.ktor2.server.bind.processor.model.EndpointMetadata
 
 /**
  * KSP [SymbolProcessor] that discovers all classes annotated with
- * [@ApiController][com.withlambda.ktor2.server.bind.ApiController], extracts endpoint and DTO
- * metadata from their [@ApiEndpoint][com.withlambda.ktor2.server.bind.ApiEndpoint]-annotated
+ * [@ApiController][io.withlambda.ktor2.server.bind.ApiController], extracts endpoint and DTO
+ * metadata from their [@ApiEndpoint][io.withlambda.ktor2.server.bind.ApiEndpoint]-annotated
  * properties, and writes an `openapi.json` resource file on [finish].
  *
  * Schema collection is delegated to [SchemaCollector].
@@ -32,7 +32,7 @@ class ApiBindProcessor(private val environment: SymbolProcessorEnvironment) : Sy
 
     /**
      * Holds the annotation arguments extracted from an
-     * [@ApiEndpoint][com.withlambda.ktor2.server.bind.ApiEndpoint] annotation together with the
+     * [@ApiEndpoint][io.withlambda.ktor2.server.bind.ApiEndpoint] annotation together with the
      * resolved property type, keeping [processEndpointProperty] within the allowed return count.
      *
      * @param path URL path declared in the annotation.
@@ -82,7 +82,7 @@ class ApiBindProcessor(private val environment: SymbolProcessorEnvironment) : Sy
     }
 
     /**
-     * Reads the [@ApiEndpoint][com.withlambda.ktor2.server.bind.ApiEndpoint] annotation from
+     * Reads the [@ApiEndpoint][io.withlambda.ktor2.server.bind.ApiEndpoint] annotation from
      * [property] and bundles its arguments with the resolved property type.
      * Returns `null` when the annotation is absent or the path argument is missing.
      *
@@ -179,6 +179,6 @@ class ApiBindProcessor(private val environment: SymbolProcessorEnvironment) : Sy
         }
 
     private companion object {
-        const val API_CONTROLLER_FQ_NAME = "com.withlambda.ktor2.server.bind.ApiController"
+        const val API_CONTROLLER_FQ_NAME = "io.withlambda.ktor2.server.bind.ApiController"
     }
 }

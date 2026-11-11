@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind
+package io.withlambda.ktor2.server.bind
 
 /**
  * Marks an interface or class as an API controller whose [RouteConfig] properties

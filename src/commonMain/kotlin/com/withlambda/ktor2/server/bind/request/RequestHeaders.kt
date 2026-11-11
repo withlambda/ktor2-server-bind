@@ -1,6 +1,6 @@
-package com.withlambda.ktor2.server.bind.request
+package io.withlambda.ktor2.server.bind.request
 
-import com.withlambda.ktor2.server.bind.Headers
+import io.withlambda.ktor2.server.bind.Headers
 
 /**
  * Marker interface for request headers

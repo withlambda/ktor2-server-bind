@@ -1,6 +1,6 @@
 # ktor2-server-bind
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.withlambda/ktor2-server-bind)](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind)
+[![Maven Central](https://img.shields.io/maven-central/v/io.withlambda/ktor2-server-bind)](https://central.sonatype.com/artifact/io.withlambda/ktor2-server-bind)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 A Kotlin multiplatform library that brings **interface-driven, data-bound controller patterns** to [Ktor 2](https://ktor.io) servers.
@@ -32,7 +32,7 @@ Add the dependency to your Gradle build:
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("com.withlambda:ktor2-server-bind:1.0.0")
+    implementation("io.withlambda:ktor2-server-bind:1.0.0")
 }
 ```
 
@@ -43,7 +43,7 @@ Or with a version catalog (`libs.versions.toml`):
 ktor2-server-bind = "1.0.0"
 
 [libraries]
-ktor2-server-bind = { module = "com.withlambda:ktor2-server-bind", version.ref = "ktor2-server-bind" }
+ktor2-server-bind = { module = "io.withlambda:ktor2-server-bind", version.ref = "ktor2-server-bind" }
 ```
 
 ```kotlin
@@ -388,8 +388,8 @@ plugins {
 }
 
 dependencies {
-    implementation("com.withlambda:ktor2-server-bind:<version>")
-    ksp("com.withlambda:ktor2-server-bind-processor:<version>")
+    implementation("io.withlambda:ktor2-server-bind:<version>")
+    ksp("io.withlambda:ktor2-server-bind-processor:<version>")
 }
 ```
 

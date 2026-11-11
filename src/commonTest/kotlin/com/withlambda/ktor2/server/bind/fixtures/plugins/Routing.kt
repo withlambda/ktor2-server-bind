@@ -1,9 +1,9 @@
-package com.withlambda.ktor2.server.bind.fixtures.plugins
+package io.withlambda.ktor2.server.bind.fixtures.plugins
 
-import com.withlambda.ktor2.server.bind.fixtures.controllers.HelloWorldControllerImpl
-import com.withlambda.ktor2.server.bind.install
 import io.ktor.server.application.Application
 import io.ktor.server.routing.routing
+import io.withlambda.ktor2.server.bind.fixtures.controllers.HelloWorldControllerImpl
+import io.withlambda.ktor2.server.bind.install
 
 /**
  * Configures routing for the test application by installing [HelloWorldControllerImpl].

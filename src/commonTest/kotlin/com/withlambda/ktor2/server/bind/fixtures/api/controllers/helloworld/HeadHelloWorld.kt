@@ -1,28 +1,28 @@
-package com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld
+package io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld
 
-import com.withlambda.ktor2.server.bind.HeadRouteConfig
-import com.withlambda.ktor2.server.bind.HeadRouteProcessor
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
-import com.withlambda.ktor2.server.bind.fixtures.EmptyRequestCookies
-import com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldResponseDTO
-import com.withlambda.ktor2.server.bind.request.OptionalQueryParameters
-import com.withlambda.ktor2.server.bind.request.PathParameters
-import com.withlambda.ktor2.server.bind.request.RequestCookies
-import com.withlambda.ktor2.server.bind.request.RequestData
-import com.withlambda.ktor2.server.bind.request.RequestHeaders
-import com.withlambda.ktor2.server.bind.request.RequiredQueryParameters
-import com.withlambda.ktor2.server.bind.request.mapping.HeadRequestMapping
-import com.withlambda.ktor2.server.bind.response.ResponseCookies
-import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
-import com.withlambda.ktor2.server.bind.response.ResponseHeaders
-import com.withlambda.ktor2.server.bind.util.OptionalHeadersHandler
-import com.withlambda.ktor2.server.bind.util.OptionalParametersHandler
-import com.withlambda.ktor2.server.bind.util.RequiredHeadersHandler
-import com.withlambda.ktor2.server.bind.util.RequiredParametersHandler
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.util.converters.DefaultConversionService
 import io.ktor.util.pipeline.PipelineContext
+import io.withlambda.ktor2.server.bind.HeadRouteConfig
+import io.withlambda.ktor2.server.bind.HeadRouteProcessor
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
+import io.withlambda.ktor2.server.bind.fixtures.EmptyRequestCookies
+import io.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldResponseDTO
+import io.withlambda.ktor2.server.bind.request.OptionalQueryParameters
+import io.withlambda.ktor2.server.bind.request.PathParameters
+import io.withlambda.ktor2.server.bind.request.RequestCookies
+import io.withlambda.ktor2.server.bind.request.RequestData
+import io.withlambda.ktor2.server.bind.request.RequestHeaders
+import io.withlambda.ktor2.server.bind.request.RequiredQueryParameters
+import io.withlambda.ktor2.server.bind.request.mapping.HeadRequestMapping
+import io.withlambda.ktor2.server.bind.response.ResponseCookies
+import io.withlambda.ktor2.server.bind.response.ResponseDataWithBody
+import io.withlambda.ktor2.server.bind.response.ResponseHeaders
+import io.withlambda.ktor2.server.bind.util.OptionalHeadersHandler
+import io.withlambda.ktor2.server.bind.util.OptionalParametersHandler
+import io.withlambda.ktor2.server.bind.util.RequiredHeadersHandler
+import io.withlambda.ktor2.server.bind.util.RequiredParametersHandler
 
 /**
  * Route configuration and nested types for the HEAD `/helloworld/{pathParam1}/{pathParam2}` endpoint.
@@ -215,7 +215,7 @@ object HeadHelloWorld : HeadRouteConfig {
     /**
      * Enables role-based authorization requiring **both** `headHelloWorld1` and
      * `headHelloWorld2` roles to be present in the caller's
-     * [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
+     * [io.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
      */
     override val roleBasedAuthorizationConfiguration = RoleBasedAuthorizationConfigurationImpl(
         enabled = true,

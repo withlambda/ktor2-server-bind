@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.request
+package io.withlambda.ktor2.server.bind.request
 
 /**
  * Marker interface for typed Ktor [io.ktor.util.Attributes] binding.

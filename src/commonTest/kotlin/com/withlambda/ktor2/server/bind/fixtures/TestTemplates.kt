@@ -1,18 +1,6 @@
 @file:Suppress("UNUSED", "MemberVisibilityCanBePrivate", "UNUSED_IMPORT")
-package com.withlambda.ktor2.server.bind.fixtures
+package io.withlambda.ktor2.server.bind.fixtures
 
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.deleteRequest
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.getRequest
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.headRequest
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsBadRequest
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsOK
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.is200WithApplicationJsonContent
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.json
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.optionsRequest
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.patchRequest
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.postRequest
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.putRequest
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.request
 import io.ktor.client.call.body
 import io.ktor.client.request.accept
 import io.ktor.client.request.header
@@ -27,6 +15,18 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.formUrlEncode
 import io.ktor.http.withCharset
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.deleteRequest
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.getRequest
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.headRequest
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsBadRequest
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsOK
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.is200WithApplicationJsonContent
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.json
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.optionsRequest
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.patchRequest
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.postRequest
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.putRequest
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.request
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -54,7 +54,7 @@ import kotlin.test.fail
  *
  * ### JSON serializer
  * The shared [json] instance is configured identically to the server's content-negotiation
- * serializer (see [com.withlambda.ktor2.server.bind.fixtures.plugins.configureContentNegotiation])
+ * serializer (see [io.withlambda.ktor2.server.bind.fixtures.plugins.configureContentNegotiation])
  * so that request serialization and response deserialization are consistent.
  */
 object TestTemplates {

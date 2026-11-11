@@ -1,8 +1,8 @@
-package com.withlambda.ktor2.server.bind.util
+package io.withlambda.ktor2.server.bind.util
 
-import com.withlambda.ktor2.server.bind.exception.CookieConversionException
-import com.withlambda.ktor2.server.bind.exception.MissingCookieException
 import io.ktor.util.StringValues
+import io.withlambda.ktor2.server.bind.exception.CookieConversionException
+import io.withlambda.ktor2.server.bind.exception.MissingCookieException
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

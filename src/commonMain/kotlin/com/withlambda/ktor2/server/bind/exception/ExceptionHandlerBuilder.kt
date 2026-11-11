@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.exception
+package io.withlambda.ktor2.server.bind.exception
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
@@ -129,7 +129,7 @@ interface ExceptionHandlerBuilder {
  * Convenience inline reified overload that registers a typed exception handler on this
  * [ExceptionHandlerBuilder] without requiring an explicit [KClass] argument.
  *
- * Use this inside the [com.withlambda.ktor2.server.bind.Controller.exceptionHandler] DSL block:
+ * Use this inside the [io.withlambda.ktor2.server.bind.Controller.exceptionHandler] DSL block:
  * ```
  * override val exceptionHandler: (ExceptionHandlerBuilder.() -> Unit) = {
  *     exception<MyException> { call, e -> call.respond(HttpStatusCode.NotFound, e.message) }

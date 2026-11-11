@@ -1,11 +1,11 @@
-package com.withlambda.ktor2.server.bind
+package io.withlambda.ktor2.server.bind
 
-import com.withlambda.ktor2.server.bind.response.ResponseDataWithBytes
-import com.withlambda.ktor2.server.bind.response.ResponseDataWithFile
-import com.withlambda.ktor2.server.bind.response.ResponseDataWithOutputStream
-import com.withlambda.ktor2.server.bind.response.ResponseDataWithSSE
-import com.withlambda.ktor2.server.bind.response.ServerSentEvent
 import io.ktor.http.HttpStatusCode
+import io.withlambda.ktor2.server.bind.response.ResponseDataWithBytes
+import io.withlambda.ktor2.server.bind.response.ResponseDataWithFile
+import io.withlambda.ktor2.server.bind.response.ResponseDataWithOutputStream
+import io.withlambda.ktor2.server.bind.response.ResponseDataWithSSE
+import io.withlambda.ktor2.server.bind.response.ServerSentEvent
 import kotlinx.coroutines.flow.flowOf
 import kotlin.test.Test
 import kotlin.test.assertEquals

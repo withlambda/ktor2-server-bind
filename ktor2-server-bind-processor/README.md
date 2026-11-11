@@ -1,6 +1,6 @@
 # ktor2-server-bind-processor
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.withlambda/ktor2-server-bind-processor)](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind-processor)
+[![Maven Central](https://img.shields.io/maven-central/v/io.withlambda/ktor2-server-bind-processor)](https://central.sonatype.com/artifact/io.withlambda/ktor2-server-bind-processor)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 A **KSP (Kotlin Symbol Processing) compile-time companion** to [`ktor2-server-bind`](../README.md).
@@ -55,8 +55,8 @@ plugins {
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("com.withlambda:ktor2-server-bind:1.0.0")
-    ksp("com.withlambda:ktor2-server-bind-processor:1.0.0")
+    implementation("io.withlambda:ktor2-server-bind:1.0.0")
+    ksp("io.withlambda:ktor2-server-bind-processor:1.0.0")
 }
 ```
 
@@ -67,8 +67,8 @@ Or with a version catalog:
 ktor2-server-bind = "1.0.0"
 
 [libraries]
-ktor2-server-bind        = { module = "com.withlambda:ktor2-server-bind",           version.ref = "ktor2-server-bind" }
-ktor2-server-bind-ksp    = { module = "com.withlambda:ktor2-server-bind-processor",  version.ref = "ktor2-server-bind" }
+ktor2-server-bind        = { module = "io.withlambda:ktor2-server-bind",           version.ref = "ktor2-server-bind" }
+ktor2-server-bind-ksp    = { module = "io.withlambda:ktor2-server-bind-processor",  version.ref = "ktor2-server-bind" }
 ```
 
 ```kotlin
@@ -219,8 +219,8 @@ This processor is the **compile-time companion** to the `ktor2-server-bind` runt
 
 | Artifact | Gradle configuration | Purpose |
 |---|---|---|
-| `com.withlambda:ktor2-server-bind` | `implementation(…)` | Runtime library your code compiles and runs against |
-| `com.withlambda:ktor2-server-bind-processor` | `ksp(…)` | Compile-time KSP processor; never on the runtime classpath |
+| `io.withlambda:ktor2-server-bind` | `implementation(…)` | Runtime library your code compiles and runs against |
+| `io.withlambda:ktor2-server-bind-processor` | `ksp(…)` | Compile-time KSP processor; never on the runtime classpath |
 
 ---
 

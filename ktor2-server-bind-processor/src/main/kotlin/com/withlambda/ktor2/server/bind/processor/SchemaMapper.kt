@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.processor
+package io.withlambda.ktor2.server.bind.processor
 
 /**
  * Utility object that maps Kotlin fully-qualified type names to their OpenAPI equivalents

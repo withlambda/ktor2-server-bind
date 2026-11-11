@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.exception
+package io.withlambda.ktor2.server.bind.exception
 
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText

@@ -1,12 +1,12 @@
-package com.withlambda.ktor2.server.bind.controllers
+package io.withlambda.ktor2.server.bind.controllers
 
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsBadRequest
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsForbidden
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsNoContent
-import com.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsUnauthorized
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsBadRequest
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsForbidden
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsNoContent
+import io.withlambda.ktor2.server.bind.fixtures.TestTemplates.httpStatusIsUnauthorized
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.request
+package io.withlambda.ktor2.server.bind.request
 
 /**
  * Interface to specify request data for a route with multipart/form-data

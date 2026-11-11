@@ -1,8 +1,5 @@
-package com.withlambda.ktor2.server.bind
+package io.withlambda.ktor2.server.bind
 
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.CreateHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO
 import io.konform.validation.Validation
 import io.konform.validation.constraints.minLength
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -17,6 +14,9 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.install
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.CreateHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -29,7 +29,7 @@ class ValidationIntegrationTest {
                 json()
             }
             install(io.ktor.server.plugins.statuspages.StatusPages) {
-                with(com.withlambda.ktor2.server.bind.exception.ExceptionHandling) {
+                with(io.withlambda.ktor2.server.bind.exception.ExceptionHandling) {
                     predefinedBadRequestExceptionsHandler()
                 }
             }

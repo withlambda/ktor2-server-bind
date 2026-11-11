@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.fixtures.api.models
+package io.withlambda.ktor2.server.bind.fixtures.api.models
 
 import kotlinx.serialization.Serializable
 

@@ -1,10 +1,10 @@
-package com.withlambda.ktor2.server.bind
+package io.withlambda.ktor2.server.bind
 
-import com.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
+import io.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

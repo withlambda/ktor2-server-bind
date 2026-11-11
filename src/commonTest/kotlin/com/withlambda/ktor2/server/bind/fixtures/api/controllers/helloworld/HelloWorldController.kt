@@ -1,8 +1,8 @@
-package com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld
+package io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld
 
-import com.withlambda.ktor2.server.bind.Controller
-import com.withlambda.ktor2.server.bind.RouteProcessorBase
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.CreateHelloWorld.RouteProcessorImpl
+import io.withlambda.ktor2.server.bind.Controller
+import io.withlambda.ktor2.server.bind.RouteProcessorBase
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.CreateHelloWorld.RouteProcessorImpl
 
 /**
  * Controller interface that groups all Hello World route processors under a single [Controller].
@@ -14,7 +14,7 @@ import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.Crea
  * The [endpoints] property is pre-implemented to return all seven processors in registration
  * order, so implementing classes only need to supply the individual processor properties.
  *
- * @see com.withlambda.ktor2.server.bind.fixtures.controllers.HelloWorldControllerImpl
+ * @see io.withlambda.ktor2.server.bind.fixtures.controllers.HelloWorldControllerImpl
  */
 interface HelloWorldController : Controller {
 

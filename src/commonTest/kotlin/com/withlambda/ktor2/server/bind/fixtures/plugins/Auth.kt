@@ -1,7 +1,5 @@
-package com.withlambda.ktor2.server.bind.fixtures.plugins
+package io.withlambda.ktor2.server.bind.fixtures.plugins
 
-import com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles
-import com.withlambda.ktor2.server.bind.fixtures.auth.TokenTestConfig
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -12,6 +10,8 @@ import io.ktor.server.auth.AuthenticationFailedCause
 import io.ktor.server.auth.AuthenticationProvider
 import io.ktor.server.request.header
 import io.ktor.server.response.respond
+import io.withlambda.ktor2.server.bind.config.auth.PrincipalRoles
+import io.withlambda.ktor2.server.bind.fixtures.auth.TokenTestConfig
 
 /**
  * Installs the Ktor [Authentication] plugin on the test application.

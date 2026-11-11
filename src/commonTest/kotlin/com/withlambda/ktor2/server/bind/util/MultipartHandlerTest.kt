@@ -1,6 +1,5 @@
-package com.withlambda.ktor2.server.bind.util
+package io.withlambda.ktor2.server.bind.util
 
-import com.withlambda.ktor2.server.bind.request.FileItemDTO
 import io.ktor.http.ContentDisposition
 import io.ktor.http.ContentType
 import io.ktor.http.Headers
@@ -10,6 +9,7 @@ import io.ktor.http.content.PartData
 import io.ktor.http.headersOf
 import io.ktor.utils.io.core.ByteReadPacket
 import io.ktor.utils.io.core.readBytes
+import io.withlambda.ktor2.server.bind.request.FileItemDTO
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals

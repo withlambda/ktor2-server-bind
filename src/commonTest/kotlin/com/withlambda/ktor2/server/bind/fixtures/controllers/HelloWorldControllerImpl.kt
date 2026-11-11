@@ -1,16 +1,16 @@
-package com.withlambda.ktor2.server.bind.fixtures.controllers
+package io.withlambda.ktor2.server.bind.fixtures.controllers
 
-import com.withlambda.ktor2.server.bind.config.auth.AUTHENTICATION_CONFIGURATION_DEFAULT
-import com.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.CreateHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.DeleteHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.GetHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.HeadHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.HelloWorldController
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.OptionsHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.PatchHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.UpdateHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.services.HelloWorldService
+import io.withlambda.ktor2.server.bind.config.auth.AUTHENTICATION_CONFIGURATION_DEFAULT
+import io.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.CreateHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.DeleteHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.GetHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.HeadHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.HelloWorldController
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.OptionsHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.PatchHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.UpdateHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.services.HelloWorldService
 
 /**
  * Concrete test implementation of [HelloWorldController] that wires each route processor to the

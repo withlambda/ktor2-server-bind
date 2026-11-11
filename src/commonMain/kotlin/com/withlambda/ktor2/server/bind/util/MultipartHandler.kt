@@ -1,8 +1,8 @@
-package com.withlambda.ktor2.server.bind.util
+package io.withlambda.ktor2.server.bind.util
 
-import com.withlambda.ktor2.server.bind.request.FileItemDTO
 import io.ktor.http.content.MultiPartData
 import io.ktor.http.content.PartData
+import io.withlambda.ktor2.server.bind.request.FileItemDTO
 
 /**
  * Handler to extract form fields and files from [MultiPartData].

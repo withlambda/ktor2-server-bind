@@ -1,20 +1,5 @@
-package com.withlambda.ktor2.server.bind
+package io.withlambda.ktor2.server.bind
 
-import com.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
-import com.withlambda.ktor2.server.bind.exception.ExceptionHandlerBuilder
-import com.withlambda.ktor2.server.bind.exception.exception
-import com.withlambda.ktor2.server.bind.request.OptionalQueryParameters
-import com.withlambda.ktor2.server.bind.request.PathParameters
-import com.withlambda.ktor2.server.bind.request.RequestAttributes
-import com.withlambda.ktor2.server.bind.request.RequestCookies
-import com.withlambda.ktor2.server.bind.request.RequestData
-import com.withlambda.ktor2.server.bind.request.RequestHeaders
-import com.withlambda.ktor2.server.bind.request.RequiredQueryParameters
-import com.withlambda.ktor2.server.bind.request.mapping.GetRequestMapping
-import com.withlambda.ktor2.server.bind.response.ResponseCookies
-import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
-import com.withlambda.ktor2.server.bind.response.ResponseHeaders
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
@@ -27,6 +12,21 @@ import io.ktor.server.response.respondText
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
 import io.ktor.util.pipeline.PipelineContext
+import io.withlambda.ktor2.server.bind.config.auth.AuthenticationConfiguration
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
+import io.withlambda.ktor2.server.bind.exception.ExceptionHandlerBuilder
+import io.withlambda.ktor2.server.bind.exception.exception
+import io.withlambda.ktor2.server.bind.request.OptionalQueryParameters
+import io.withlambda.ktor2.server.bind.request.PathParameters
+import io.withlambda.ktor2.server.bind.request.RequestAttributes
+import io.withlambda.ktor2.server.bind.request.RequestCookies
+import io.withlambda.ktor2.server.bind.request.RequestData
+import io.withlambda.ktor2.server.bind.request.RequestHeaders
+import io.withlambda.ktor2.server.bind.request.RequiredQueryParameters
+import io.withlambda.ktor2.server.bind.request.mapping.GetRequestMapping
+import io.withlambda.ktor2.server.bind.response.ResponseCookies
+import io.withlambda.ktor2.server.bind.response.ResponseDataWithBody
+import io.withlambda.ktor2.server.bind.response.ResponseHeaders
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

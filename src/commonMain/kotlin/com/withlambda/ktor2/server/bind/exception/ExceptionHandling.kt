@@ -1,10 +1,5 @@
-package com.withlambda.ktor2.server.bind.exception
+package io.withlambda.ktor2.server.bind.exception
 
-import com.withlambda.ktor2.server.bind.config.LogLevel
-import com.withlambda.ktor2.server.bind.config.Logging
-import com.withlambda.ktor2.server.bind.exception.ExceptionHandling.defaultPredefinedBadExceptionsHandlerBuilder
-import com.withlambda.ktor2.server.bind.exception.ExceptionHandling.logger
-import com.withlambda.ktor2.server.bind.exception.ExceptionHandling.predefinedBadRequestExceptionsHandler
 import io.konform.validation.ValidationError
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.plugins.MissingRequestParameterException
@@ -12,6 +7,11 @@ import io.ktor.server.plugins.ParameterConversionException
 import io.ktor.server.plugins.statuspages.StatusPagesConfig
 import io.ktor.server.response.respond
 import io.ktor.util.logging.KtorSimpleLogger
+import io.withlambda.ktor2.server.bind.config.LogLevel
+import io.withlambda.ktor2.server.bind.config.Logging
+import io.withlambda.ktor2.server.bind.exception.ExceptionHandling.defaultPredefinedBadExceptionsHandlerBuilder
+import io.withlambda.ktor2.server.bind.exception.ExceptionHandling.logger
+import io.withlambda.ktor2.server.bind.exception.ExceptionHandling.predefinedBadRequestExceptionsHandler
 
 /**
  * Thrown when request body validation via [io.konform.validation.Validation] fails.

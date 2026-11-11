@@ -1,6 +1,6 @@
-package com.withlambda.ktor2.server.bind.response
+package io.withlambda.ktor2.server.bind.response
 
-import com.withlambda.ktor2.server.bind.Headers
+import io.withlambda.ktor2.server.bind.Headers
 
 /**
  * Interface for Response headers of a route

@@ -1,9 +1,9 @@
-package com.withlambda.ktor2.server.bind.processor
+package io.withlambda.ktor2.server.bind.processor
 
-import com.withlambda.ktor2.server.bind.processor.model.ApiMetadata
-import com.withlambda.ktor2.server.bind.processor.model.EndpointMetadata
-import com.withlambda.ktor2.server.bind.processor.model.PropertySchema
-import com.withlambda.ktor2.server.bind.processor.model.SchemaMetadata
+import io.withlambda.ktor2.server.bind.processor.model.ApiMetadata
+import io.withlambda.ktor2.server.bind.processor.model.EndpointMetadata
+import io.withlambda.ktor2.server.bind.processor.model.PropertySchema
+import io.withlambda.ktor2.server.bind.processor.model.SchemaMetadata
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

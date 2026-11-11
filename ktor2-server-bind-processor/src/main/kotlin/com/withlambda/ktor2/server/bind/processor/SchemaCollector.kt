@@ -1,10 +1,10 @@
-package com.withlambda.ktor2.server.bind.processor
+package io.withlambda.ktor2.server.bind.processor
 
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSType
-import com.withlambda.ktor2.server.bind.processor.model.PropertySchema
-import com.withlambda.ktor2.server.bind.processor.model.SchemaMetadata
+import io.withlambda.ktor2.server.bind.processor.model.PropertySchema
+import io.withlambda.ktor2.server.bind.processor.model.SchemaMetadata
 
 /**
  * Recursively collects [SchemaMetadata] entries for DTO types encountered during KSP processing.

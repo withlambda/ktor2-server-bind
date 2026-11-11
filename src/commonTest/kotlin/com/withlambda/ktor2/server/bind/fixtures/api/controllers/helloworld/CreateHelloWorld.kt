@@ -1,25 +1,5 @@
-package com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld
+package io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld
 
-import com.withlambda.ktor2.server.bind.PostRouteConfig
-import com.withlambda.ktor2.server.bind.PostRouteProcessor
-import com.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
-import com.withlambda.ktor2.server.bind.fixtures.EmptyRequestCookies
-import com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO
-import com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldResponseDTO
-import com.withlambda.ktor2.server.bind.request.OptionalQueryParameters
-import com.withlambda.ktor2.server.bind.request.PathParameters
-import com.withlambda.ktor2.server.bind.request.RequestCookies
-import com.withlambda.ktor2.server.bind.request.RequestHeaders
-import com.withlambda.ktor2.server.bind.request.RequestWithBodyData
-import com.withlambda.ktor2.server.bind.request.RequiredQueryParameters
-import com.withlambda.ktor2.server.bind.request.mapping.PostRequestMapping
-import com.withlambda.ktor2.server.bind.response.ResponseCookies
-import com.withlambda.ktor2.server.bind.response.ResponseDataWithBody
-import com.withlambda.ktor2.server.bind.response.ResponseHeaders
-import com.withlambda.ktor2.server.bind.util.OptionalHeadersHandler
-import com.withlambda.ktor2.server.bind.util.OptionalParametersHandler
-import com.withlambda.ktor2.server.bind.util.RequiredHeadersHandler
-import com.withlambda.ktor2.server.bind.util.RequiredParametersHandler
 import io.konform.validation.Validation
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
@@ -28,6 +8,26 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.util.converters.DefaultConversionService
 import io.ktor.util.pipeline.PipelineContext
+import io.withlambda.ktor2.server.bind.PostRouteConfig
+import io.withlambda.ktor2.server.bind.PostRouteProcessor
+import io.withlambda.ktor2.server.bind.config.auth.RoleBasedAuthorizationConfigurationImpl
+import io.withlambda.ktor2.server.bind.fixtures.EmptyRequestCookies
+import io.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO
+import io.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldResponseDTO
+import io.withlambda.ktor2.server.bind.request.OptionalQueryParameters
+import io.withlambda.ktor2.server.bind.request.PathParameters
+import io.withlambda.ktor2.server.bind.request.RequestCookies
+import io.withlambda.ktor2.server.bind.request.RequestHeaders
+import io.withlambda.ktor2.server.bind.request.RequestWithBodyData
+import io.withlambda.ktor2.server.bind.request.RequiredQueryParameters
+import io.withlambda.ktor2.server.bind.request.mapping.PostRequestMapping
+import io.withlambda.ktor2.server.bind.response.ResponseCookies
+import io.withlambda.ktor2.server.bind.response.ResponseDataWithBody
+import io.withlambda.ktor2.server.bind.response.ResponseHeaders
+import io.withlambda.ktor2.server.bind.util.OptionalHeadersHandler
+import io.withlambda.ktor2.server.bind.util.OptionalParametersHandler
+import io.withlambda.ktor2.server.bind.util.RequiredHeadersHandler
+import io.withlambda.ktor2.server.bind.util.RequiredParametersHandler
 
 /**
  * Route configuration and nested types for the POST `/helloworld/{pathParam1}/{pathParam2}` endpoint.
@@ -226,7 +226,7 @@ object CreateHelloWorld : PostRouteConfig<HelloWorldDTO> {
     /**
      * Enables role-based authorization requiring **both** `createHelloWorld1` and
      * `createHelloWorld2` roles to be present in the caller's
-     * [com.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
+     * [io.withlambda.ktor2.server.bind.config.auth.PrincipalRoles].
      */
     override val roleBasedAuthorizationConfiguration = RoleBasedAuthorizationConfigurationImpl(
         enabled = true,

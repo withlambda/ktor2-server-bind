@@ -10,15 +10,15 @@ Both modules must always be published together and share the same version:
 
 | Artifact                                     | Gradle configuration in consumer project |
 |----------------------------------------------|------------------------------------------|
-| `com.withlambda:ktor2-server-bind`           | `implementation(...)`                    |
-| `com.withlambda:ktor2-server-bind-processor` | `ksp(...)`                               |
+| `io.withlambda:ktor2-server-bind`           | `implementation(...)`                    |
+| `io.withlambda:ktor2-server-bind-processor` | `ksp(...)`                               |
 
 A consuming project's `build.gradle.kts` declares both like this:
 
 ```kotlin
 dependencies {
-    implementation("com.withlambda:ktor2-server-bind:<version>")
-    ksp("com.withlambda:ktor2-server-bind-processor:<version>")
+    implementation("io.withlambda:ktor2-server-bind:<version>")
+    ksp("io.withlambda:ktor2-server-bind-processor:<version>")
 }
 ```
 
@@ -59,12 +59,12 @@ Click **Sign In** → **Sign Up** to create a new account.
 
 1. Log in to <https://central.sonatype.com>.
 2. Go to **Namespaces** (top menu) and click **Add Namespace**.
-3. Enter `com.withlambda` and click **Submit**.
+3. Enter `io.withlambda` and click **Submit**.
 4. Sonatype will display a verification token — add it as a DNS TXT record on `withlambda.com`
    or create a GitHub repository named after the token under the `withlambda` organisation.
 5. Click **Verify Namespace** once the record is in place.
 
-Once approved, any artifact under `com.withlambda.*` can be published with these credentials.
+Once approved, any artifact under `io.withlambda.*` can be published with these credentials.
 
 > This is a one-time step. All future releases reuse the same approved namespace.
 
@@ -218,12 +218,12 @@ For a **release** publish the workflow will sign and upload the artifacts to the
 
 | Step                                                                                                                                                |   |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------|---|
-| Sonatype Central Portal account created and `com.withlambda` namespace verified                                                                     | ☐ |
+| Sonatype Central Portal account created and `io.withlambda` namespace verified                                                                     | ☐ |
 | GPG key generated and uploaded to a keyserver                                                                                                       | ☐ |
 | GitHub Secrets (`SONATYPE_*`, `SIGNING_*`) configured                                                                                               | ☐ |
 | Version bumped in `gradle.properties` (`projectVersion=X.Y.Z`) and `isRelease=false` left as-is (overridden at publish time via `-PisRelease=true`) | ☐ |
 | Changes committed and pushed to `main`                                                                                                              | ☐ |
 | Workflow triggered and completed successfully                                                                                                       | ☐ |
 | Deployment published via Central Portal UI                                                                                                          | ☐ |
-| `ktor2-server-bind` visible on [Maven Central](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind) (~10–30 min)                 | ☐ |
-| `ktor2-server-bind-processor` visible on [Maven Central](https://central.sonatype.com/artifact/com.withlambda/ktor2-server-bind-processor)          | ☐ |
+| `ktor2-server-bind` visible on [Maven Central](https://central.sonatype.com/artifact/io.withlambda/ktor2-server-bind) (~10–30 min)                 | ☐ |
+| `ktor2-server-bind-processor` visible on [Maven Central](https://central.sonatype.com/artifact/io.withlambda/ktor2-server-bind-processor)          | ☐ |

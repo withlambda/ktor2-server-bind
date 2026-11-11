@@ -1,4 +1,4 @@
-package com.withlambda.ktor2.server.bind.request.mapping
+package io.withlambda.ktor2.server.bind.request.mapping
 
 import io.ktor.http.HttpMethod
 

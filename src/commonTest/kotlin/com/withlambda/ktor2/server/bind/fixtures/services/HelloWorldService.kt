@@ -1,17 +1,17 @@
-package com.withlambda.ktor2.server.bind.fixtures.services
+package io.withlambda.ktor2.server.bind.fixtures.services
 
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.CreateHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.DeleteHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.GetHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.HeadHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.OptionsHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.PatchHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.UpdateHelloWorld
-import com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldResponseDTO
-import com.withlambda.ktor2.server.bind.fixtures.services.HelloWorldService.optionsHelloWorld
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.util.pipeline.PipelineContext
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.CreateHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.DeleteHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.GetHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.HeadHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.OptionsHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.PatchHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.controllers.helloworld.UpdateHelloWorld
+import io.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldResponseDTO
+import io.withlambda.ktor2.server.bind.fixtures.services.HelloWorldService.optionsHelloWorld
 
 /**
  * Stub service that handles all Hello World route operations used by the test fixtures.
@@ -32,7 +32,7 @@ object HelloWorldService {
      * Reads all path parameters, query parameters, and headers from [request], then returns a
      * [CreateHelloWorld.ResponseDataImpl] with HTTP 200 and a [HelloWorldResponseDTO] that echoes
      * all received values together with the request body's
-     * [name][com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
+     * [name][io.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
      *
      * @param context The Ktor pipeline context (unused by this stub).
      * @param request The fully bound request data for the create operation.
@@ -82,7 +82,7 @@ object HelloWorldService {
      * Reads all path parameters, query parameters, and headers from [request], then returns a
      * [UpdateHelloWorld.ResponseDataImpl] with HTTP 200 and a [HelloWorldResponseDTO] that echoes
      * all received values together with the request body's
-     * [name][com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
+     * [name][io.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
      *
      * @param context The Ktor pipeline context (unused by this stub).
      * @param request The fully bound request data for the update operation.
@@ -132,7 +132,7 @@ object HelloWorldService {
      * Reads all path parameters, query parameters, and headers from [request], then returns a
      * [PatchHelloWorld.ResponseDataImpl] with HTTP 200 and a [HelloWorldResponseDTO] that echoes
      * all received values together with the request body's
-     * [name][com.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
+     * [name][io.withlambda.ktor2.server.bind.fixtures.api.models.HelloWorldDTO.name].
      *
      * @param context The Ktor pipeline context (unused by this stub).
      * @param request The fully bound request data for the patch operation.

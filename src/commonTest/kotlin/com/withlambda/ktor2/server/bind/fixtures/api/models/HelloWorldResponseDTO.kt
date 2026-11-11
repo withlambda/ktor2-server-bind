@@ -1,11 +1,11 @@
-package com.withlambda.ktor2.server.bind.fixtures.api.models
+package io.withlambda.ktor2.server.bind.fixtures.api.models
 
 import kotlinx.serialization.Serializable
 
 /**
  * Response body returned by all Hello World endpoints.
  *
- * Every field is populated by the corresponding [com.withlambda.ktor2.server.bind.fixtures.services.HelloWorldService]
+ * Every field is populated by the corresponding [io.withlambda.ktor2.server.bind.fixtures.services.HelloWorldService]
  * handler and echoes back the values received in the request, making it straightforward to assert
  * that the framework correctly extracts path parameters, query parameters, and headers.
  *
