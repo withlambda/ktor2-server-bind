@@ -18,7 +18,7 @@ import io.withlambda.ktor2.server.bind.processor.model.EndpointMetadata
  * metadata from their [@ApiEndpoint][io.withlambda.ktor2.server.bind.ApiEndpoint]-annotated
  * properties, and writes an `openapi.json` resource file on [finish].
  *
- * Schema collection is delegated to [SchemaCollector].
+ * Schema collection is delegated to [io.withlambda.ktor2.server.bind.processor.SchemaCollector].
  *
  * @param environment The KSP environment providing logger, code generator, and options.
  */
