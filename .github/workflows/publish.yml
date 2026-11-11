@@ -12,6 +12,9 @@ on:
           - snapshot
           - release
 
+permissions:
+  contents: read
+
 jobs:
   publish:
     name: Publish (${{ github.event.inputs.publish_type }})
