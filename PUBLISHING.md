@@ -8,8 +8,8 @@ trigger a release — both locally and via the provided GitHub Actions workflow.
 
 Both modules must always be published together and share the same version:
 
-| Artifact                                     | Gradle configuration in consumer project |
-|----------------------------------------------|------------------------------------------|
+| Artifact                                    | Gradle configuration in consumer project |
+|---------------------------------------------|------------------------------------------|
 | `io.withlambda:ktor2-server-bind`           | `implementation(...)`                    |
 | `io.withlambda:ktor2-server-bind-processor` | `ksp(...)`                               |
 
@@ -35,10 +35,10 @@ Sonatype promotes them.
 
 The portal exposes two endpoints:
 
-| Endpoint  | URL                                                                   | Reaches Maven Central?  |
-|-----------|-----------------------------------------------------------------------|-------------------------|
-| Releases  | `https://central.sonatype.com/api/v1/publisher/upload`                | Yes, after promotion    |
-| Snapshots | `https://central.sonatype.com/repository/maven-snapshots/`           | No (snapshot repo only) |
+| Endpoint  | URL                                                        | Reaches Maven Central?  |
+|-----------|------------------------------------------------------------|-------------------------|
+| Releases  | `https://central.sonatype.com/api/v1/publisher/upload`     | Yes, after promotion    |
+| Snapshots | `https://central.sonatype.com/repository/maven-snapshots/` | No (snapshot repo only) |
 
 `build.gradle.kts` selects the correct URL automatically: release versions go to the publisher
 API, versions ending in `-SNAPSHOT` go to the snapshot repository.
@@ -109,14 +109,14 @@ gpg --keyserver keys.openpgp.org     --send-keys ABCD1234
 
 The build reads five properties (in priority order): Gradle project property (`-P` flag or `gradle.properties`) → `env/gradle-signing.private.env` → environment variable.
 
-| Property                    | Purpose                                             |
-|-----------------------------|-----------------------------------------------------|
+| Property                    | Purpose                                                  |
+|-----------------------------|----------------------------------------------------------|
 | `SONATYPE_USERNAME`         | Central Portal user token username (or account username) |
 | `SONATYPE_PASSWORD`         | Central Portal user token password (or account password) |
-| `SIGNING_KEY_ID`            | Last 8 characters of your GPG key ID                |
-| `SIGNING_KEY`               | Full ASCII-armored GPG private key block            |
-| `SIGNING_PASSWORD`          | Passphrase for the GPG key                          |
-| `enableGradleSigningPlugin` | Set to `true` to activate signing (boolean)         |
+| `SIGNING_KEY_ID`            | Last 8 characters of your GPG key ID                     |
+| `SIGNING_KEY`               | Full ASCII-armored GPG private key block                 |
+| `SIGNING_PASSWORD`          | Passphrase for the GPG key                               |
+| `enableGradleSigningPlugin` | Set to `true` to activate signing (boolean)              |
 
 ---
 
@@ -218,12 +218,12 @@ For a **release** publish the workflow will sign and upload the artifacts to the
 
 | Step                                                                                                                                                |   |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------|---|
-| Sonatype Central Portal account created and `io.withlambda` namespace verified                                                                     | ☐ |
+| Sonatype Central Portal account created and `io.withlambda` namespace verified                                                                      | ☐ |
 | GPG key generated and uploaded to a keyserver                                                                                                       | ☐ |
 | GitHub Secrets (`SONATYPE_*`, `SIGNING_*`) configured                                                                                               | ☐ |
 | Version bumped in `gradle.properties` (`projectVersion=X.Y.Z`) and `isRelease=false` left as-is (overridden at publish time via `-PisRelease=true`) | ☐ |
 | Changes committed and pushed to `main`                                                                                                              | ☐ |
 | Workflow triggered and completed successfully                                                                                                       | ☐ |
 | Deployment published via Central Portal UI                                                                                                          | ☐ |
-| `ktor2-server-bind` visible on [Maven Central](https://central.sonatype.com/artifact/io.withlambda/ktor2-server-bind) (~10–30 min)                 | ☐ |
-| `ktor2-server-bind-processor` visible on [Maven Central](https://central.sonatype.com/artifact/io.withlambda/ktor2-server-bind-processor)          | ☐ |
+| `ktor2-server-bind` visible on [Maven Central](https://central.sonatype.com/artifact/io.withlambda/ktor2-server-bind) (~10–30 min)                  | ☐ |
+| `ktor2-server-bind-processor` visible on [Maven Central](https://central.sonatype.com/artifact/io.withlambda/ktor2-server-bind-processor)           | ☐ |
