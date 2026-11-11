@@ -3,9 +3,6 @@ name: Publish to Maven Central
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "Version to publish (e.g. 1.0.0 for a release, 1.0.1 for the next snapshot base)"
-        required: true
       publish_type:
         description: "Publish type"
         required: true
@@ -20,7 +17,7 @@ permissions:
 
 jobs:
   publish:
-    name: Publish (${{ github.event.inputs.publish_type }} ${{ github.event.inputs.version }})
+    name: Publish (${{ github.event.inputs.publish_type }})
     runs-on: ubuntu-latest
 
     steps:
@@ -36,6 +33,23 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      - name: Read project version
+        id: version
+        run: echo "value=$(grep '^projectVersion=' gradle.properties | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
+
+      - name: Validate branch and publish type
+        run: |
+          BRANCH="${{ github.ref_name }}"
+          TYPE="${{ github.event.inputs.publish_type }}"
+          if [[ "$BRANCH" == releases/v* && "$TYPE" != "release" ]]; then
+            echo "::error::Release branches (releases/v*) only allow publish_type=release."
+            exit 1
+          fi
+          if [[ "$BRANCH" != releases/v* && "$TYPE" != "snapshot" ]]; then
+            echo "::error::Non-release branches only allow publish_type=snapshot."
+            exit 1
+          fi
+
       - name: Publish snapshot
         if: github.event.inputs.publish_type == 'snapshot'
         env:
@@ -43,7 +57,6 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         run: |
           ./gradlew publish --no-daemon \
-            -PprojectVersion="${{ github.event.inputs.version }}" \
             -PisRelease=false
 
       - name: Publish release (signed)
@@ -53,7 +66,6 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         run: |
           ./gradlew publish --no-daemon \
-            -PprojectVersion="${{ github.event.inputs.version }}" \
             -PisRelease=true \
             -PSIGNING_KEY_ID="${{ secrets.SIGNING_KEY_ID }}" \
             -PSIGNING_KEY="${{ secrets.SIGNING_KEY }}" \
@@ -65,10 +77,10 @@ jobs:
         run: |
           echo "### Release uploaded to Central Portal :rocket:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Both artifacts (\`${{ github.event.inputs.version }}\`) have been signed and uploaded to the Sonatype Central Portal:" >> $GITHUB_STEP_SUMMARY
+          echo "Both artifacts (\`${{ steps.version.outputs.value }}\`) have been signed and uploaded to the Sonatype Central Portal:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- \`io.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`io.withlambda:ktor2-server-bind-processor:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`io.withlambda:ktor2-server-bind:${{ steps.version.outputs.value }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`io.withlambda:ktor2-server-bind-processor:${{ steps.version.outputs.value }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Next steps:**" >> $GITHUB_STEP_SUMMARY
           echo "1. Open https://central.sonatype.com and log in." >> $GITHUB_STEP_SUMMARY
@@ -81,9 +93,9 @@ jobs:
         run: |
           echo "### Snapshot published :package:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Snapshot artifacts (\`${{ github.event.inputs.version }}-SNAPSHOT\`) are available at:" >> $GITHUB_STEP_SUMMARY
+          echo "Snapshot artifacts (\`${{ steps.version.outputs.value }}-SNAPSHOT\`) are available at:" >> $GITHUB_STEP_SUMMARY
           echo "\`https://central.sonatype.com/repository/maven-snapshots/io/withlambda/\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Published snapshots:" >> $GITHUB_STEP_SUMMARY
-          echo "- \`io.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`io.withlambda:ktor2-server-bind-processor:${{ github.event.inputs.version }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`io.withlambda:ktor2-server-bind:${{ steps.version.outputs.value }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`io.withlambda:ktor2-server-bind-processor:${{ steps.version.outputs.value }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY

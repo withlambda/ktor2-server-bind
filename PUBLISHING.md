@@ -159,24 +159,25 @@ export SIGNING_PASSWORD="<gpg-passphrase>"
 
 ### Publishing steps
 
-> **The version and release flag are set via Gradle properties — no file edits required.**
-> `gradle.properties` holds the defaults (`projectVersion`, `isRelease`). Override them with
-> `-P` flags when running Gradle locally or let the GitHub Actions workflow supply them.
+> **The version is read from `gradle.properties` (`projectVersion`).** Set it there before publishing.
+> Override with `-PprojectVersion=X.Y.Z` only when needed locally; the GitHub Actions workflow always
+> uses the value already committed in the branch.
 
 **Snapshot** (no signing needed):
 
 ```bash
-./gradlew publish -PprojectVersion=1.0.0 -PisRelease=false
+./gradlew publish -PisRelease=false
 ```
 
 **Release**:
 
 ```bash
 ./gradlew publish \
-  -PprojectVersion=1.0.0 \
   -PisRelease=true \
   -PenableGradleSigningPlugin=true
 ```
+
+`projectVersion` is read from `gradle.properties`; override with `-PprojectVersion=X.Y.Z` if needed locally.
 
 After the release task completes, log in to <https://central.sonatype.com>, find your deployment
 under **Deployments**, click **Publish** to promote both artifacts to Maven Central
@@ -202,13 +203,15 @@ Go to your repository → **Settings → Secrets and variables → Actions** and
 
 ### Triggering a release
 
-1. Open the **Actions** tab in GitHub.
-2. Select **Publish to Maven Central**.
-3. Click **Run workflow**.
-4. Choose the branch, enter the **Version** (e.g. `1.0.0`), and select `release` or `snapshot` from the **Publish type** dropdown.
-5. Click **Run workflow**.
+1. Set `projectVersion` to the desired version in `gradle.properties` and push to the target branch.
+   - Use a `releases/v*` branch for a release; any other branch for a snapshot.
+2. Open the **Actions** tab in GitHub.
+3. Select **Publish to Maven Central**.
+4. Click **Run workflow** and select the branch.
+5. Choose the **Publish type** (`release` on `releases/v*` branches, `snapshot` on all others).
+6. Click **Run workflow**.
 
-The workflow passes `-PprojectVersion` and `-PisRelease` directly to Gradle — no changes to source files are needed before triggering.
+The workflow reads `projectVersion` directly from `gradle.properties` of the checked-out branch. `release` is only accepted on `releases/v*` branches; `snapshot` is only accepted on all other branches — the workflow fails fast otherwise.
 
 For a **release** publish the workflow will sign and upload the artifacts to the Central Portal. You still need to manually click **Publish** on the deployment in the [Central Portal UI](https://central.sonatype.com) to promote it to Maven Central.
 
