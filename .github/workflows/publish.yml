@@ -39,8 +39,8 @@ jobs:
       - name: Publish snapshot
         if: github.event.inputs.publish_type == 'snapshot'
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         run: |
           ./gradlew publish --no-daemon \
             -PprojectVersion="${{ github.event.inputs.version }}" \
@@ -49,8 +49,8 @@ jobs:
       - name: Publish release (signed)
         if: github.event.inputs.publish_type == 'release'
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         run: |
           ./gradlew publish --no-daemon \
             -PprojectVersion="${{ github.event.inputs.version }}" \
@@ -63,17 +63,17 @@ jobs:
       - name: Release summary
         if: github.event.inputs.publish_type == 'release'
         run: |
-          echo "### Release staged on OSSRH :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "### Release uploaded to Central Portal :rocket:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Both artifacts (\`${{ github.event.inputs.version }}\`) have been signed and uploaded to the OSSRH staging repository:" >> $GITHUB_STEP_SUMMARY
+          echo "Both artifacts (\`${{ github.event.inputs.version }}\`) have been signed and uploaded to the Sonatype Central Portal:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- \`io.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- \`io.withlambda:ktor2-server-bind-processor:${{ github.event.inputs.version }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Next steps:**" >> $GITHUB_STEP_SUMMARY
-          echo "1. Open https://s01.oss.sonatype.org and log in." >> $GITHUB_STEP_SUMMARY
-          echo "2. Go to **Staging Repositories** and find the new repository." >> $GITHUB_STEP_SUMMARY
-          echo "3. Click **Close**, wait for checks to pass, then click **Release**." >> $GITHUB_STEP_SUMMARY
+          echo "1. Open https://central.sonatype.com and log in." >> $GITHUB_STEP_SUMMARY
+          echo "2. Go to **Deployments** and find the new deployment." >> $GITHUB_STEP_SUMMARY
+          echo "3. Click **Publish** to promote both artifacts to Maven Central." >> $GITHUB_STEP_SUMMARY
           echo "4. Both artifacts will appear on Maven Central within ~10–30 minutes." >> $GITHUB_STEP_SUMMARY
 
       - name: Snapshot summary
@@ -82,7 +82,7 @@ jobs:
           echo "### Snapshot published :package:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Snapshot artifacts (\`${{ github.event.inputs.version }}-SNAPSHOT\`) are available at:" >> $GITHUB_STEP_SUMMARY
-          echo "\`https://s01.oss.sonatype.org/content/repositories/snapshots/com/withlambda/\`" >> $GITHUB_STEP_SUMMARY
+          echo "\`https://central.sonatype.com/repository/maven-snapshots/io/withlambda/\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Published snapshots:" >> $GITHUB_STEP_SUMMARY
           echo "- \`io.withlambda:ktor2-server-bind:${{ github.event.inputs.version }}-SNAPSHOT\`" >> $GITHUB_STEP_SUMMARY
