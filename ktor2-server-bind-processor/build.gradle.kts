@@ -45,6 +45,11 @@ dokka {
     }
 }
 
+val sourcesJar = tasks.register<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets["main"].allSource)
+}
+
 val dokkaJavadocJar = tasks.register<Jar>("dokkaJavadocJar") {
     archiveClassifier.set("javadoc")
     from(tasks.named("dokkaGeneratePublicationHtml"))
@@ -65,6 +70,8 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+
+            artifact(sourcesJar)
 
             if (project.findProperty("skipDokka") != "true") {
                 artifact(dokkaJavadocJar)
