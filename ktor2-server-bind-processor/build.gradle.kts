@@ -16,6 +16,7 @@ val repoUrl = "https://github.com/withlambda/${rootProject.name}"
 val repoBranch = "main"
 
 repositories {
+    gradlePluginPortal()
     mavenCentral()
 }
 
@@ -118,13 +119,13 @@ publishing {
     repositories {
         mavenLocal()
         maven {
-            name = "OSSRH"
-            val releasesUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotsUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            name = "MavenCentral"
+            val releasesUrl = uri("https://central.sonatype.com/api/v1/publisher/upload")
+            val snapshotsUrl = uri("https://central.sonatype.com/repository/maven-snapshots/")
             url = if (isRelease) releasesUrl else snapshotsUrl
             credentials {
-                username = findProperty("OSSRH_USERNAME") as String? ?: System.getenv("OSSRH_USERNAME")
-                password = findProperty("OSSRH_PASSWORD") as String? ?: System.getenv("OSSRH_PASSWORD")
+                username = findProperty("SONATYPE_USERNAME") as String? ?: System.getenv("SONATYPE_USERNAME")
+                password = findProperty("SONATYPE_PASSWORD") as String? ?: System.getenv("SONATYPE_PASSWORD")
             }
         }
     }
