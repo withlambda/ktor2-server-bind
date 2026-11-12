@@ -118,9 +118,9 @@ publishing {
     repositories {
         mavenLocal()
         maven {
-            name = "OSSRH"
-            val releasesUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotsUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            name = "MavenCentral"
+            val releasesUrl = uri("https://central.sonatype.com/api/v1/publisher/upload")
+            val snapshotsUrl = uri("https://central.sonatype.com/repository/maven-snapshots/")
             url = if (isRelease) releasesUrl else snapshotsUrl
             credentials {
                 username = findProperty("SONATYPE_USERNAME") as String? ?: System.getenv("SONATYPE_USERNAME")
