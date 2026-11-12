@@ -103,6 +103,27 @@ Timestamps are always in UTC. The newest version section and commits appear at t
 
 Run the script before opening a Pull Request or cutting a release so that `CHANGELOG.md` reflects the latest commits.
 
+## Release Preparation
+
+To cut a new release, run the interactive helper script from the repository root:
+
+```bash
+bash scripts/prepare-release.sh
+```
+
+**What it does:**
+
+1. Reads the current `projectVersion` from `gradle.properties`.
+2. Asks you to choose the release type — **Major**, **Minor**, or **Patch** — and increments the version accordingly (e.g. `1.0.0` → `1.1.0` for a minor release).
+3. Writes the new version back to `gradle.properties`.
+4. Runs `scripts/generate-changelog.sh` to prepend a new `## [<new-version>] - <today>` section to `CHANGELOG.md`.
+5. Stages both changed files and creates a commit with the message:
+   ```
+   chore: prepare release <new-version>
+   ```
+
+After the script completes, review the generated changelog section, then push the branch and open a Pull Request.
+
 ## License
 
 By contributing, you agree that your contributions will be licensed under its Apache License, Version 2.0.
