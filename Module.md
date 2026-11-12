@@ -17,18 +17,37 @@ Key capabilities:
 - KSP annotation processor (`ktor2-server-bind-processor`) that generates an `openapi.json` resource
   from `@ApiController` / `@ApiEndpoint` annotated classes at compile time
 
-## Packages
+# Package io.withlambda.ktor2.server.bind
 
-| Package                                       | Description                                                                                 |
-|-----------------------------------------------|---------------------------------------------------------------------------------------------|
-| `io.withlambda.ktor2.server.bind`            | Core interfaces: `Controller`, `RouteConfig`, `RouteProcessor` and all HTTP-method variants |
-| `io.withlambda.ktor2.server.bind.config`     | `AuthenticationConfiguration`, `RoleBasedAuthorizationConfiguration`, `LogLevel`, `Logging` |
-| `io.withlambda.ktor2.server.bind.exception`  | `BindValidationException`, `ExceptionHandlerBuilder`, `ExceptionHandling` helpers           |
-| `io.withlambda.ktor2.server.bind.plugins`    | `RoleBasedAuthorization` Ktor plugin                                                        |
-| `io.withlambda.ktor2.server.bind.request`    | Parameter/header delegate handlers, `FileItemDTO`, request-mapping types                    |
-| `io.withlambda.ktor2.server.bind.response`   | `ResponseData`, `ResponseDataWithBody`, `ResponseHeaders`                                   |
-| `io.withlambda.ktor2.server.bind.util`       | `MultipartHandler` and other internal utilities                                             |
-| `io.withlambda.ktor2.server.bind.validation` | Bridges `RouteConfig.validation` to Ktor's `RequestValidation` plugin                       |
+Core interfaces: `Controller`, `RouteConfig`, `RouteProcessor` and all HTTP-method variants.
+
+# Package io.withlambda.ktor2.server.bind.config
+
+`AuthenticationConfiguration`, `RoleBasedAuthorizationConfiguration`, `LogLevel`, `Logging`.
+
+# Package io.withlambda.ktor2.server.bind.exception
+
+`BindValidationException`, `ExceptionHandlerBuilder`, `ExceptionHandling` helpers.
+
+# Package io.withlambda.ktor2.server.bind.plugins
+
+`RoleBasedAuthorization` Ktor plugin.
+
+# Package io.withlambda.ktor2.server.bind.request
+
+Parameter/header delegate handlers, `FileItemDTO`, request-mapping types.
+
+# Package io.withlambda.ktor2.server.bind.response
+
+`ResponseData`, `ResponseDataWithBody`, `ResponseHeaders`.
+
+# Package io.withlambda.ktor2.server.bind.util
+
+`MultipartHandler` and other internal utilities.
+
+# Package io.withlambda.ktor2.server.bind.validation
+
+Bridges `RouteConfig.validation` to Ktor's `RequestValidation` plugin.
 
 ## See also
 
