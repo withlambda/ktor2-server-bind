@@ -16,6 +16,7 @@ val repoUrl = "https://github.com/withlambda/${rootProject.name}"
 val repoBranch = "main"
 
 repositories {
+    gradlePluginPortal()
     mavenCentral()
 }
 
