@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2026-11-12 (1d73dac)
+## [1.0.0] - 2026-11-12 (8b9a9bb)
 
+- 2026-11-12T21:50:36Z chore: add sourcesJar artifact to Maven publication (8b9a9bb)
+- 2026-11-12T21:44:18Z Merge branch 'releases/v1.0.0' into prepare-release-v1.0.0 (e5c70bf)
+- 2026-11-12T21:40:11Z chore: prepare release 1.0.0 (c627160)
 - 2026-11-12T21:22:58Z bug-fixes (1d73dac)
+- 2026-11-12T21:18:01Z Release v1.0.0 - Part 2 (#13) (cab3425)
 - 2026-11-12T21:15:10Z Merge branch 'releases/v1.0.0' into prepare-release-v1.0.0 (a836d7b)
 - 2026-11-12T21:11:57Z chore: prepare release 1.0.0 (624f425)
 - 2026-11-12T21:08:24Z Debug publish release (#12) (d6e425c)
