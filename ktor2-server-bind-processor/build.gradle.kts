@@ -118,14 +118,19 @@ publishing {
 
     repositories {
         mavenLocal()
-        maven {
-            name = "MavenCentral"
-            val releasesUrl = uri("https://central.sonatype.com/api/v1/publisher/upload")
-            val snapshotsUrl = uri("https://central.sonatype.com/repository/maven-snapshots/")
-            url = if (isRelease) releasesUrl else snapshotsUrl
-            credentials {
-                username = findProperty("SONATYPE_USERNAME") as String? ?: System.getenv("SONATYPE_USERNAME")
-                password = findProperty("SONATYPE_PASSWORD") as String? ?: System.getenv("SONATYPE_PASSWORD")
+        if (isRelease) {
+            maven {
+                name = "LocalStaging"
+                url = uri(rootProject.layout.buildDirectory.dir("staging-deploy"))
+            }
+        } else {
+            maven {
+                name = "MavenCentralSnapshots"
+                url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+                credentials {
+                    username = findProperty("SONATYPE_USERNAME") as String? ?: System.getenv("SONATYPE_USERNAME")
+                    password = findProperty("SONATYPE_PASSWORD") as String? ?: System.getenv("SONATYPE_PASSWORD")
+                }
             }
         }
     }
