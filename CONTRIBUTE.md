@@ -72,6 +72,37 @@ This library is tested against multiple Ktor 2 versions to ensure compatibility.
     - **Code Scanning**: Static analysis results from `detekt` will appear in the "Security" tab and as annotations in the PR files.
     - **Test Coverage**: A summary of test coverage from `kover` will be added to the GitHub Actions run summary and as a comment on your PR.
 
+## Changelog
+
+This project maintains a `CHANGELOG.md` following the [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) format with [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+### Generating or updating the changelog
+
+A helper script auto-generates `CHANGELOG.md` from git commit history:
+
+```bash
+bash scripts/generate-changelog.sh
+```
+
+**Behaviour:**
+
+- **No existing `CHANGELOG.md`**: creates the file with all commits listed under a section titled `## [<projectVersion>] - <today>`.
+- **Existing `CHANGELOG.md`**: scans for the most recent commit hash already recorded in the file and prepends a new section containing only the commits made since then.
+
+**Version** is read automatically from the `projectVersion` key in `gradle.properties`. If the key is absent, the section is titled `[Unreleased]`.
+
+**Commit entry format:**
+
+```
+YYYY-MM-DDTHH:MM:SSZ <commit message> (<short-hash>)
+```
+
+Timestamps are always in UTC. The newest version section and commits appear at the top of the file; the `## [Unreleased]` anchor required by Keep a Changelog is preserved at the very top.
+
+### When to run it
+
+Run the script before opening a Pull Request or cutting a release so that `CHANGELOG.md` reflects the latest commits.
+
 ## License
 
 By contributing, you agree that your contributions will be licensed under its Apache License, Version 2.0.
