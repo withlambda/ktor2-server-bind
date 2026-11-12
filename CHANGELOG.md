@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2026-11-12 (222cf40)
+## [1.0.0] - 2026-11-12 (1d73dac)
 
-- 2026-11-12T21:22:58Z bug-fixes (222cf40)
+- 2026-11-12T21:22:58Z bug-fixes (1d73dac)
 - 2026-11-12T21:15:10Z Merge branch 'releases/v1.0.0' into prepare-release-v1.0.0 (a836d7b)
 - 2026-11-12T21:11:57Z chore: prepare release 1.0.0 (624f425)
 - 2026-11-12T21:08:24Z Debug publish release (#12) (d6e425c)
