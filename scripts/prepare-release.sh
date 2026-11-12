@@ -8,6 +8,7 @@
 #   4. Writing the new version back to gradle.properties.
 #   5. Running scripts/generate-changelog.sh to update CHANGELOG.md.
 #   6. Committing all changes with a release-preparation commit message.
+#   7. Creating an annotated git tag v<NEW_VERSION> on the release commit.
 
 set -euo pipefail
 
@@ -98,6 +99,13 @@ COMMIT_MSG="chore: prepare release $NEW_VERSION
 
 git -C "$REPO_ROOT" commit -m "$COMMIT_MSG"
 
+TAG_NAME="v${NEW_VERSION}"
+git -C "$REPO_ROOT" tag -a "$TAG_NAME" -m "Release $TAG_NAME"
+
 echo ""
 echo "Release preparation for $NEW_VERSION complete."
-echo "Commit: $(git -C "$REPO_ROOT" log -1 --format='%h %s')"
+echo "Commit : $(git -C "$REPO_ROOT" log -1 --format='%h %s')"
+echo "Tag    : $TAG_NAME"
+echo ""
+echo "To publish the release, push the commit and the tag together:"
+echo "  git push origin HEAD $TAG_NAME"

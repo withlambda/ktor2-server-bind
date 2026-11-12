@@ -156,8 +156,15 @@ bash scripts/prepare-release.sh
    ```
    chore: prepare release <new-version>
    ```
+6. Creates an **annotated git tag** `v<new-version>` pointing at that commit.
 
-After the script completes, review the generated changelog section, then push the branch and open a Pull Request.
+After the script completes, review the generated changelog section, then push **both the commit and the tag** to the remote:
+
+```bash
+git push origin HEAD v<new-version>
+```
+
+Pushing the tag explicitly is the standard approach — `git push` alone does not transfer tags by default. The annotated tag (`-a`) carries the tagger name, e-mail, date, and message, making it a permanent, signed-off milestone in the repository history that hosting platforms (GitHub, GitLab, …) automatically surface as a release.
 
 ## License
 
