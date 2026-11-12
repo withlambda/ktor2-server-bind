@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2026-11-12 (8491684)
+## [1.0.0] - 2026-11-12 (d6e425c)
 
+- 2026-11-12T21:08:24Z Debug publish release (#12) (d6e425c)
 - 2026-11-12T20:27:02Z Debug publishing (#10) (8491684)
 - 2026-11-12T19:14:52Z Force tag creation in prepare-release script (#9) (cc1e42d)
 - 2026-11-12T19:11:28Z remove branch input from publish workflow (#8) (be33857)
