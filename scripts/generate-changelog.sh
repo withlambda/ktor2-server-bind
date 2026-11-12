@@ -130,28 +130,26 @@ else
 
     new_section=$(render_section "${VERSION:-Unreleased}" "$TODAY" "$commits")
 
-    # Insert the new section before the first existing versioned '## [' heading
-    # (i.e., after the preamble and [Unreleased] block), so newest appears first.
-    first_version_line=$(grep -n '^## \[' "$CHANGELOG" | grep -v '^\S*:\[Unreleased\]' | head -1 | cut -d':' -f1)
+    # Reconstruct the file so ## [Unreleased] is always the first heading,
+    # followed by the new section, then all existing versioned sections.
+    first_heading_line=$(grep -n '^## \[' "$CHANGELOG" | head -1 | cut -d':' -f1)
 
     tmp=$(mktemp)
     trap 'rm -f "$tmp"' EXIT
 
-    if [[ -n "$first_version_line" ]]; then
-        head -n "$((first_version_line - 1))" "$CHANGELOG" > "$tmp"
+    if [[ -n "$first_heading_line" ]]; then
+        # Preamble (everything before the first ## [ heading)
+        head -n "$((first_heading_line - 1))" "$CHANGELOG" > "$tmp"
+        # [Unreleased] always at the top
+        printf '## [Unreleased]\n\n' >> "$tmp"
+        # New section
         printf '%s\n' "$new_section" >> "$tmp"
-        tail -n "+${first_version_line}" "$CHANGELOG" >> "$tmp"
+        # Existing versioned sections — strip any stray [Unreleased] entries
+        tail -n "+${first_heading_line}" "$CHANGELOG" | grep -v '^## \[Unreleased\]' >> "$tmp"
     else
-        # No existing version section — find the [Unreleased] line and insert after it
-        unreleased_line=$(grep -n '^\[Unreleased\]\|^## \[Unreleased\]' "$CHANGELOG" | head -1 | cut -d':' -f1)
-        if [[ -n "$unreleased_line" ]]; then
-            head -n "$unreleased_line" "$CHANGELOG" > "$tmp"
-            printf '\n%s\n' "$new_section" >> "$tmp"
-            tail -n "+$((unreleased_line + 1))" "$CHANGELOG" >> "$tmp"
-        else
-            printf '%s\n' "$new_section" > "$tmp"
-            cat "$CHANGELOG" >> "$tmp"
-        fi
+        printf '## [Unreleased]\n\n' > "$tmp"
+        printf '%s\n' "$new_section" >> "$tmp"
+        cat "$CHANGELOG" >> "$tmp"
     fi
 
     mv "$tmp" "$CHANGELOG"
