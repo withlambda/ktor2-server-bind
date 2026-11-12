@@ -1,8 +1,12 @@
-name: Publish to Maven Central
+name: Publish
 
 on:
   workflow_dispatch:
     inputs:
+      branch:
+        description: "Branch to publish from"
+        required: true
+        type: string
       publish_type:
         description: "Publish type"
         required: true
@@ -23,6 +27,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Set up JDK 21
         uses: actions/setup-java@v6
@@ -39,7 +45,7 @@ jobs:
 
       - name: Validate branch and publish type
         run: |
-          BRANCH="${{ github.ref_name }}"
+          BRANCH="${{ github.event.inputs.branch }}"
           TYPE="${{ github.event.inputs.publish_type }}"
           if [[ "$BRANCH" == releases/v* && "$TYPE" != "release" ]]; then
             echo "::error::Release branches (releases/v*) only allow publish_type=release."
