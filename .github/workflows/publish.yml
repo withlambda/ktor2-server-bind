@@ -59,18 +59,21 @@ jobs:
           ./gradlew publish --no-daemon \
             -PisRelease=false
 
-      - name: Publish release (signed)
+      - name: Stage release artifacts
         if: github.event.inputs.publish_type == 'release'
-        env:
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         run: |
           ./gradlew publish --no-daemon \
-            -PisRelease=true \
-            -PSIGNING_KEY_ID="${{ secrets.SIGNING_KEY_ID }}" \
-            -PSIGNING_KEY="${{ secrets.SIGNING_KEY }}" \
-            -PSIGNING_PASSWORD="${{ secrets.SIGNING_PASSWORD }}" \
-            -PenableGradleSigningPlugin=true
+            -PisRelease=true
+
+      - name: Deploy release to Central Portal via JReleaser
+        if: github.event.inputs.publish_type == 'release'
+        env:
+          JRELEASER_MAVENCENTRAL_SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          JRELEASER_MAVENCENTRAL_SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.SIGNING_PASSWORD }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.SIGNING_KEY }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.SIGNING_PUBLIC_KEY }}
+        run: ./gradlew jreleaserDeploy --no-daemon
 
       - name: Release summary
         if: github.event.inputs.publish_type == 'release'
