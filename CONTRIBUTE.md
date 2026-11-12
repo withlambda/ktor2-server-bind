@@ -72,6 +72,41 @@ This library is tested against multiple Ktor 2 versions to ensure compatibility.
     - **Code Scanning**: Static analysis results from `detekt` will appear in the "Security" tab and as annotations in the PR files.
     - **Test Coverage**: A summary of test coverage from `kover` will be added to the GitHub Actions run summary and as a comment on your PR.
 
+## Commit Messages
+
+This project tries to follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. Every commit message should have the form:
+
+```
+<type>(<scope>): <short description>
+```
+
+The `(<scope>)` part is optional. Use it to identify the affected module (e.g. `processor`, `core`).
+
+### Commit types
+
+| Type       | When to use                                                                                      |
+|------------|--------------------------------------------------------------------------------------------------|
+| `feat`     | A new feature visible to consumers of the library.                                               |
+| `fix`      | A bug fix.                                                                                       |
+| `docs`     | Documentation changes only (README, KDoc, CHANGELOG, etc.).                                      |
+| `style`    | Formatting or whitespace changes that do not affect logic (ktlint fixes, etc.).                  |
+| `refactor` | Code restructuring that neither adds a feature nor fixes a bug.                                  |
+| `test`     | Adding or correcting tests without touching production code.                                     |
+| `chore`    | Maintenance tasks: version bumps, dependency updates, build-script changes, release preparation. |
+| `ci`       | Changes to CI/CD configuration files and scripts (GitHub Actions workflows, etc.).               |
+| `perf`     | Performance improvements.                                                                        |
+| `revert`   | Reverts a previous commit (reference the reverted commit hash in the body).                      |
+
+### Examples
+
+```
+feat(core): add role-based authorization plugin
+fix(processor): handle nullable return types in KSP processor
+chore: prepare release 1.1.0
+ci: add kover coverage report to PR summary
+docs: document generate-changelog.sh usage in CONTRIBUTE.md
+```
+
 ## Changelog
 
 This project maintains a `CHANGELOG.md` following the [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) format with [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
