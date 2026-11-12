@@ -100,7 +100,7 @@ COMMIT_MSG="chore: prepare release $NEW_VERSION
 git -C "$REPO_ROOT" commit -m "$COMMIT_MSG"
 
 TAG_NAME="v${NEW_VERSION}"
-git -C "$REPO_ROOT" tag -a "$TAG_NAME" -m "Release $TAG_NAME"
+git -C "$REPO_ROOT" tag -a -f "$TAG_NAME" -m "Release $TAG_NAME"
 
 echo ""
 echo "Release preparation for $NEW_VERSION complete."
