@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jreleaser.model.Active
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
@@ -6,6 +7,7 @@ plugins {
     alias(libs.plugins.kover)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.jreleaser)
 
     `maven-publish`
     signing
@@ -32,6 +34,7 @@ val repoUrl = "https://github.com/withlambda/${project.name}"
 val repoBranch = "main"
 
 repositories {
+    gradlePluginPortal()
     mavenLocal()
     mavenCentral()
 }
@@ -265,14 +268,19 @@ publishing {
 
     repositories {
         mavenLocal()
-        maven {
-            name = "MavenCentral"
-            val releasesUrl = uri("https://central.sonatype.com/api/v1/publisher/upload")
-            val snapshotsUrl = uri("https://central.sonatype.com/repository/maven-snapshots/")
-            url = if (project.extra["isReleaseVersion"] as Boolean) releasesUrl else snapshotsUrl
-            credentials {
-                username = findProperty("SONATYPE_USERNAME") as String? ?: System.getenv("SONATYPE_USERNAME")
-                password = findProperty("SONATYPE_PASSWORD") as String? ?: System.getenv("SONATYPE_PASSWORD")
+        if (isRelease) {
+            maven {
+                name = "LocalStaging"
+                url = uri(layout.buildDirectory.dir("staging-deploy"))
+            }
+        } else {
+            maven {
+                name = "MavenCentralSnapshots"
+                url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+                credentials {
+                    username = findProperty("SONATYPE_USERNAME") as String? ?: System.getenv("SONATYPE_USERNAME")
+                    password = findProperty("SONATYPE_PASSWORD") as String? ?: System.getenv("SONATYPE_PASSWORD")
+                }
             }
         }
     }
@@ -314,6 +322,25 @@ signing {
 tasks.withType<Sign>().configureEach {
     onlyIf {
         findProperty("enableGradleSigningPlugin") as? Boolean? ?: false
+    }
+}
+
+jreleaser {
+    signing {
+        active = Active.ALWAYS
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                create("sonatype") {
+                    active = Active.ALWAYS
+                    url = "https://central.sonatype.com/api/v1/publisher"
+                    applyMavenCentralRules = true
+                    stagingRepository(layout.buildDirectory.dir("staging-deploy").get().asFile.path)
+                }
+            }
+        }
     }
 }
 

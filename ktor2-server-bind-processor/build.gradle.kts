@@ -16,6 +16,7 @@ val repoUrl = "https://github.com/withlambda/${rootProject.name}"
 val repoBranch = "main"
 
 repositories {
+    gradlePluginPortal()
     mavenCentral()
 }
 
@@ -44,6 +45,11 @@ dokka {
     }
 }
 
+val sourcesJar = tasks.register<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets["main"].allSource)
+}
+
 val dokkaJavadocJar = tasks.register<Jar>("dokkaJavadocJar") {
     archiveClassifier.set("javadoc")
     from(tasks.named("dokkaGeneratePublicationHtml"))
@@ -64,6 +70,8 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+
+            artifact(sourcesJar)
 
             if (project.findProperty("skipDokka") != "true") {
                 artifact(dokkaJavadocJar)
@@ -117,14 +125,19 @@ publishing {
 
     repositories {
         mavenLocal()
-        maven {
-            name = "OSSRH"
-            val releasesUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotsUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            url = if (isRelease) releasesUrl else snapshotsUrl
-            credentials {
-                username = findProperty("OSSRH_USERNAME") as String? ?: System.getenv("OSSRH_USERNAME")
-                password = findProperty("OSSRH_PASSWORD") as String? ?: System.getenv("OSSRH_PASSWORD")
+        if (isRelease) {
+            maven {
+                name = "LocalStaging"
+                url = uri(rootProject.layout.buildDirectory.dir("staging-deploy"))
+            }
+        } else {
+            maven {
+                name = "MavenCentralSnapshots"
+                url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+                credentials {
+                    username = findProperty("SONATYPE_USERNAME") as String? ?: System.getenv("SONATYPE_USERNAME")
+                    password = findProperty("SONATYPE_PASSWORD") as String? ?: System.getenv("SONATYPE_PASSWORD")
+                }
             }
         }
     }
