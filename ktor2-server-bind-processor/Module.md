@@ -7,9 +7,7 @@ its `@ApiEndpoint`-annotated `RouteConfig` properties, and writes a fully-formed
 `openapi.json` (OpenAPI 3.0.3) resource file into the compilation output — with no
 hand-written boilerplate required from the consumer.
 
-## Packages
-
-### io.withlambda.ktor2.server.bind.processor
+# Package io.withlambda.ktor2.server.bind.processor
 
 Entry point and core processing logic.
 
@@ -24,7 +22,7 @@ Entry point and core processing logic.
 - `OpenApiSerializer` — converts the collected `ApiMetadata` into an OpenAPI 3.0.3 JSON
   string without any external JSON library dependency.
 
-### io.withlambda.ktor2.server.bind.processor.model
+# Package io.withlambda.ktor2.server.bind.processor.model
 
 Data classes representing the intermediate metadata model produced by `ApiBindProcessor`
 and consumed by `OpenApiSerializer`.
